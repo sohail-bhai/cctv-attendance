@@ -1,0 +1,60 @@
+[
+  {
+    "id": "admin",
+    "username": "admin",
+    "password": "admin123",
+    "name": "Main Admin",
+    "role": "admin",
+    "roleLabel": "Attendance Controller",
+    "subjects": [
+      "SWE",
+      "CCM",
+      "CVO"
+    ],
+    "facultyName": "Main Admin",
+    "canManageSystem": true,
+    "canSeeAll": true
+  },
+  {
+    "id": "keerthi",
+    "username": "keerthi",
+    "password": "swe123",
+    "name": "Dr. Keerthi G",
+    "role": "faculty",
+    "roleLabel": "Faculty - Software Engineering",
+    "subjects": [
+      "SWE"
+    ],
+    "facultyName": "Dr. Keerthi G",
+    "canManageSystem": false,
+    "canSeeAll": false
+  },
+  {
+    "id": "vikas",
+    "username": "vikas",
+    "password": "cvo123",
+    "name": "Mr. Vikas B",
+    "role": "faculty",
+    "roleLabel": "Faculty - Computer Vision through OpenCV",
+    "subjects": [
+      "CVO"
+    ],
+    "facultyName": "Mr. Vikas B",
+    "canManageSystem": false,
+    "canSeeAll": false
+  },
+  {
+    "id": "pranay",
+    "username": "pranay",
+    "password": "ccm123",
+    "name": "Dr. Pranayaanath Reddy A",
+    "role": "faculty",
+    "roleLabel": "Faculty - Cloud Computing",
+    "subjects": [
+      "CCM"
+    ],
+    "facultyName": "Dr. Pranayaanath Reddy A",
+    "canManageSystem": false,
+    "canSeeAll": false
+  }
+]

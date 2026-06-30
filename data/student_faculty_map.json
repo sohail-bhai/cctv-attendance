@@ -1,0 +1,803 @@
+{
+  "subjects": {
+    "SWE": {
+      "abbr": "SWE",
+      "courseCode": "24CSEJ601",
+      "courseName": "Software Engineering",
+      "facultyId": "keerthi",
+      "facultyName": "Dr. Keerthi G"
+    },
+    "CCM": {
+      "abbr": "CCM",
+      "courseCode": "24CSEJ602",
+      "courseName": "Cloud Computing",
+      "facultyId": "pranay",
+      "facultyName": "Dr. Pranayaanath Reddy A"
+    },
+    "CVO": {
+      "abbr": "CVO",
+      "courseCode": "24AMLJ502",
+      "courseName": "Computer Vision through OpenCV",
+      "facultyId": "vikas",
+      "facultyName": "Mr. Vikas B"
+    }
+  },
+  "subject_students": {
+    "SWE": [
+      {
+        "roll": "2401100CSE0006",
+        "name": "BALA YAAMINI RAVINDRAN"
+      },
+      {
+        "roll": "2401100CSE0016",
+        "name": "EESHA THAKUR"
+      },
+      {
+        "roll": "2401100CSE0019",
+        "name": "GUVVALA HIMANI"
+      },
+      {
+        "roll": "2401100CSE0028",
+        "name": "MALLELA SRI VISHNU VARDHAN"
+      },
+      {
+        "roll": "2401100CSE0029",
+        "name": "MANNE SREEJA REDDY"
+      },
+      {
+        "roll": "2401100CSE0050",
+        "name": "SHAIK SOHAIL AHMED"
+      },
+      {
+        "roll": "2401100CSE0052",
+        "name": "SUPRIYA"
+      },
+      {
+        "roll": "2401100CSE0067",
+        "name": "CHAKRAVARTHULA RAGHAVA"
+      },
+      {
+        "roll": "2401100CSE0068",
+        "name": "CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY"
+      },
+      {
+        "roll": "2401100CSE0073",
+        "name": "DHARMIK MARU"
+      },
+      {
+        "roll": "2401100CSE0074",
+        "name": "DODDAPANENI JASHWANTH"
+      },
+      {
+        "roll": "2401100CSE0077",
+        "name": "ENJAPURI KOUSHIK PATEL"
+      },
+      {
+        "roll": "2401100CSE0079",
+        "name": "G Koushik Reddy"
+      },
+      {
+        "roll": "2401100CSE0093",
+        "name": "MARELLA LOKESH REDDY"
+      },
+      {
+        "roll": "2401100CSE0096",
+        "name": "NALUVALA DEEKSHITH"
+      },
+      {
+        "roll": "2401100CSE0097",
+        "name": "NARUKULLA PAVAN"
+      },
+      {
+        "roll": "2401100CSE0099",
+        "name": "P ABHIRAM"
+      },
+      {
+        "roll": "2401100CSE0100",
+        "name": "PITTA KRUTHIK"
+      },
+      {
+        "roll": "2401100CSE0109",
+        "name": "Ch.Sri Saran"
+      },
+      {
+        "roll": "2401100CSE0111",
+        "name": "THALLA KARTHIK"
+      },
+      {
+        "roll": "2401100CSE0184",
+        "name": "BIJJALA VENKATESH"
+      },
+      {
+        "roll": "2401100CSE0203",
+        "name": "MOHAMMED IRFAN"
+      },
+      {
+        "roll": "2401100CSE0212",
+        "name": "NALLAPA REDDY DURGESH REDDY"
+      },
+      {
+        "roll": "2401100CSE0243",
+        "name": "BOJJA SAHASRA"
+      },
+      {
+        "roll": "2401100CSE0254",
+        "name": "DINESH RATHOD"
+      },
+      {
+        "roll": "2401100CSE0257",
+        "name": "KODIPYAKA SHANTHAN"
+      },
+      {
+        "roll": "2401100CSE0264",
+        "name": "MUDIGONDA LALITHA SREYA"
+      },
+      {
+        "roll": "2401100CSE0268",
+        "name": "PAKALAPATI NITHIN"
+      },
+      {
+        "roll": "2401100CSE0275",
+        "name": "ROHAN JOSHUA FRANCIS"
+      },
+      {
+        "roll": "2401100CSE0277",
+        "name": "SHAIK MOHAMMED RIYAN"
+      },
+      {
+        "roll": "2401100CSE0026",
+        "name": "KARTHIK MAROJI"
+      },
+      {
+        "roll": "2401100CSE0044",
+        "name": "RANDENI SAI GANESH"
+      },
+      {
+        "roll": "2401100CSE0053",
+        "name": "T SRISAI"
+      },
+      {
+        "roll": "2401100CSE0060",
+        "name": "ANNAMBHATLA VENKATA SAI ANURADHA"
+      },
+      {
+        "roll": "2401100CSE0120",
+        "name": "BATTHINI VIGNESH"
+      },
+      {
+        "roll": "2401100CSE0121",
+        "name": "BENDI SAI KUSHWANTH"
+      },
+      {
+        "roll": "2401100CSE0124",
+        "name": "BUDHINENI NANDA BHARGAV"
+      },
+      {
+        "roll": "2401100CSE0140",
+        "name": "KASTHURI SHRUTHI"
+      },
+      {
+        "roll": "2401100CSE0175",
+        "name": "ABIRAM REDDY DEPA"
+      },
+      {
+        "roll": "2401100CSE0202",
+        "name": "MARU NANDINI REDDY"
+      },
+      {
+        "roll": "2401100CSE0209",
+        "name": "N N K V HANUMAN NARAYANA"
+      },
+      {
+        "roll": "2401100CSE0224",
+        "name": "SAREDDY BHARATH REDDY"
+      },
+      {
+        "roll": "2401100CSE0230",
+        "name": "TUMMA SRISHANTH REDDY"
+      },
+      {
+        "roll": "24011CSEAI0007",
+        "name": "ARTHAM RAHITHYA"
+      },
+      {
+        "roll": "24011CSEAI0051",
+        "name": "VALASAPALLI KARTHEEKA"
+      },
+      {
+        "roll": "24011CSEAI0061",
+        "name": "DESHETTI VIVEK"
+      },
+      {
+        "roll": "24011CSEAI0103",
+        "name": "V SIDDHARTH"
+      },
+      {
+        "roll": "24011CSEAI0110",
+        "name": "ALUWALA SURYA"
+      }
+    ],
+    "CCM": [
+      {
+        "roll": "2401100CSE0026",
+        "name": "KARTHIK MAROJI"
+      },
+      {
+        "roll": "2401100CSE0053",
+        "name": "T SRISAI"
+      },
+      {
+        "roll": "2401100CSE0120",
+        "name": "BATTHINI VIGNESH"
+      },
+      {
+        "roll": "2401100CSE0175",
+        "name": "ABIRAM REDDY DEPA"
+      },
+      {
+        "roll": "2401100CSE0224",
+        "name": "SAREDDY BHARATH REDDY"
+      },
+      {
+        "roll": "2401100CSE0230",
+        "name": "TUMMA SRISHANTH REDDY"
+      },
+      {
+        "roll": "2401100CSE0006",
+        "name": "BALA YAAMINI RAVINDRAN"
+      },
+      {
+        "roll": "2401100CSE0029",
+        "name": "MANNE SREEJA REDDY"
+      },
+      {
+        "roll": "2401100CSE0068",
+        "name": "CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY"
+      },
+      {
+        "roll": "2401100CSE0077",
+        "name": "ENJAPURI KOUSHIK PATEL"
+      },
+      {
+        "roll": "2401100CSE0079",
+        "name": "G Koushik Reddy"
+      },
+      {
+        "roll": "2401100CSE0096",
+        "name": "NALUVALA DEEKSHITH"
+      },
+      {
+        "roll": "2401100CSE0099",
+        "name": "P ABHIRAM"
+      },
+      {
+        "roll": "2401100CSE0100",
+        "name": "PITTA KRUTHIK"
+      },
+      {
+        "roll": "2401100CSE0184",
+        "name": "BIJJALA VENKATESH"
+      },
+      {
+        "roll": "2401100CSE0203",
+        "name": "MOHAMMED IRFAN"
+      },
+      {
+        "roll": "2401100CSE0212",
+        "name": "NALLAPA REDDY DURGESH REDDY"
+      },
+      {
+        "roll": "2401100CSE0243",
+        "name": "BOJJA SAHASRA"
+      },
+      {
+        "roll": "2401100CSE0257",
+        "name": "KODIPYAKA SHANTHAN"
+      },
+      {
+        "roll": "2401100CSE0264",
+        "name": "MUDIGONDA LALITHA SREYA"
+      },
+      {
+        "roll": "2401100CSE0275",
+        "name": "ROHAN JOSHUA FRANCIS"
+      },
+      {
+        "roll": "2401100CSE0277",
+        "name": "SHAIK MOHAMMED RIYAN"
+      }
+    ],
+    "CVO": [
+      {
+        "roll": "2401100CSE0016",
+        "name": "EESHA THAKUR"
+      },
+      {
+        "roll": "2401100CSE0019",
+        "name": "GUVVALA HIMANI"
+      },
+      {
+        "roll": "2401100CSE0028",
+        "name": "MALLELA SRI VISHNU VARDHAN"
+      },
+      {
+        "roll": "2401100CSE0044",
+        "name": "RANDENI SAI GANESH"
+      },
+      {
+        "roll": "2401100CSE0050",
+        "name": "SHAIK SOHAIL AHMED"
+      },
+      {
+        "roll": "2401100CSE0052",
+        "name": "SUPRIYA"
+      },
+      {
+        "roll": "2401100CSE0060",
+        "name": "ANNAMBHATLA VENKATA SAI ANURADHA"
+      },
+      {
+        "roll": "2401100CSE0067",
+        "name": "CHAKRAVARTHULA RAGHAVA"
+      },
+      {
+        "roll": "2401100CSE0073",
+        "name": "DHARMIK MARU"
+      },
+      {
+        "roll": "2401100CSE0074",
+        "name": "DODDAPANENI JASHWANTH"
+      },
+      {
+        "roll": "2401100CSE0093",
+        "name": "MARELLA LOKESH REDDY"
+      },
+      {
+        "roll": "2401100CSE0097",
+        "name": "NARUKULLA PAVAN"
+      },
+      {
+        "roll": "2401100CSE0109",
+        "name": "Ch.Sri Saran"
+      },
+      {
+        "roll": "2401100CSE0111",
+        "name": "THALLA KARTHIK"
+      },
+      {
+        "roll": "2401100CSE0121",
+        "name": "BENDI SAI KUSHWANTH"
+      },
+      {
+        "roll": "2401100CSE0124",
+        "name": "BUDHINENI NANDA BHARGAV"
+      },
+      {
+        "roll": "2401100CSE0140",
+        "name": "KASTHURI SHRUTHI"
+      },
+      {
+        "roll": "2401100CSE0202",
+        "name": "MARU NANDINI REDDY"
+      },
+      {
+        "roll": "2401100CSE0209",
+        "name": "N N K V HANUMAN NARAYANA"
+      },
+      {
+        "roll": "2401100CSE0254",
+        "name": "DINESH RATHOD"
+      },
+      {
+        "roll": "2401100CSE0268",
+        "name": "PAKALAPATI NITHIN"
+      },
+      {
+        "roll": "24011CSEAI0007",
+        "name": "ARTHAM RAHITHYA"
+      },
+      {
+        "roll": "24011CSEAI0051",
+        "name": "VALASAPALLI KARTHEEKA"
+      },
+      {
+        "roll": "24011CSEAI0061",
+        "name": "DESHETTI VIVEK"
+      },
+      {
+        "roll": "24011CSEAI0103",
+        "name": "V SIDDHARTH"
+      },
+      {
+        "roll": "24011CSEAI0110",
+        "name": "ALUWALA SURYA"
+      }
+    ]
+  },
+  "all_students": [
+    {
+      "roll": "2401100CSE0006",
+      "name": "BALA YAAMINI RAVINDRAN",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0016",
+      "name": "EESHA THAKUR",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0019",
+      "name": "GUVVALA HIMANI",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0028",
+      "name": "MALLELA SRI VISHNU VARDHAN",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0029",
+      "name": "MANNE SREEJA REDDY",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0050",
+      "name": "SHAIK SOHAIL AHMED",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0052",
+      "name": "SUPRIYA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0067",
+      "name": "CHAKRAVARTHULA RAGHAVA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0068",
+      "name": "CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0073",
+      "name": "DHARMIK MARU",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0074",
+      "name": "DODDAPANENI JASHWANTH",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0077",
+      "name": "ENJAPURI KOUSHIK PATEL",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0079",
+      "name": "G Koushik Reddy",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0093",
+      "name": "MARELLA LOKESH REDDY",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0096",
+      "name": "NALUVALA DEEKSHITH",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0097",
+      "name": "NARUKULLA PAVAN",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0099",
+      "name": "P ABHIRAM",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0100",
+      "name": "PITTA KRUTHIK",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0109",
+      "name": "Ch.Sri Saran",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0111",
+      "name": "THALLA KARTHIK",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0184",
+      "name": "BIJJALA VENKATESH",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0203",
+      "name": "MOHAMMED IRFAN",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0212",
+      "name": "NALLAPA REDDY DURGESH REDDY",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0243",
+      "name": "BOJJA SAHASRA",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0254",
+      "name": "DINESH RATHOD",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0257",
+      "name": "KODIPYAKA SHANTHAN",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0264",
+      "name": "MUDIGONDA LALITHA SREYA",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0268",
+      "name": "PAKALAPATI NITHIN",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0275",
+      "name": "ROHAN JOSHUA FRANCIS",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0277",
+      "name": "SHAIK MOHAMMED RIYAN",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0026",
+      "name": "KARTHIK MAROJI",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0044",
+      "name": "RANDENI SAI GANESH",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0053",
+      "name": "T SRISAI",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0060",
+      "name": "ANNAMBHATLA VENKATA SAI ANURADHA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0120",
+      "name": "BATTHINI VIGNESH",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0121",
+      "name": "BENDI SAI KUSHWANTH",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0124",
+      "name": "BUDHINENI NANDA BHARGAV",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0140",
+      "name": "KASTHURI SHRUTHI",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0175",
+      "name": "ABIRAM REDDY DEPA",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0202",
+      "name": "MARU NANDINI REDDY",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0209",
+      "name": "N N K V HANUMAN NARAYANA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "2401100CSE0224",
+      "name": "SAREDDY BHARATH REDDY",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "2401100CSE0230",
+      "name": "TUMMA SRISHANTH REDDY",
+      "subjects": [
+        "SWE",
+        "CCM"
+      ]
+    },
+    {
+      "roll": "24011CSEAI0007",
+      "name": "ARTHAM RAHITHYA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "24011CSEAI0051",
+      "name": "VALASAPALLI KARTHEEKA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "24011CSEAI0061",
+      "name": "DESHETTI VIVEK",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "24011CSEAI0103",
+      "name": "V SIDDHARTH",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    },
+    {
+      "roll": "24011CSEAI0110",
+      "name": "ALUWALA SURYA",
+      "subjects": [
+        "SWE",
+        "CVO"
+      ]
+    }
+  ]
+}

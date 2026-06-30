@@ -1,0 +1,3 @@
+﻿slot_id,period,subject,start_time,end_time,planned_checkpoints,available_checkpoints,camera_count,clips_extracted,skipped_camera_windows,prepared_dir,current_slot_dir,manifest_csv
+MON_P3,P3,CCM/CVO,10:50,11:40,5,5,2,10,0,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\prepared_slots\2026-06-22\MON_P3,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\MON_P3,F:\sohail\Class_Attendance_YuNet_SFace\data\prepared_real_slot_2026-06-22_MON_P3.csv
+MON_P4,P4,CCM/CVO,11:40,12:30,5,5,2,10,0,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\prepared_slots\2026-06-22\MON_P4,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\MON_P4,F:\sohail\Class_Attendance_YuNet_SFace\data\prepared_real_slot_2026-06-22_MON_P4.csv

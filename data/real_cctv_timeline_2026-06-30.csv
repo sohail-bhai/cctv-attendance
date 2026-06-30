@@ -1,0 +1,8 @@
+﻿date,camera,file_path,start_datetime,end_datetime,start_time,end_time,duration_seconds
+2026-06-30,back,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\back\1219_Back_Second_Floor_20260630090000_20260630091041_19720445.mp4,2026-06-30 09:00:00,2026-06-30 09:10:41,09:00:00,09:10:41,641.0
+2026-06-30,back,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\back\1219_Back_Second_Floor_20260630091041_20260630095806_19789347.mp4,2026-06-30 09:10:41,2026-06-30 09:58:06,09:10:41,09:58:06,2845.0
+2026-06-30,back,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\back\1219_Back_Second_Floor_20260630095806_20260630104519_20039666.mp4,2026-06-30 09:58:06,2026-06-30 10:45:19,09:58:06,10:45:19,2833.0
+2026-06-30,back,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\back\1219_Back_Second_Floor_20260630104519_20260630110000_20286620.mp4,2026-06-30 10:45:19,2026-06-30 11:00:00,10:45:19,11:00:00,881.0
+2026-06-30,front,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\front\1219_Front_Second_Floor_20260630085959_20260630094611_18673412.mp4,2026-06-30 08:59:59,2026-06-30 09:46:11,08:59:59,09:46:11,2772.0
+2026-06-30,front,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\front\1219_Front_Second_Floor_20260630094611_20260630103417_18923380.mp4,2026-06-30 09:46:11,2026-06-30 10:34:17,09:46:11,10:34:17,2886.0
+2026-06-30,front,F:\sohail\Class_Attendance_YuNet_SFace\cctv_videos\real_cctv\2026-06-30\front\1219_Front_Second_Floor_20260630103417_20260630105959_19169395.mp4,2026-06-30 10:34:17,2026-06-30 10:59:59,10:34:17,10:59:59,1542.0

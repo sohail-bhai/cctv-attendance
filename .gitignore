@@ -1,0 +1,77 @@
+# =============================
+# Python / virtual environment
+# =============================
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# =============================
+# Node / React frontend
+# =============================
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+dist/
+
+# =============================
+# Environment / local config
+# =============================
+.env
+.env.*
+!.env.example
+
+# =============================
+# Large model files / generated embeddings
+# =============================
+*.pkl
+*.onnx
+models/student_embeddings.pkl
+models/embedding_summary.csv
+
+# =============================
+# Generated reports / spreadsheets
+# =============================
+*.csv
+*.xlsx
+
+# Keep important project CSVs if you store timetable/config data in data/
+!data/*.csv
+!data/**/*.csv
+
+# =============================
+# Attendance generated outputs
+# =============================
+attendance_output/*
+unknown_faces/*
+debug_faces/*
+
+!attendance_output/.gitkeep
+!unknown_faces/.gitkeep
+!debug_faces/.gitkeep
+
+# =============================
+# Large local datasets / CCTV footage
+# =============================
+dataset/*
+augmented_dataset/*
+cctv_videos/*
+
+!dataset/.gitkeep
+!augmented_dataset/.gitkeep
+!cctv_videos/.gitkeep
+
+# =============================
+# OS / editor files
+# =============================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

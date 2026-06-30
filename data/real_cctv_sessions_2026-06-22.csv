@@ -1,0 +1,5 @@
+﻿session_id,date,day,periods,slot_ids,start_time,end_time,course_abbr,course_name,subject_views,room,section
+MON_S1_P1_P2_SWE,2026-06-22,Monday,"P1,P2","MON_P1,MON_P2",09:00,10:40,SWE,Software Engineering,SWE,1214/1215,B51
+MON_S2_P3_P4_CCM_CVO,2026-06-22,Monday,"P3,P4","MON_P3,MON_P4",10:50,12:30,CCM/CVO,Cloud Computing / Computer Vision through OpenCV,"CCM,CVO",1016,B51
+MON_S3_P6_P6_SWE,2026-06-22,Monday,P6,MON_P6,13:20,14:10,SWE,Software Engineering,SWE,1214/1215,B51
+MON_S4_P7_P8_CCM_CVO,2026-06-22,Monday,"P7,P8","MON_P7,MON_P8",14:20,16:00,CCM/CVO,Cloud Computing / Computer Vision through OpenCV,"CCM,CVO",1214/1215,B51

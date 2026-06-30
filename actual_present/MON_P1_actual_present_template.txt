@@ -1,0 +1,6 @@
+# Put actual present roll numbers for this slot below.
+# One roll number per line. Lines starting with # are ignored.
+# Example:
+# 2401100CSE0019
+# 2401100CSE0050
+# 24011CSEAI0103

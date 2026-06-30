@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-06-29T17:55:20",
+  "title": "MON_P1 Demo Report",
+  "description": "Demo files generated from the latest existing attendance output.",
+  "source": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output",
+  "files": {
+    "attendance": "/demo_reports/mon_p1_demo_attendance.csv",
+    "slot_summary": "/demo_reports/mon_p1_demo_slot_summary.csv",
+    "detection_log": "/demo_reports/mon_p1_demo_detection_log.csv",
+    "checkpoint_summary": "/demo_reports/mon_p1_demo_checkpoint_summary.csv",
+    "student_checkpoint_evidence": "/demo_reports/mon_p1_demo_student_checkpoint_evidence.csv",
+    "camera_summary": "/demo_reports/mon_p1_demo_camera_summary.csv",
+    "needs_review": "/demo_reports/mon_p1_demo_needs_review.csv"
+  },
+  "notes": [
+    "Use this only for Report Analyzer demo/testing.",
+    "It does not rerun attendance processing.",
+    "Regenerate after every new report if you want the demo button to show the latest data."
+  ]
+}
