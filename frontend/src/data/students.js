@@ -355,12 +355,20 @@ export const SUBJECT_STUDENTS = {
       "name": "KASTHURI SHRUTHI"
     },
     {
+      "roll": "2401100CSE0184",
+      "name": "BIJJALA VENKATESH"
+    },
+    {
       "roll": "2401100CSE0202",
       "name": "MARU NANDINI REDDY"
     },
     {
       "roll": "2401100CSE0209",
       "name": "N N K V HANUMAN NARAYANA"
+    },
+    {
+      "roll": "2401100CSE0237",
+      "name": "AMUDALA SIRI"
     },
     {
       "roll": "2401100CSE0254",
@@ -377,10 +385,6 @@ export const SUBJECT_STUDENTS = {
     {
       "roll": "24011CSEAI0051",
       "name": "VALASAPALLI KARTHEEKA"
-    },
-    {
-      "roll": "24011CSEAI0061",
-      "name": "DESHETTI VIVEK"
     },
     {
       "roll": "24011CSEAI0103",
@@ -419,6 +423,14 @@ export const ALL_STUDENTS = [
     ]
   },
   {
+    "roll": "2401100CSE0026",
+    "name": "KARTHIK MAROJI",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
     "roll": "2401100CSE0028",
     "name": "MALLELA SRI VISHNU VARDHAN",
     "subjects": [
@@ -435,6 +447,14 @@ export const ALL_STUDENTS = [
     ]
   },
   {
+    "roll": "2401100CSE0044",
+    "name": "RANDENI SAI GANESH",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
     "roll": "2401100CSE0050",
     "name": "SHAIK SOHAIL AHMED",
     "subjects": [
@@ -445,6 +465,22 @@ export const ALL_STUDENTS = [
   {
     "roll": "2401100CSE0052",
     "name": "SUPRIYA",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
+    "roll": "2401100CSE0053",
+    "name": "T SRISAI",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
+    "roll": "2401100CSE0060",
+    "name": "ANNAMBHATLA VENKATA SAI ANURADHA",
     "subjects": [
       "SWE",
       "CVO"
@@ -555,11 +591,60 @@ export const ALL_STUDENTS = [
     ]
   },
   {
+    "roll": "2401100CSE0120",
+    "name": "BATTHINI VIGNESH",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
+    "roll": "2401100CSE0121",
+    "name": "BENDI SAI KUSHWANTH",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
+    "roll": "2401100CSE0124",
+    "name": "BUDHINENI NANDA BHARGAV",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
+    "roll": "2401100CSE0140",
+    "name": "KASTHURI SHRUTHI",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
+    "roll": "2401100CSE0175",
+    "name": "ABIRAM REDDY DEPA",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
     "roll": "2401100CSE0184",
     "name": "BIJJALA VENKATESH",
     "subjects": [
       "SWE",
-      "CCM"
+      "CCM",
+      "CVO"
+    ]
+  },
+  {
+    "roll": "2401100CSE0202",
+    "name": "MARU NANDINI REDDY",
+    "subjects": [
+      "SWE",
+      "CVO"
     ]
   },
   {
@@ -571,11 +656,42 @@ export const ALL_STUDENTS = [
     ]
   },
   {
+    "roll": "2401100CSE0209",
+    "name": "N N K V HANUMAN NARAYANA",
+    "subjects": [
+      "SWE",
+      "CVO"
+    ]
+  },
+  {
     "roll": "2401100CSE0212",
     "name": "NALLAPA REDDY DURGESH REDDY",
     "subjects": [
       "SWE",
       "CCM"
+    ]
+  },
+  {
+    "roll": "2401100CSE0224",
+    "name": "SAREDDY BHARATH REDDY",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
+    "roll": "2401100CSE0230",
+    "name": "TUMMA SRISHANTH REDDY",
+    "subjects": [
+      "SWE",
+      "CCM"
+    ]
+  },
+  {
+    "roll": "2401100CSE0237",
+    "name": "AMUDALA SIRI",
+    "subjects": [
+      "CVO"
     ]
   },
   {
@@ -635,110 +751,6 @@ export const ALL_STUDENTS = [
     ]
   },
   {
-    "roll": "2401100CSE0026",
-    "name": "KARTHIK MAROJI",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
-    "roll": "2401100CSE0044",
-    "name": "RANDENI SAI GANESH",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0053",
-    "name": "T SRISAI",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
-    "roll": "2401100CSE0060",
-    "name": "ANNAMBHATLA VENKATA SAI ANURADHA",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0120",
-    "name": "BATTHINI VIGNESH",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
-    "roll": "2401100CSE0121",
-    "name": "BENDI SAI KUSHWANTH",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0124",
-    "name": "BUDHINENI NANDA BHARGAV",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0140",
-    "name": "KASTHURI SHRUTHI",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0175",
-    "name": "ABIRAM REDDY DEPA",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
-    "roll": "2401100CSE0202",
-    "name": "MARU NANDINI REDDY",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0209",
-    "name": "N N K V HANUMAN NARAYANA",
-    "subjects": [
-      "SWE",
-      "CVO"
-    ]
-  },
-  {
-    "roll": "2401100CSE0224",
-    "name": "SAREDDY BHARATH REDDY",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
-    "roll": "2401100CSE0230",
-    "name": "TUMMA SRISHANTH REDDY",
-    "subjects": [
-      "SWE",
-      "CCM"
-    ]
-  },
-  {
     "roll": "24011CSEAI0007",
     "name": "ARTHAM RAHITHYA",
     "subjects": [
@@ -758,8 +770,7 @@ export const ALL_STUDENTS = [
     "roll": "24011CSEAI0061",
     "name": "DESHETTI VIVEK",
     "subjects": [
-      "SWE",
-      "CVO"
+      "SWE"
     ]
   },
   {
@@ -781,7 +792,11 @@ export const ALL_STUDENTS = [
 ];
 
 export function normalizeRoll(value) {
-  return String(value || '').trim().toUpperCase();
+  const raw = String(value || '').trim().toUpperCase();
+  const match = raw.match(/^([A-Z0-9]+)/);
+  if (!match) return raw;
+  const token = match[1];
+  return /[A-Z]/.test(token) && /[0-9]/.test(token) ? token : raw;
 }
 
 export function allowedRollsForUser(user) {

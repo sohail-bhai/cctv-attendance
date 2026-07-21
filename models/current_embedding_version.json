@@ -1,0 +1,15 @@
+{
+  "family_id": "embfam-274b5207b8b71294ff75",
+  "parent_embeddings_sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+  "parent_summary_sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+  "policy_version": "phase-1.2o-explicit-promotion-rollback-v1",
+  "production_embeddings_sha256": "f088d827adc548ee95f46566d758fd71fc304d042c43f1ecffc6526b60bcd832",
+  "production_summary_sha256": "63885588c374c37f4da9bf85294f240bdf0f28cb585e77b894ab516139ca46ae",
+  "promoted_at": "2026-07-17T22:37:15+05:30",
+  "promotion_id": "promotion-7cc01070e9bc644380c5",
+  "promotion_record": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\promotion_history\\promotion-7cc01070e9bc644380c5\\promotion_record.json",
+  "rollback_command": "& \"F:\\sohail\\Class_Attendance_YuNet_SFace\\scripts\\run_phase_1_2o_explicit_promotion.ps1\" -Rollback -PromotionDir \"F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\promotion_history\\promotion-7cc01070e9bc644380c5\" -ConfirmRollback \"promotion-7cc01070e9bc644380c5\"",
+  "schema_version": 1,
+  "status": "promoted",
+  "variant_id": "embfam-274b5207b8b71294ff75-d"
+}

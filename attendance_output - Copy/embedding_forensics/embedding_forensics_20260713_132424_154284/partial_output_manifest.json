@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-13T13:24:31",
+  "output_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_20260713_132424_154284",
+  "files_sha256": {
+    "forensic_failure.json": "978568b92e4346487ea83fb0f43e15b454405d2df03316c2adbaa1cd3c1a75cd",
+    "protected_state_before.json": "b264bf8adbbadbeed7ea91611a1b562b96fa415b0b5791efdc57ae843a054e1c"
+  },
+  "forensic_run_id": "embedding_forensics_20260713_132424_154284",
+  "completed": false,
+  "partial_output": true,
+  "production_success_claimed": false
+}

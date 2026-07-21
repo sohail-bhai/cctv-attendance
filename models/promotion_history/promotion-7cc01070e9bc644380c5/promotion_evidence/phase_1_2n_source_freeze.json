@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "Phase": "1.2N",
+  "PolicyVersion": "phase-1.2n-mon-p4-shadow-v1",
+  "FreezeID": "source-freeze-06578150c42a1253d835",
+  "FingerprintSHA256": "06578150c42a1253d8350b1bd92b20677dc9fed0a0a615a46d5637bf7e5a2e0d",
+  "SessionID": "2026-06-22__B51__P4__CVO",
+  "SlotID": "MON_P4",
+  "SubjectAbbr": "CVO",
+  "CanonicalVideoRoot": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-22\\MON_P4",
+  "MirrorVideoRoot": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\MON_P4",
+  "CanonicalVideoCount": 10,
+  "MirrorVideoCount": 10,
+  "ExpectedLayoutPassed": true,
+  "TreesByteIdentical": true,
+  "SourceFreezePassed": true,
+  "UntouchedContractPassed": true,
+  "UntouchedScan": {
+    "attendance_output_scanned": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output",
+    "candidate_versions_scanned": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions",
+    "prior_mon_p4_path_hits": [],
+    "prior_mon_p4_source_hits": [],
+    "untouched_contract_passed": true
+  },
+  "ExpectedInventoryPath": "F:\\sohail\\Class_Attendance_YuNet_SFace\\data\\phase_1_2n_mon_p4_expected_inventory.csv",
+  "ExpectedInventorySHA256": "565a09d4a479c22a0ca1d61b317a41a517d0f45ecc3d4416bbdb8a4420913981",
+  "RecognitionExecuted": false,
+  "AttendanceWritten": false,
+  "CandidatePromoted": false,
+  "CanonicalSourceOnly": true,
+  "CSV": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\shadow_validation\\phase_1_2n\\source_freeze\\source-freeze-06578150c42a1253d835\\phase_1_2n_mon_p4_source_freeze.csv"
+}

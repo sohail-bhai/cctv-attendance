@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "decision": "built_unapproved_pending_mon_p3",
+  "status": "built_unapproved_pending_mon_p3",
+  "production_approved": false,
+  "candidate_promoted": false,
+  "all_available_variants_built_unapproved": true,
+  "unavailable_variants": [],
+  "match_threshold": 0.48,
+  "margin_threshold": 0.08,
+  "aggregate_mode": "top3",
+  "attendance_checkpoints": 3,
+  "gates": {
+    "production_integrity": {
+      "passed": true,
+      "details": {
+        "unchanged": true,
+        "changed_fixed_files": [],
+        "changed_trees": [],
+        "production_embeddings_unchanged": true,
+        "datasets_unchanged": true,
+        "attendance_unchanged": true,
+        "mon_p3_processed": false
+      }
+    },
+    "approval_integrity": {
+      "passed": true
+    },
+    "identity_correction_integrity": {
+      "passed": true,
+      "global_alias_created": false
+    },
+    "evaluation_structure": {
+      "passed": true,
+      "failures": [],
+      "expected_benchmark_rows": 120,
+      "production_baseline_rows": 120,
+      "expected_tue_p1_accepted_rows": 37,
+      "exact_row_sets_required": true
+    },
+    "reviewed_accepted_track_retention": {
+      "passed": true,
+      "target_retention_pct": 100.0,
+      "population": "37 human-reviewed TUE_P1 baseline accepted tracks",
+      "decisive_variant": "B",
+      "fallback_diagnostic_variant": null,
+      "decisive_retention_evaluable": true,
+      "unavailable_reason": "",
+      "lost_correct_acceptances": 0,
+      "fallback_lost_correct_acceptances": 0,
+      "comparisons": {
+        "A": {
+          "reviewed_rows": 37,
+          "baseline_correct_acceptances": 23,
+          "retained_correct_acceptances": 23,
+          "lost_correct_acceptances": 0,
+          "lost_benchmark_row_ids": [],
+          "retention_pct": 100.0,
+          "decision_role": "diagnostic_cleaned_enrollment"
+        },
+        "B": {
+          "reviewed_rows": 37,
+          "baseline_correct_acceptances": 23,
+          "retained_correct_acceptances": 23,
+          "lost_correct_acceptances": 0,
+          "lost_benchmark_row_ids": [],
+          "retention_pct": 100.0,
+          "decision_role": "decisive_cross_session"
+        }
+      }
+    },
+    "zero_new_false_accepts": {
+      "passed": true,
+      "unsafe_model_rows": 0,
+      "unique_unsafe_benchmark_rows": 0,
+      "unsafe_benchmark_row_ids": [],
+      "policy": "zero new known-student wrong accepts; zero candidate not-in-mapping absorptions; zero candidate mixed-track accepts",
+      "comparisons": {
+        "A": {
+          "rows": 120,
+          "new_wrong_accepted": 0,
+          "new_outsider_absorption": 0,
+          "new_mixed_acceptance": 0,
+          "correct_to_wrong": 0,
+          "candidate_outsider_absorption": 0,
+          "candidate_mixed_acceptance": 0,
+          "lost_correct_acceptance": 0,
+          "recovered_correct_acceptance": 0,
+          "unsafe_model_rows": 0,
+          "unsafe_benchmark_row_ids": []
+        },
+        "B": {
+          "rows": 100,
+          "new_wrong_accepted": 0,
+          "new_outsider_absorption": 0,
+          "new_mixed_acceptance": 0,
+          "correct_to_wrong": 0,
+          "candidate_outsider_absorption": 0,
+          "candidate_mixed_acceptance": 0,
+          "lost_correct_acceptance": 0,
+          "recovered_correct_acceptance": 2,
+          "unsafe_model_rows": 0,
+          "unsafe_benchmark_row_ids": []
+        },
+        "C": {
+          "rows": 20,
+          "new_wrong_accepted": 0,
+          "new_outsider_absorption": 0,
+          "new_mixed_acceptance": 0,
+          "correct_to_wrong": 0,
+          "candidate_outsider_absorption": 0,
+          "candidate_mixed_acceptance": 0,
+          "lost_correct_acceptance": 0,
+          "recovered_correct_acceptance": 0,
+          "unsafe_model_rows": 0,
+          "unsafe_benchmark_row_ids": []
+        }
+      }
+    },
+    "candidate_coverage": {
+      "passed": true,
+      "production_cvo_coverage": 25,
+      "candidate_cvo_coverage": 26,
+      "missing_0268_allowed_but_explicit": true
+    },
+    "leakage": {
+      "passed": true,
+      "failures": [],
+      "variant_d_promotion_evidence": false,
+      "mon_p3_accessed": false
+    },
+    "promotion": {
+      "passed": true,
+      "production_approved": false,
+      "candidate_promoted": false,
+      "promotion_possible_in_phase": false
+    },
+    "evidence_sufficiency": {
+      "passed": true,
+      "expected_rows": 120,
+      "evaluable_rows": 120,
+      "benchmark_feature_evidence_passed": true,
+      "cross_session_pair_complete": true,
+      "unavailable_variants": [],
+      "missing_usable_source_sessions": {},
+      "evidence_mode": "reviewer_contact_sheet_reextraction"
+    }
+  },
+  "exact_next_step": "PHASE 1.2J - MON_P3 untouched shadow validation.",
+  "mon_p3_processed": false,
+  "rejected_candidate_remains_rejected": "cal-5cd35b60dd83",
+  "family_id": "embfam-7bc431a3ad762398d4e9",
+  "evaluated_at": "2026-07-14T11:40:21+05:30"
+}

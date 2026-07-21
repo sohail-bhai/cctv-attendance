@@ -6,16 +6,21 @@ import Timetable from './pages/Timetable.jsx';
 import Reports from './pages/Reports.jsx';
 import ManualReview from './pages/ManualReview.jsx';
 import Jobs from './pages/Jobs.jsx';
-import Settings from './pages/Settings.jsx';
+import HodControl from './pages/HodControl.jsx';
 import FacultyActivity from './pages/FacultyActivity.jsx';
 import Students from './pages/Students.jsx';
 import Help from './pages/Help.jsx';
 import LiveDemo from './pages/LiveDemo.jsx';
 import Login from './pages/Login.jsx';
 import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
+import { BackendHealthProvider } from './health/BackendHealthContext.jsx';
 
 function ProtectedShell() {
-  const { currentUser, isAdmin } = useAuth();
+  const { currentUser, isAdmin, authReady } = useAuth();
+
+  if (!authReady) {
+    return <div className="auth-loading-screen"><div className="auth-loading-card"><div className="login-logo">SU</div><strong>Verifying session…</strong><span>Checking the backend role registry.</span></div></div>;
+  }
 
   if (!currentUser) {
     return (
@@ -35,15 +40,16 @@ function ProtectedShell() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/take-attendance" element={<Timetable />} />
-            <Route path="/live-demo" element={<LiveDemo />} />
             <Route path="/timetable" element={<Timetable />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/manual-review" element={<ManualReview />} />
             <Route path="/students" element={<Students />} />
             <Route path="/help" element={<Help />} />
+            <Route path="/live-demo" element={<LiveDemo />} />
             {isAdmin && <Route path="/faculty-activity" element={<FacultyActivity />} />}
             {isAdmin && <Route path="/jobs" element={<Jobs />} />}
-            {isAdmin && <Route path="/settings" element={<Settings />} />}
+            {isAdmin && <Route path="/hod-control" element={<HodControl />} />}
+            {isAdmin && <Route path="/settings" element={<Navigate to="/hod-control" replace />} />}
             <Route path="/login" element={<Navigate to="/" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
@@ -56,7 +62,9 @@ function ProtectedShell() {
 export default function App() {
   return (
     <AuthProvider>
-      <ProtectedShell />
+      <BackendHealthProvider>
+        <ProtectedShell />
+      </BackendHealthProvider>
     </AuthProvider>
   );
 }

@@ -1,0 +1,444 @@
+{
+  "schema_version": 2,
+  "policy_version": "product-phase-2j-exact-review-carry-forward-v2",
+  "registry_id": "review-registry-c1e03cbe948d98800dae93e7",
+  "session_id": "2026-06-22__B51__P4__CVO",
+  "source_fingerprint": {
+    "session_id": "2026-06-22__B51__P4__CVO",
+    "input_source_path": "cctv_videos/prepared_slots/2026-06-22/MON_P4",
+    "video_files": [
+      {
+        "relative_path": "CP1_1150/back.mp4",
+        "size_bytes": 8287354,
+        "sha256": "c41d5bd5774007fde709c38cff328afbb8ccc42a8ed047c651c7e9cd79f5da6e"
+      },
+      {
+        "relative_path": "CP1_1150/front.mp4",
+        "size_bytes": 9497005,
+        "sha256": "5aa00cdf42325252e04cc580551d9f4943db59e7b0ecd33aa618cd5f4cc6479a"
+      },
+      {
+        "relative_path": "CP2_1200/back.mp4",
+        "size_bytes": 9154457,
+        "sha256": "9da9de0697296343a93c8df5476583dbf3223b15979511a777c7945e2a3fa943"
+      },
+      {
+        "relative_path": "CP2_1200/front.mp4",
+        "size_bytes": 11943103,
+        "sha256": "733f91885e1e8fd682ef2e9c1e250137820894cbf3b283bff1ac6f58263ac364"
+      },
+      {
+        "relative_path": "CP3_1210/back.mp4",
+        "size_bytes": 7918162,
+        "sha256": "0c01dd6588478cc65ee532ef200c06e25bda02f4059eb5f15d50f63b4c73a237"
+      },
+      {
+        "relative_path": "CP3_1210/front.mp4",
+        "size_bytes": 7226827,
+        "sha256": "d3c66cbbbb2220e251ef6cda472c1d37aaacd5dee97310ebe5d8b42a5f684793"
+      },
+      {
+        "relative_path": "CP4_1220/back.mp4",
+        "size_bytes": 9230157,
+        "sha256": "ab42c1be96eef258461ac884f037c244d1a83911eb0a4e4f81ee699e7dba226b"
+      },
+      {
+        "relative_path": "CP4_1220/front.mp4",
+        "size_bytes": 9429503,
+        "sha256": "4d791ce0cf506b7d6de20bb3c4fe606c87817a5316c85fcb071f4ef84e0ac5b0"
+      },
+      {
+        "relative_path": "CP5_1230/back.mp4",
+        "size_bytes": 8064753,
+        "sha256": "b47cb3bebec034c203a6d5b2297c845e71a6a27b56ae286227b733d97f6a08fc"
+      },
+      {
+        "relative_path": "CP5_1230/front.mp4",
+        "size_bytes": 8191545,
+        "sha256": "4477a9c7de4cab84c32cd9bbf557d26bd5501270a0063e882bb063640c1e9c65"
+      }
+    ],
+    "embeddings_sha256": "f088d827adc548ee95f46566d758fd71fc304d042c43f1ecffc6526b60bcd832",
+    "fingerprint_sha256": "c1e03cbe948d98800dae93e715272f14c6fe3a4e8020f617713624831a98633a"
+  },
+  "review_source": "phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048",
+  "recovery_rule_id": "mfrr-v1-score040-margin005-vote70-obs5-pair060-repeat2",
+  "reviewed_pairs": 31,
+  "accepted_pairs": 30,
+  "mixed_track_pairs": 1,
+  "evidence": [
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00034",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0016",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0016",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0001",
+      "evidence_signature_sha256": "fa63607cae91e87bcee168c30698c8099ccc1ba3695fbe63ad25c4ed4aedc785"
+    },
+    {
+      "tracklet_id": "CP5-cam5-back-TRK00008",
+      "checkpoint_id": "CP5",
+      "predicted_roll": "2401100CSE0019",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0019",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0002",
+      "evidence_signature_sha256": "ffd5613a489f0fad4bf89212707eec865f2ff5ad5c4954daf1b8edc9c9fb61e4"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00004",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "24011CSEAI0051",
+      "review_status": "identified",
+      "actual_roll": "24011CSEAI0051",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0003",
+      "evidence_signature_sha256": "cb2c819627eb7509374e49647539069a7bb12286d0bc1c48b8562c6cdac039da"
+    },
+    {
+      "tracklet_id": "CP1-cam10-front-TRK00013",
+      "checkpoint_id": "CP1",
+      "predicted_roll": "2401100CSE0050",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0050",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0004",
+      "evidence_signature_sha256": "9ebc52eb393121ad069cadd0664c173f5c521aec303a109687200b8db251ae36"
+    },
+    {
+      "tracklet_id": "CP5-cam5-back-TRK00040",
+      "checkpoint_id": "CP5",
+      "predicted_roll": "2401100CSE0028",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0028",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0005",
+      "evidence_signature_sha256": "0a8577f0b992bcf46cc4053ea71f9224193f7a35e521026a19e8328170b1380b"
+    },
+    {
+      "tracklet_id": "CP4-cam5-back-TRK00004",
+      "checkpoint_id": "CP4",
+      "predicted_roll": "24011CSEAI0007",
+      "review_status": "identified",
+      "actual_roll": "24011CSEAI0007",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0006",
+      "evidence_signature_sha256": "79fb04935493eaf038cc4079bb0a77cdb63b5057e66290d497c1cbcdd5fd7520"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00006",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "24011CSEAI0007",
+      "review_status": "identified",
+      "actual_roll": "24011CSEAI0007",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0007",
+      "evidence_signature_sha256": "5ee5c5ee5a7ef47280a848fed85204fecadcf472c76adbe3731463103b1c6191"
+    },
+    {
+      "tracklet_id": "CP1-cam5-back-TRK00005",
+      "checkpoint_id": "CP1",
+      "predicted_roll": "24011CSEAI0051",
+      "review_status": "mixed_track",
+      "actual_roll": "",
+      "accepted_for_carry_forward": false,
+      "mixed_track_quarantine": true,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0008",
+      "evidence_signature_sha256": "3e66e6ecfa57ea607bedc59578af159fc7c85774f21ae15ffd98a029b79ea983"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00012",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "24011CSEAI0007",
+      "review_status": "identified",
+      "actual_roll": "24011CSEAI0007",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0009",
+      "evidence_signature_sha256": "c0ded01e30973dace8f68824ac2ca585f59a33082b7f76c6c2d4e777755b699e"
+    },
+    {
+      "tracklet_id": "CP1-cam5-back-TRK00002",
+      "checkpoint_id": "CP1",
+      "predicted_roll": "2401100CSE0060",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0060",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0010",
+      "evidence_signature_sha256": "1f991eb1d55152c085d78c85693c7e0f8faff90aa5bcfd6ed2aca60fc013cebb"
+    },
+    {
+      "tracklet_id": "CP2-cam10-front-TRK00005",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0050",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0050",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0011",
+      "evidence_signature_sha256": "8a11af9ed361f087e5ff299308ee3df6cbb2c26a7ef770a236a14519c62f985d"
+    },
+    {
+      "tracklet_id": "CP4-cam5-back-TRK00007",
+      "checkpoint_id": "CP4",
+      "predicted_roll": "2401100CSE0019",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0019",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0012",
+      "evidence_signature_sha256": "d505a75f05cf6b1ed056437b1d34b0d158384f2e1cc067c721697b9a74eebba4"
+    },
+    {
+      "tracklet_id": "CP5-cam5-back-TRK00002",
+      "checkpoint_id": "CP5",
+      "predicted_roll": "2401100CSE0016",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0016",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0013",
+      "evidence_signature_sha256": "5303540985db96de84bbb8d3f84076f2126aa3ec6fe2a0ba6c1c611a2ebfbeef"
+    },
+    {
+      "tracklet_id": "CP1-cam10-front-TRK00007",
+      "checkpoint_id": "CP1",
+      "predicted_roll": "2401100CSE0044",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0044",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0014",
+      "evidence_signature_sha256": "354cc3f6f3c1b7672317ea2384862a2becb84e977fb0f05063893845753497df"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00019",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0019",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0019",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0015",
+      "evidence_signature_sha256": "de164c0052da4451bfc8b0bdbc40c904d2bd835d8b3292c0fd600ae700c806be"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00007",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0124",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0124",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0016",
+      "evidence_signature_sha256": "9e3ac6f004a3bcfc3195a60907cfd08ac8ee2304483cf26eab7e9e0eae4d7b4d"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00005",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0124",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0124",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0017",
+      "evidence_signature_sha256": "6c0a903583fad79b0ed6a924167c88511f395f8aa944f158cb21d786fc471b18"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00006",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0060",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0060",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0018",
+      "evidence_signature_sha256": "2671b469b6c7ef353ba05fdfb8f6bd93db201a9d0df76478d5fdd38a1dea5e6e"
+    },
+    {
+      "tracklet_id": "CP3-cam10-front-TRK00010",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0050",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0050",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0019",
+      "evidence_signature_sha256": "e490f20b00f48dcf2b79f2b418204a2ded29d4cb8f636edbbd1afd48795ba1a1"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00016",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0019",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0019",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0020",
+      "evidence_signature_sha256": "dbe5e20afea562d4155d6a4cf065d791b840e4b086541c289fedca871d798bd9"
+    },
+    {
+      "tracklet_id": "CP5-cam10-front-TRK00003",
+      "checkpoint_id": "CP5",
+      "predicted_roll": "2401100CSE0044",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0044",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0021",
+      "evidence_signature_sha256": "df407aa6a39d769d872067f520e5971b5f456ee0ba42f4af781eb66e5ef36afd"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00002",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0016",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0016",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0022",
+      "evidence_signature_sha256": "c0b08f55d50f45c26617b9e7ae99803f31912800aecad02c9d207bf6712e3ed2"
+    },
+    {
+      "tracklet_id": "CP1-cam5-back-TRK00003",
+      "checkpoint_id": "CP1",
+      "predicted_roll": "2401100CSE0016",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0016",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0023",
+      "evidence_signature_sha256": "5d0a11a58b9f5710e807b13036f216f6a64e0188954f2ba04f575435f2131f04"
+    },
+    {
+      "tracklet_id": "CP4-cam5-back-TRK00014",
+      "checkpoint_id": "CP4",
+      "predicted_roll": "2401100CSE0060",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0060",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0024",
+      "evidence_signature_sha256": "afd30c46bea8384522ee877fc155205ab077b95a75d5ce958745b51fd06a6f78"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00019",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0028",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0028",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0025",
+      "evidence_signature_sha256": "bc94ddb6c8a3f53b9c01cc50c59548e24b7d79aa9d909f54f422e3308d7de969"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00018",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0060",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0060",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0026",
+      "evidence_signature_sha256": "95aeaad33680d9983b3abc3f042a24554f76d2064f896dbed47f6a2b1c24ab55"
+    },
+    {
+      "tracklet_id": "CP4-cam10-front-TRK00008",
+      "checkpoint_id": "CP4",
+      "predicted_roll": "2401100CSE0050",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0050",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0027",
+      "evidence_signature_sha256": "e45957db3794313457db4e44e71182103ae531393a0745c4a5783e1ed1ba6c97"
+    },
+    {
+      "tracklet_id": "CP5-cam5-back-TRK00001",
+      "checkpoint_id": "CP5",
+      "predicted_roll": "24011CSEAI0051",
+      "review_status": "identified",
+      "actual_roll": "24011CSEAI0051",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "product_phase_2h_blind_review",
+      "review_id": "R0028",
+      "evidence_signature_sha256": "ed6efcb8d9ada92cc308f84569a8cb1989297d3fafecb32b8b95f39e505fbc95"
+    },
+    {
+      "tracklet_id": "CP2-cam5-back-TRK00021",
+      "checkpoint_id": "CP2",
+      "predicted_roll": "2401100CSE0140",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0140",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "phase_1_2n_blind_review",
+      "review_id": "CP2-cam5-back-TRK00021",
+      "evidence_signature_sha256": "1d442d1ffde5e40417aa30bdc434a4571383d94fc7b0f71d616ef3a0f743e66b"
+    },
+    {
+      "tracklet_id": "CP3-cam5-back-TRK00003",
+      "checkpoint_id": "CP3",
+      "predicted_roll": "2401100CSE0140",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0140",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "phase_1_2n_blind_review",
+      "review_id": "CP3-cam5-back-TRK00003",
+      "evidence_signature_sha256": "7893c7a013d01494fa0e5ad90dec790764968f168108bb6dba7ee9140fe5f4b5"
+    },
+    {
+      "tracklet_id": "CP4-cam5-back-TRK00015",
+      "checkpoint_id": "CP4",
+      "predicted_roll": "2401100CSE0140",
+      "review_status": "identified",
+      "actual_roll": "2401100CSE0140",
+      "accepted_for_carry_forward": true,
+      "mixed_track_quarantine": false,
+      "ground_truth_source": "phase_1_2n_blind_review",
+      "review_id": "CP4-cam5-back-TRK00015",
+      "evidence_signature_sha256": "e11dd6f301c859c43a86197161bea43da54a943d0d689668c911bba9df9a60c1"
+    }
+  ],
+  "registry_sha256": "b2afa12c10104025f31c76f02ea91b9c33720cccb09773ca5639da39c1577a69"
+}

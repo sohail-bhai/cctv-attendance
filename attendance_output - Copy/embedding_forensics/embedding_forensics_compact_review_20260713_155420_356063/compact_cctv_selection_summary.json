@@ -1,0 +1,173 @@
+{
+  "source_broad_items": 98,
+  "selected_items": 36,
+  "deferred_items": 62,
+  "preferred_items": 36,
+  "hard_maximum": 40,
+  "selected_students": [
+    "2401100CSE0016",
+    "2401100CSE0019",
+    "2401100CSE0044",
+    "2401100CSE0050",
+    "2401100CSE0060",
+    "2401100CSE0067",
+    "2401100CSE0109",
+    "2401100CSE0121",
+    "2401100CSE0124",
+    "2401100CSE0140",
+    "2401100CSE0184",
+    "2401100CSE0209",
+    "2401100CSE0237",
+    "24011CSEAI0007",
+    "24011CSEAI0051",
+    "24011CSEAI0103"
+  ],
+  "per_student_counts": {
+    "2401100CSE0016": 3,
+    "2401100CSE0019": 1,
+    "2401100CSE0044": 2,
+    "2401100CSE0050": 4,
+    "2401100CSE0060": 1,
+    "2401100CSE0067": 2,
+    "2401100CSE0109": 1,
+    "2401100CSE0121": 3,
+    "2401100CSE0124": 4,
+    "2401100CSE0140": 4,
+    "2401100CSE0184": 1,
+    "2401100CSE0209": 1,
+    "2401100CSE0237": 1,
+    "24011CSEAI0007": 4,
+    "24011CSEAI0051": 1,
+    "24011CSEAI0103": 3
+  },
+  "selected_checkpoints": {
+    "2401100CSE0016": [
+      "CP3",
+      "CP4",
+      "CP5"
+    ],
+    "2401100CSE0019": [
+      "CP5"
+    ],
+    "2401100CSE0044": [
+      "CP2",
+      "CP4"
+    ],
+    "2401100CSE0050": [
+      "CP2",
+      "CP3",
+      "CP4",
+      "CP5"
+    ],
+    "2401100CSE0060": [
+      "CP3"
+    ],
+    "2401100CSE0067": [
+      "CP3",
+      "CP4"
+    ],
+    "2401100CSE0109": [
+      "CP1"
+    ],
+    "2401100CSE0121": [
+      "CP1",
+      "CP4",
+      "CP5"
+    ],
+    "2401100CSE0124": [
+      "CP2",
+      "CP3",
+      "CP4",
+      "CP5"
+    ],
+    "2401100CSE0140": [
+      "CP1",
+      "CP2",
+      "CP5"
+    ],
+    "2401100CSE0184": [
+      "CP1"
+    ],
+    "2401100CSE0209": [
+      "CP4"
+    ],
+    "2401100CSE0237": [
+      "CP4"
+    ],
+    "24011CSEAI0007": [
+      "CP1",
+      "CP3",
+      "CP4",
+      "CP5"
+    ],
+    "24011CSEAI0051": [
+      "CP5"
+    ],
+    "24011CSEAI0103": [
+      "CP1",
+      "CP2",
+      "CP3"
+    ]
+  },
+  "selected_cameras": {
+    "2401100CSE0016": [
+      "cam10",
+      "cam5"
+    ],
+    "2401100CSE0019": [
+      "cam5"
+    ],
+    "2401100CSE0044": [
+      "cam5"
+    ],
+    "2401100CSE0050": [
+      "cam10",
+      "cam5"
+    ],
+    "2401100CSE0060": [
+      "cam5"
+    ],
+    "2401100CSE0067": [
+      "cam5"
+    ],
+    "2401100CSE0109": [
+      "cam10"
+    ],
+    "2401100CSE0121": [
+      "cam5"
+    ],
+    "2401100CSE0124": [
+      "cam5"
+    ],
+    "2401100CSE0140": [
+      "cam5"
+    ],
+    "2401100CSE0184": [
+      "cam5"
+    ],
+    "2401100CSE0209": [
+      "cam10"
+    ],
+    "2401100CSE0237": [
+      "cam5"
+    ],
+    "24011CSEAI0007": [
+      "cam5"
+    ],
+    "24011CSEAI0051": [
+      "cam5"
+    ],
+    "24011CSEAI0103": [
+      "cam10"
+    ]
+  },
+  "model_prediction_used_as_identity": false,
+  "identity_source": "human_review_actual_roll",
+  "primary_selection_reasons": {
+    "identity has 1 reviewed top-1 miss(es)": 4,
+    "identity has 3 reviewed top-1 miss(es)": 2,
+    "identity is a confirmed reviewed false-accept attractor": 30
+  },
+  "source_broad_package_id": "verified-cctv-77507b2f5d348aad",
+  "source_broad_package_manifest_sha256": "202ebc621bbc611a9055e273d81487e55376a32d826ceab387a3760627d5386c"
+}

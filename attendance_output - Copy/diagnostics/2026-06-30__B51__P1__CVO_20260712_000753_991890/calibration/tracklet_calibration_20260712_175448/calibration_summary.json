@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "mode": "offline_shadow_calibration",
+  "benchmark": {
+    "total_tracks": 100,
+    "baseline_accepted_tracks": 37,
+    "baseline_false_accepts": 0,
+    "unresolved_tracks": 63,
+    "recoverable_correct_top1": 33,
+    "safety_negatives": 30,
+    "second_candidate_only_correct": 4,
+    "neither_top_two_correct": 13
+  },
+  "cross_validation": {
+    "strategy": "deterministic_identity_grouped_stratified_holdout",
+    "folds": 5,
+    "identity_leakage_prevented": true,
+    "selection_objective": "minimize_false_accepts_then_maximize_recovery"
+  },
+  "out_of_fold": {
+    "folds": 5,
+    "true_recoveries": 7,
+    "false_accepts": 0,
+    "accepted_tracks": 7,
+    "shadow_precision": 1.0,
+    "recovery_rate": 0.2121,
+    "folds_with_recovery": 5,
+    "folds_with_false_accept": 0,
+    "unique_selected_candidate_ids": 2
+  },
+  "final_candidate": {
+    "candidate_id": "cal-5cd35b60dd83",
+    "true_recoveries": 8,
+    "false_accepts": 0,
+    "accepted_tracks": 8,
+    "eligible_correct_tracks": 33,
+    "eligible_safety_negatives": 29,
+    "recovery_rate": 0.2424,
+    "shadow_precision": 1.0
+  },
+  "candidate_config": {
+    "schema_version": 1,
+    "candidate_id": "cal-5cd35b60dd83",
+    "enabled": false,
+    "mode": "shadow_only",
+    "production_approved": false,
+    "requires_multisession_validation": true,
+    "applies_only_to_baseline_rejected_tracklets": true,
+    "subject_abbr": "CVO",
+    "thresholds": {
+      "min_best_score": 0.38,
+      "min_margin": 0.03,
+      "min_vote_ratio_pct": 50.0,
+      "min_observation_count": 3,
+      "min_consistency_ratio": 0.5,
+      "min_pairwise_similarity_median": 0.45,
+      "min_selected_observations": 3,
+      "min_consistent_embeddings": 3,
+      "require_dominant_agreement": true,
+      "require_subject_roster_candidate": true
+    },
+    "fixed_safety_guards": {
+      "candidate_must_be_in_authoritative_subject_roster": true,
+      "aggregate_candidate_must_equal_dominant_frame_candidate": true,
+      "minimum_selected_observations": 3,
+      "minimum_consistent_embeddings": 3
+    },
+    "official_match_threshold_unchanged": 0.48,
+    "official_margin_threshold_unchanged": 0.08,
+    "attendance_checkpoint_rule_unchanged": 3
+  },
+  "recommendation": {
+    "decision": "promote_to_multisession_shadow_validation",
+    "production_decision": "keep_disabled",
+    "rationale": "Zero false accepts were observed across identity-grouped holdouts and the full benchmark, with recoveries distributed across multiple folds.",
+    "next_step": "Run the disabled candidate on an untouched session such as TUE_P2 or MON_P3 and blind-review every newly accepted recovery before considering any production integration."
+  },
+  "limitations": [
+    "Only one CCTV session is represented.",
+    "The unresolved package is reviewer-selection biased and is not a random sample of all rejected tracklets.",
+    "Full-benchmark candidate metrics are descriptive; identity-grouped out-of-fold metrics are the primary evidence.",
+    "No candidate may affect official attendance before untouched-session validation and blind review."
+  ],
+  "production_changes": false,
+  "recognition_rerun": false,
+  "thresholds_changed": false,
+  "attendance_rule_changed": false
+}

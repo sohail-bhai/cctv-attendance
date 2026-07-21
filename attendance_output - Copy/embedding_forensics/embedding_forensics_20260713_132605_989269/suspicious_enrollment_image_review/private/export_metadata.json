@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "package_id": "enrollment-audit-3345234c6443f605",
+  "package_kind": "enrollment_audit",
+  "item_count": 855,
+  "actions": [
+    "keep",
+    "exclude_from_next_embedding_version",
+    "wrong_person_or_mislabeled",
+    "multiple_people",
+    "unusable_quality",
+    "uncertain",
+    "duplicate_of_another_image"
+  ],
+  "source_mapping_sha256": "03dbc8e885675e0931d2dbfc6d29f01995e14761223395307f9568720235ac58",
+  "source_files_unchanged": true,
+  "production_embeddings_changed": false,
+  "browser_private_mapping_loaded": false,
+  "forensic_run_id": "embedding_forensics_20260713_132605_989269",
+  "subject_abbr": "CVO",
+  "selected_suspect_images": 855,
+  "dataset_audit_summary": {
+    "schema_version": 1,
+    "dataset_roots": [
+      {
+        "role": "production_recorded_dataset",
+        "exists": true,
+        "production_recorded_input": true,
+        "optional": false,
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset",
+        "image_count": 388
+      },
+      {
+        "role": "configured_augmented_dataset_nonproduction",
+        "exists": true,
+        "production_recorded_input": false,
+        "optional": true,
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\augmented_dataset",
+        "image_count": 1782
+      }
+    ],
+    "images_discovered": 2170,
+    "decoded_images": 2170,
+    "valid_face_embeddings_computed": 2068,
+    "suspect_images": 855,
+    "duplicate_hash_groups": 17,
+    "duplicate_file_excess": 17,
+    "cross_student_duplicate_groups": 0,
+    "flag_counts": {
+      "closer_to_another_student_than_own_medoid": 101,
+      "duplicated_file_hash": 34,
+      "folder_identity_absent_from_authoritative_registry": 16,
+      "multiple_faces": 216,
+      "no_face": 20,
+      "no_valid_face": 82,
+      "own_class_outlier": 94,
+      "severe_blur": 502,
+      "severe_exposure_issue": 18,
+      "tiny_face": 68
+    },
+    "missing_optional_roots": [],
+    "dataset_files_modified": false,
+    "automatic_deletions": 0,
+    "automatic_moves": 0,
+    "automatic_relabels": 0
+  },
+  "student_map_sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91",
+  "expected_identity_visible_for_enrollment_audit": true,
+  "alternative_model_identity_is_ground_truth": false,
+  "automatic_source_changes": false
+}

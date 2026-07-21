@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-12T15:27:47",
+  "subject_abbr": "CVO",
+  "student_map": "F:\\sohail\\Class_Attendance_YuNet_SFace\\data\\student_faculty_map.json",
+  "actual_present": "F:\\sohail\\Class_Attendance_YuNet_SFace\\actual_present\\TUE_P1_actual_present_template.txt",
+  "roster_students": 27,
+  "unique_roster_rolls": 27,
+  "all_students": 49,
+  "actual_present_students": 27,
+  "embedding_available": 25,
+  "embedding_missing": 2,
+  "missing_embedding_rolls": [
+    "2401100CSE0268",
+    "24011CSEAI0110"
+  ],
+  "subject_duplicate_rolls": [],
+  "all_students_duplicate_rolls": [],
+  "missing_from_all_students": [],
+  "missing_subject_membership": [],
+  "stale_subject_membership": [],
+  "name_mismatches": [],
+  "missing_from_actual_present": [],
+  "actual_present_not_in_roster": [],
+  "errors": [],
+  "warnings": [],
+  "integrity_passed": true
+}

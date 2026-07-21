@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "family_id": "embfam-b6435a4dac62cf59b6f6",
+  "status": "build_failed_preserved",
+  "failed_at": "2026-07-14T00:01:52+05:30",
+  "failed_after_final_directory_move": false,
+  "error_type": "EmbeddingFamilyError",
+  "error": "Approved CCTV crop failed the production-compatible single-face preprocessing policy: F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\.embfam-b6435a4dac62cf59b6f6.building-2788\\candidate_sources\\verified_cctv\\tue_p1\\CCC-030231adc264508c4c.png (no_valid_face, detections=1)",
+  "production_promoted": false,
+  "production_approved": false,
+  "mon_p3_processed": false
+}

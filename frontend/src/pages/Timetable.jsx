@@ -1,43 +1,39 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
 import NiceSelect from '../components/NiceSelect.jsx';
-import { apiCancelJob, apiGet, apiPost } from '../api/client.js';
+import JobProgress from '../components/JobProgress.jsx';
+import { apiCancelJob, apiGetResult, apiPost } from '../api/client.js';
 import { DAYS, FALLBACK_TIMETABLE } from '../data/fallback.js';
 import { fileToRows } from '../utils/csv.js';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { canAccessRow, displaySubjectForUser, isAdmin, subjectInfo } from '../data/users.js';
+import { useBackendHealth } from '../health/BackendHealthContext.jsx';
+import {
+  actionForSlot,
+  deriveSlotState,
+  elapsedFromText,
+  isRunningJob,
+  latestJobForRow,
+  normalizePeriod,
+} from '../utils/workflow.js';
 
-const FAST_PROCESSING_PAYLOAD = {
-  checkpoint_mode: 'auto',
-  checkpoint_min_detections: 2,
-  match_threshold: 0.48,
-  margin_threshold: 0.08,
-  sample_fps: 2,
-  log_mode: 'accepted',
-  output_layout: 'organized',
-  save_unknown: false,
-  timeout_seconds: 20 * 60,
+const CONTROLLED_PROCESSING_PAYLOAD = {
+  processing_mode: 'quality_aware_tracklet_authority_v1',
+  timeout_seconds: 30 * 60,
 };
 
-function normalizePeriod(period) {
-  const raw = String(period || '').toUpperCase();
-  return raw.startsWith('P') ? raw : `P${raw}`;
-}
-
-function elapsedFromText(value) {
-  if (!value) return '—';
-  const parsed = Date.parse(String(value).replace(/(\d{2})-(\d{2})-(\d{4})/, '$3-$2-$1'));
-  if (Number.isNaN(parsed)) return 'Running';
-  const seconds = Math.max(0, Math.floor((Date.now() - parsed) / 1000));
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${String(secs).padStart(2, '0')}`;
+function qualityReason(entry) {
+  return entry?.review_queue_note
+    || entry?.run_quality_reason
+    || 'Attendance requires review because recognition quality was too low.';
 }
 
 export default function Timetable() {
   const { currentUser } = useAuth();
   const admin = isAdmin(currentUser);
+  const health = useBackendHealth();
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
   const [day, setDay] = useState(DAYS.includes(today) ? today : 'Monday');
   const [rows, setRows] = useState([]);
@@ -45,131 +41,217 @@ export default function Timetable() {
   const [message, setMessage] = useState(null);
   const [localPreview, setLocalPreview] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [rowsSource, setRowsSource] = useState('loading');
+  const [jobsAvailable, setJobsAvailable] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [, forceTick] = useState(0);
 
-  const loadRows = async () => {
+  const loadRows = useCallback(async () => {
     setIsRefreshing(true);
-    const data = await apiGet(`/api/timetable?day=${day}`, null);
-    if (data?.timetable) setRows(data.timetable);
-    else setRows(FALLBACK_TIMETABLE.filter((row) => row.day === day && canAccessRow(currentUser, row)));
+    const result = await apiGetResult(`/api/timetable?day=${encodeURIComponent(day)}`, { cache: 'no-store' });
+    if (result.ok && Array.isArray(result.data?.timetable)) {
+      setRows(result.data.timetable);
+      setRowsSource('live');
+    } else {
+      setRows(FALLBACK_TIMETABLE.filter((row) => row.day === day && canAccessRow(currentUser, row)));
+      setRowsSource('fallback');
+    }
+    setLastUpdated(new Date());
     setIsRefreshing(false);
-  };
+    return result;
+  }, [currentUser, day]);
 
-  const loadJobs = async () => {
-    const data = await apiGet('/api/status', []);
-    setJobs(Array.isArray(data) ? data : []);
-    return Array.isArray(data) ? data : [];
-  };
+  const loadJobs = useCallback(async () => {
+    const result = await apiGetResult('/api/status', { cache: 'no-store' });
+    if (result.ok && Array.isArray(result.data)) {
+      setJobs(result.data);
+      setJobsAvailable(true);
+      return result.data;
+    }
+    setJobsAvailable(false);
+    return [];
+  }, []);
+
+  const refreshAll = useCallback(async () => {
+    await Promise.all([loadRows(), loadJobs(), health.refreshHealth()]);
+  }, [health, loadJobs, loadRows]);
 
   useEffect(() => {
     loadRows();
     loadJobs();
-  }, [day, currentUser]);
+  }, [loadJobs, loadRows]);
 
-  const hasProcessing = useMemo(() => jobs.some((job) => job.status === 'Processing' || job.status === 'Pending'), [jobs]);
+  const hasProcessing = useMemo(() => jobs.some(isRunningJob), [jobs]);
 
   useEffect(() => {
-    if (!hasProcessing) return undefined;
-    const id = setInterval(async () => {
+    if (!hasProcessing || !health.connected) return undefined;
+    const id = window.setInterval(async () => {
       const latest = await loadJobs();
-      const stillRunning = latest.some((job) => job.status === 'Processing' || job.status === 'Pending');
-      if (!stillRunning) loadRows();
+      if (!latest.some(isRunningJob)) await loadRows();
     }, 3000);
-    return () => clearInterval(id);
-  }, [hasProcessing, day]);
+    return () => window.clearInterval(id);
+  }, [hasProcessing, health.connected, loadJobs, loadRows]);
 
   useEffect(() => {
     if (!hasProcessing) return undefined;
-    const id = setInterval(() => forceTick((x) => x + 1), 1000);
-    return () => clearInterval(id);
+    const id = window.setInterval(() => forceTick((value) => value + 1), 1000);
+    return () => window.clearInterval(id);
   }, [hasProcessing]);
 
+  const canStartProcessing = health.connected && health.ready && rowsSource === 'live' && jobsAvailable;
+  const canControlJobs = health.connected && jobsAvailable;
+
   const start = async (row, action) => {
-    const p = normalizePeriod(row.period);
+    if (!canStartProcessing) {
+      setMessage({ type: 'error', text: 'Attendance processing is disabled until the live backend is connected and ready.' });
+      return;
+    }
+    if (action === 'reprocess' && !window.confirm('Reprocess this session? Existing results remain auditable, but a new processing job will be started.')) return;
+
+    const period = normalizePeriod(row.period);
     const subject = displaySubjectForUser(row, currentUser);
-    setMessage({ type: 'info', text: `${action === 'reprocess' ? 'Reprocessing' : 'Starting'} ${day} ${p} ${subject}...` });
+    const info = subjectInfo(subject);
+    const actionKey = `${row.session_id || `${day}-${period}-${subject}`}:${action}`;
+    setPendingAction(actionKey);
+    setMessage({ type: 'info', text: `${action === 'reprocess' ? 'Reprocessing' : 'Starting'} ${day} ${period} ${subject}…` });
     try {
       const data = await apiPost(action === 'reprocess' ? '/api/reprocess' : '/api/process', {
         day,
-        period: p,
+        period,
         subject_track: subject,
-        ...FAST_PROCESSING_PAYLOAD,
+        session_id: row.session_id,
+        session_date: row.session_date,
+        section: row.section,
+        slot_id: row.slot_id,
+        course_code: info?.courseCode || row.course_code,
+        subject_name: info?.courseName || row.course_name,
+        ...CONTROLLED_PROCESSING_PAYLOAD,
       });
-      setMessage({ type: 'success', text: data.message || `Background job started: ${data.job_id}` });
-      await loadJobs();
-      await loadRows();
+      const reused = data.job_created === false;
+      setMessage({
+        type: reused || data.already_done ? 'info' : 'success',
+        text: data.message || (reused ? `Using existing job ${data.job_id}.` : `Background job started: ${data.job_id}`),
+      });
+      await refreshAll();
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
+    } finally {
+      setPendingAction(null);
     }
   };
 
   const cancelJob = async (jobId) => {
-    if (!jobId) return;
-    setMessage({ type: 'info', text: `Cancelling job ${jobId}...` });
+    if (!canControlJobs || !jobId) {
+      setMessage({ type: 'error', text: 'Cancellation is unavailable while the backend is offline or not ready.' });
+      return;
+    }
+    if (!window.confirm(`Cancel job ${jobId}?`)) return;
+    setPendingAction(`cancel:${jobId}`);
+    setMessage({ type: 'info', text: `Cancelling job ${jobId}…` });
     try {
       const data = await apiCancelJob(jobId);
       setMessage({ type: 'success', text: data.message || `Cancelled job ${jobId}.` });
-      await loadJobs();
-      await loadRows();
+      await refreshAll();
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
+    } finally {
+      setPendingAction(null);
     }
   };
 
   const handleTimetableCsv = async (file) => {
     if (!file) return;
-    const parsed = await fileToRows(file);
-    setLocalPreview(parsed);
-    setMessage({ type: 'success', text: `Loaded ${parsed.length} timetable rows locally for preview.` });
+    try {
+      const parsed = await fileToRows(file);
+      setLocalPreview(parsed);
+      setMessage({ type: 'success', text: `Loaded ${parsed.length} timetable rows locally for preview.` });
+    } catch (error) {
+      setMessage({ type: 'error', text: `Could not read CSV: ${error.message}` });
+    }
   };
-
-  const latestJobForRow = (row) => jobs.find((job) => job.day === row.day && normalizePeriod(job.period) === normalizePeriod(row.period));
 
   return (
     <div className="page-stack">
       <PageHeader
-        eyebrow={admin ? 'Admin Attendance Processing' : 'Faculty Attendance Processing'}
+        eyebrow={admin ? 'HOD Attendance Processing' : 'Faculty Attendance Processing'}
         title={admin ? 'Take Attendance' : 'My Classes'}
-        subtitle={admin ? 'Select any slot and process attendance.' : 'Only your subject slots are shown here. Simultaneous CCM/CVO periods are separated by faculty.'}
-        actions={<NiceSelect compact value={day} onChange={setDay} options={DAYS} />}
+        subtitle={admin
+          ? 'Start, monitor, cancel, review, or reprocess a session from one controlled workflow.'
+          : 'Only your assigned subject slots are shown. Every job remains tied to its exact session.'}
+        actions={
+          <div className="page-actions">
+            <NiceSelect compact value={day} onChange={setDay} options={DAYS} />
+            <button className="button secondary" type="button" onClick={refreshAll} disabled={isRefreshing}>
+              {isRefreshing ? 'Refreshing…' : 'Refresh'}
+            </button>
+          </div>
+        }
       />
 
       {message && <div className={`notice ${message.type}`}>{message.text}</div>}
 
-      <section className="panel split-cards">
-        <div>
-          <h3>Simple workflow</h3>
-          <p className="muted">Choose a class period and click Process. The system automatically uses demo clips if only sample clips exist, or full checkpoint mode when CP1–CP5 folders are available.</p>
-        </div>
-        <div>
-          <h3>{admin ? 'Admin access' : 'Faculty access'}</h3>
-          <p className="muted">{admin ? 'You can see all classes and all students.' : `You can see only ${currentUser.subjects.join(', ')} classes and assigned students.`}</p>
-        </div>
+      {rowsSource === 'fallback' && (
+        <section className="connection-banner offline">
+          <div>
+            <strong>Local timetable preview only</strong>
+            <p>The backend timetable or job API is unavailable. Class rows are shown for reference, but Process, Reprocess, and Cancel are disabled.</p>
+          </div>
+          <button className="button tiny secondary" type="button" onClick={refreshAll}>Retry connection</button>
+        </section>
+      )}
+
+      {health.connected && !health.ready && (
+        <section className="connection-banner warning">
+          <div>
+            <strong>Backend connected, processing unavailable</strong>
+            <p>Required files are missing: {health.missing.join(', ') || 'unknown readiness dependency'}.</p>
+          </div>
+        </section>
+      )}
+
+      <section className="workflow-readiness-grid">
+        <article className={`readiness-card ${rowsSource === 'live' ? 'ready' : 'blocked'}`}>
+          <span>1</span><div><strong>Session data</strong><small>{rowsSource === 'live' ? 'Live timetable loaded' : 'Local preview only'}</small></div>
+        </article>
+        <article className={`readiness-card ${health.ready ? 'ready' : 'blocked'}`}>
+          <span>2</span><div><strong>Recognition backend</strong><small>{health.ready ? 'Models and workflow ready' : 'Unavailable or incomplete'}</small></div>
+        </article>
+        <article className={`readiness-card ${jobsAvailable ? 'ready' : 'blocked'}`}>
+          <span>3</span><div><strong>Persistent jobs</strong><small>{jobsAvailable ? 'Job registry available' : 'Job history unavailable'}</small></div>
+        </article>
       </section>
 
-
-      {hasProcessing && (
+      {hasProcessing && jobsAvailable && (
         <section className="panel processing-panel">
           <div className="panel-title-row">
             <div>
-              <h3>Attendance processing in progress</h3>
-              <p className="muted">You can keep this page open. The system is checking job status without refreshing the whole timetable repeatedly.</p>
+              <h3>Attendance processing</h3>
+              <p className="muted">The page polls only job status while processing is active.</p>
             </div>
-            <span className="soft-pill live">Live</span>
+            <span className="soft-pill live">{jobs.filter(isRunningJob).length} active</span>
           </div>
           <div className="processing-grid">
-            {jobs.filter((job) => job.status === 'Processing' || job.status === 'Pending').slice(0, 3).map((job) => (
+            {jobs.filter(isRunningJob).slice(0, 4).map((job) => (
               <article className="processing-card" key={job.job_id}>
-                <strong>{job.day} {job.period}</strong>
-                <span>{job.progress_text || 'Preparing attendance job...'}</span>
-                <div className="processing-steps">
-                  {['Checking files', 'Processing clips', 'Recognizing students', 'Generating report'].map((step, index) => (
-                    <i key={step} className={index === 0 || /processing|recognizing|generating|completed/i.test(job.progress_text || '') ? 'done' : ''}>{step}</i>
-                  ))}
+                <div className="job-card-heading">
+                  <div>
+                    <strong>{job.session_date || job.day} · {job.period} · {job.subject_abbr || job.subject || ''}</strong>
+                    <small>{job.controlled_by || job.faculty_name || 'Authorized user'} · {job.job_id}</small>
+                  </div>
+                  <StatusBadge status={job.status} />
                 </div>
+                <JobProgress job={job} />
                 <div className="row-actions spread-actions">
                   <small>Elapsed: {elapsedFromText(job.started_at || job.created_at)}</small>
-                  <button className="button tiny danger" onClick={() => cancelJob(job.job_id)}>Cancel</button>
+                  <button
+                    className="button tiny danger"
+                    type="button"
+                    disabled={!canControlJobs || pendingAction === `cancel:${job.job_id}`}
+                    onClick={() => cancelJob(job.job_id)}
+                  >
+                    {pendingAction === `cancel:${job.job_id}` ? 'Cancelling…' : 'Cancel'}
+                  </button>
                 </div>
               </article>
             ))}
@@ -181,16 +263,16 @@ export default function Timetable() {
         <section className="panel">
           <div className="panel-title-row">
             <div>
-              <h3>Upload timetable CSV preview</h3>
-              <p className="muted">Admin-only preview. To change backend timetable, replace timetable_b51_2026_2027.csv in the project root.</p>
+              <h3>Timetable CSV preview</h3>
+              <p className="muted">Preview only. It does not replace the backend timetable or alter historical sessions.</p>
             </div>
-            <label className="button secondary">Upload CSV<input hidden type="file" accept=".csv" onChange={(event) => handleTimetableCsv(event.target.files?.[0])} /></label>
+            <label className="button secondary">Choose CSV<input hidden type="file" accept=".csv" onChange={(event) => handleTimetableCsv(event.target.files?.[0])} /></label>
           </div>
           {localPreview.length > 0 && (
             <div className="table-wrap mini-table">
               <table>
-                <thead><tr>{Object.keys(localPreview[0]).slice(0, 9).map((h) => <th key={h}>{h}</th>)}</tr></thead>
-                <tbody>{localPreview.slice(0, 8).map((row, index) => <tr key={index}>{Object.keys(localPreview[0]).slice(0, 9).map((h) => <td key={h}>{row[h]}</td>)}</tr>)}</tbody>
+                <thead><tr>{Object.keys(localPreview[0]).slice(0, 9).map((heading) => <th key={heading}>{heading}</th>)}</tr></thead>
+                <tbody>{localPreview.slice(0, 8).map((row, index) => <tr key={index}>{Object.keys(localPreview[0]).slice(0, 9).map((heading) => <td key={heading}>{row[heading]}</td>)}</tr>)}</tbody>
               </table>
             </div>
           )}
@@ -199,8 +281,14 @@ export default function Timetable() {
 
       <section className="panel">
         <div className="panel-title-row">
-          <h3>{day} {admin ? 'Slots' : 'My Slots'}</h3>
-          <span className="muted">{isRefreshing ? 'Refreshing...' : hasProcessing ? 'Checking job status' : 'Ready'}</span>
+          <div>
+            <h3>{day} {admin ? 'sessions' : 'my sessions'}</h3>
+            <p className="muted">{rowsSource === 'live' ? 'Live timetable, attendance state, and latest matching job' : 'Static local preview with all actions disabled'}</p>
+          </div>
+          <div className="source-meta">
+            <span className={`data-source-pill ${rowsSource === 'live' ? 'live' : 'preview'}`}>{rowsSource === 'live' ? 'Live' : 'Preview'}</span>
+            <small>{lastUpdated ? lastUpdated.toLocaleTimeString('en-IN') : 'Loading…'}</small>
+          </div>
         </div>
         <div className="table-wrap">
           <table>
@@ -210,21 +298,39 @@ export default function Timetable() {
                 const isLunch = /lunch/i.test(row.subject || '');
                 const subject = displaySubjectForUser(row, currentUser);
                 const info = subjectInfo(subject);
-                const job = latestJobForRow(row);
-                const liveState = job?.status === 'Processing' || job?.status === 'Pending' ? job.status : null;
-                const state = isLunch ? 'Lunch' : liveState || row.att_status?.status || 'Pending';
+                const job = latestJobForRow(jobs, row);
+                const state = rowsSource === 'live' ? deriveSlotState(row, job) : isLunch ? 'Lunch' : 'Preview';
+                const action = rowsSource === 'live'
+                  ? actionForSlot({ row, job, backendReady: isRunningJob(job) ? canControlJobs : canStartProcessing })
+                  : { primary: 'none', disabled: true };
                 const report = row.att_status?.class_report_file;
-                const running = job && (job.status === 'Processing' || job.status === 'Pending');
+                const running = isRunningJob(job);
+                const reviewSession = row.session_id || row.att_status?.session_id;
+                const reviewHref = reviewSession ? `/manual-review?session_id=${encodeURIComponent(reviewSession)}` : '/manual-review';
+                const actionKey = `${row.session_id || `${day}-${normalizePeriod(row.period)}-${subject}`}:${action.primary}`;
                 return (
-                  <tr key={`${row.day}-${row.period}-${subject}`}>
+                  <tr key={row.session_id || `${row.day}-${row.period}-${subject}`} className={state === 'Needs Review' ? 'risk-row' : ''}>
                     <td><strong>{row.period}</strong></td>
                     <td>{subject}<small>{info?.courseCode || row.course_code} · {info?.courseName || row.course_name}</small></td>
                     <td>{info?.facultyName || row.teacher || row.instructor || '-'}</td>
                     <td>{row.start_time}–{row.end_time}</td>
                     <td>{row.room}</td>
-                    <td><StatusBadge status={state} /></td>
-                    <td>{job ? <div className="job-progress-cell"><strong>{job.job_id}</strong><small>{job.progress_text || job.status}</small>{running && <small>Timer: {elapsedFromText(job.started_at || job.created_at)}</small>}{job.error && <small className="error-text">{job.error}</small>}</div> : '—'}</td>
-                    <td>{isLunch ? '—' : <div className="row-actions">{report && <a className="button tiny secondary" href={`/attendance_website/${report}`} target="_blank" rel="noreferrer">Report</a>}{running ? <button className="button tiny danger" onClick={() => cancelJob(job.job_id)}>Cancel</button> : state === 'Completed' ? <button className="button tiny warning" onClick={() => start(row, 'reprocess')}>Reprocess</button> : <button className="button tiny" onClick={() => start(row, 'process')}>Process</button>}</div>}</td>
+                    <td><StatusBadge status={state} />{state === 'Needs Review' && <small>{qualityReason(row.att_status)}</small>}</td>
+                    <td>{job
+                      ? <div className="job-progress-cell"><strong>{job.job_id}</strong><JobProgress job={job} compact />{running && <small>Elapsed: {elapsedFromText(job.started_at || job.created_at)}</small>}{job.error && <small className="error-text">{job.error}</small>}</div>
+                      : '—'}</td>
+                    <td>
+                      {isLunch || rowsSource !== 'live' ? '—' : (
+                        <div className="row-actions">
+                          {report && <a className="button tiny secondary" href={`/attendance_website/${report}`} target="_blank" rel="noreferrer">Report</a>}
+                          {action.primary === 'review' && <Link className="button tiny warning" to={reviewHref}>Review</Link>}
+                          {action.primary === 'cancel' && <button className="button tiny danger" type="button" disabled={action.disabled || pendingAction === `cancel:${job?.job_id}`} onClick={() => cancelJob(job?.job_id)}>Cancel</button>}
+                          {action.primary === 'process' && <button className="button tiny" type="button" disabled={action.disabled || pendingAction === actionKey} onClick={() => start(row, 'process')}>Process</button>}
+                          {action.primary === 'retry' && <button className="button tiny" type="button" disabled={action.disabled || pendingAction === actionKey} onClick={() => start(row, 'process')}>Retry</button>}
+                          {(action.primary === 'reprocess' || action.secondary === 'reprocess') && <button className="button tiny secondary" type="button" disabled={action.disabled || pendingAction === actionKey} onClick={() => start(row, 'reprocess')}>Reprocess</button>}
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 );
               })}

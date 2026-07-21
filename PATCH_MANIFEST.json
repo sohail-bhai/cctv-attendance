@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "phase": "1.2G",
+  "title": "Conservative Tracklet Acceptance Calibration",
+  "requires": "Phase 1.2F.1 roster repair, corrected unresolved labels, and authoritative evaluation hotfix",
+  "project_files": [
+    {
+      "path": "src/face_attendance/tracklet_calibration.py",
+      "sha256": "4a7d0ae648d57b1a4e2b4b3fda961347f196e3fcb83489c2ca97996a3512f255",
+      "action": "add"
+    },
+    {
+      "path": "scripts/validate_tracklet_ground_truth.py",
+      "sha256": "9b087b914a9ab523110568933ede30b66ff55870b0e8688dc82d83008f4d1416",
+      "action": "replace"
+    },
+    {
+      "path": "tests/test_tracklet_calibration.py",
+      "sha256": "4ee3a4c5153442c4301c9f5f4aba4708428a496b5c5ad35186186e4bf5ff481a",
+      "action": "add"
+    }
+  ],
+  "production_changes": false,
+  "recognition_rerun": false,
+  "embeddings_changed": false,
+  "match_threshold_changed": false,
+  "margin_threshold_changed": false,
+  "attendance_rule_changed": false,
+  "candidate_enabled": false,
+  "validated_result": {
+    "benchmark_tracks": 100,
+    "out_of_fold_recoveries": 7,
+    "out_of_fold_false_accepts": 0,
+    "final_shadow_recoveries": 8,
+    "final_shadow_false_accepts": 0,
+    "candidate_id": "cal-5cd35b60dd83",
+    "recommendation": "promote_to_multisession_shadow_validation"
+  }
+}

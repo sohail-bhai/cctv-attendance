@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "complete": true,
+  "enrollment_package_id": "compact-enrollment-audit-df0b986b716a2cd5",
+  "cctv_package_id": "compact-verified-cctv-8785d6b28789ae6f",
+  "package_revision": "compact-priority-review-v1",
+  "enrollment_rows": 50,
+  "cctv_rows": 36,
+  "enrollment_action_counts": {
+    "duplicate_of_another_image": 21,
+    "keep": 22,
+    "multiple_people": 5,
+    "wrong_person_or_mislabeled": 2
+  },
+  "cctv_action_counts": {
+    "approve_for_candidate_embedding_version": 35,
+    "reject_wrong_or_unclear_identity": 1
+  },
+  "duplicate_reference_mode": "opaque_item_id_or_unique_compact_rank_normalized_to_item_id",
+  "duplicate_references_valid": true,
+  "identity_correction_rows_valid": true,
+  "identity_correction_note": "This image belongs to 24011CSEAI0110, not 2401100CSE0110.",
+  "identity_correction_source_roll": "2401100CSE0110",
+  "identity_correction_target_roll": "24011CSEAI0110",
+  "corrected_enrollment_item_ids": [
+    "CEA-21cc8966217d8c51b8",
+    "CEA-6365fd0aa90b36b357"
+  ],
+  "approved_cctv_rows": 35,
+  "rejected_cctv_rows": 1,
+  "candidate_build_started": false,
+  "production_files_changed": false,
+  "identity_correction_applied": true,
+  "identity_correction_id": "idcorr-0120f712eeb7ba1b",
+  "reconciled_enrollment_review_rows": 3,
+  "reconciled_enrollment_review_item_ids": [
+    "CEA-040b421712c6c3bc47",
+    "CEA-21cc8966217d8c51b8",
+    "CEA-6365fd0aa90b36b357"
+  ],
+  "reconciled_cctv_review_rows": 0,
+  "reconciled_cctv_review_item_ids": [],
+  "global_alias_created": false
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-17T15:57:02",
+  "output_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\shadow_validation\\phase_1_2n\\shadow_runs\\mon-p4-shadow-695277fbd0dcd9d431e1\\evaluation\\mon-p4-evaluation-302c6707c95029a017df",
+  "files_sha256": {
+    "mon_p4_evaluation_report.md": "4f5bd6fd6a160711d13eb0a68eff2630fc95c40cc747fc180c126504c2d080d7",
+    "mon_p4_evaluation_summary.json": "07f5725b55e3f54925ca7717b19297de4bd59c06883fa396b1381e23f432c738",
+    "reviewed_exception_tracks.csv": "4996bb47ad39da5ba8a908e3af4ada89eda07609fb425aa3db3fb4caa91c10dc"
+  },
+  "policy_version": "phase-1.2n-mon-p4-shadow-v1",
+  "evaluation_id": "mon-p4-evaluation-302c6707c95029a017df",
+  "run_id": "mon-p4-shadow-695277fbd0dcd9d431e1",
+  "family_id": "embfam-274b5207b8b71294ff75",
+  "decision": "mon_p4_shadow_passed_pending_explicit_promotion",
+  "postprocessing_revision": "phase-1.2n-mon-p4-shadow-v1",
+  "candidate_promoted": false,
+  "production_changes": false,
+  "official_attendance_modified": false
+}

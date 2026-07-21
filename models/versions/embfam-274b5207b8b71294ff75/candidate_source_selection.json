@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "policy_version": "phase-1.2m-source-selected-family-v1",
+  "selection_audit_id": "selection-audit-bacb195efc6751ca2c22",
+  "selection_policy_version": "phase-1.2l1-promotion-evidence-parsimony-v1",
+  "source_ablation_id": "source-ablation-da12b41f85bc813a6de1",
+  "corrected_config_id": "ABL-16-ee3a4ff6",
+  "kept_source_ids": [
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+  ],
+  "removed_source_ids": [
+    "CCTV-CCC-16b0462d0f283edb9f",
+    "CCTV-CCC-492ad8ac8e05bd2cac",
+    "CCTV-CCC-9852dcae08d8e171db",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6"
+  ],
+  "implicated_source_ids": [
+    "CCTV-CCC-16b0462d0f283edb9f",
+    "CCTV-CCC-492ad8ac8e05bd2cac",
+    "CCTV-CCC-9852dcae08d8e171db",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+  ],
+  "selection_audit_output_manifest_sha256": "7baa68fb901e8af8e3bd420282b1d84d96e79382bb43a24a65ea3a91058ac410",
+  "selection_decision_sha256": "97de993665df3c39dc59f38c7fca30009be1b8f4ae86c06f5ebf9b6b98ceb7d8",
+  "source_ablation_output_manifest_sha256": "2a34c5c107e4966fdfafed8a2a2e5d5e2bae1e5ab2a914116c97eacad82c54a3",
+  "final_promotion_requires_new_untouched_session": true,
+  "selection_is_build_design_only": true,
+  "candidate_promoted": false,
+  "status": "applied",
+  "pre_selection_usable_cctv_embedding_records": 11,
+  "active_cctv_embedding_records": 7,
+  "removed_cctv_embedding_records": 4,
+  "active_source_ids": [
+    "CCTV-CCC-7e46ad49251721372e",
+    "CCTV-CCC-a7471ab54df8f7fd0c",
+    "CCTV-CCC-ddcd6fbfe2af49a704",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-6b53194439dd9b4108",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-cecf2ac6baadeae504",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a",
+    "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-f3fb78fb641f4d014f"
+  ],
+  "active_session_counts": {
+    "2026-06-30__B51__P1__CVO": 3,
+    "2026-06-30__B51__P2__CVO": 4
+  },
+  "active_source_kind_counts": {
+    "human_approved_cctv_crop": 3,
+    "same_track_recovered_cctv_medoid": 4
+  },
+  "staged_sources_preserved_for_audit": true,
+  "source_files_deleted": 0,
+  "source_files_moved": 0,
+  "manual_review_repeated": false,
+  "full_mon_p3_recognition_repeated": false,
+  "production_embeddings_changed": false,
+  "official_attendance_changed": false
+}

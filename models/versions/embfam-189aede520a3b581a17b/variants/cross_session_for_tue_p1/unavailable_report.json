@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "version_id": "embfam-189aede520a3b581a17b-b",
+  "family_id": "embfam-189aede520a3b581a17b",
+  "variant_key": "B",
+  "variant_role": "tue_p1_cross_session_evaluation",
+  "status": "unavailable_no_usable_source_evidence",
+  "availability": false,
+  "unavailable_reason": "no_technically_usable_tue_p2_cctv_embedding_source",
+  "required_source_sessions": [
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "missing_usable_source_sessions": [
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "source_sessions_included": [],
+  "evaluation_sessions_allowed": [],
+  "evaluation_sessions_contaminated": [],
+  "quality_gate_relaxed": false,
+  "manual_rereview_required": false,
+  "human_approval_invalidated": false,
+  "embedding_payload_fabricated": false,
+  "production_promoted": false,
+  "mon_p3_processed": false
+}

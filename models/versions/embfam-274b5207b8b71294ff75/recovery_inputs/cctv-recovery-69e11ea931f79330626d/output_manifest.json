@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "recovered_crops/CCC-40a4e971227bc88cd6__CP2_cam5_back.mp4_f348_zone_back_middle_left_2.png",
+      "sha256": "805fa72693cd77d26740b7eca408e13bfa1b1b5832277d229cdf7be60a987a5c",
+      "bytes": 13269
+    },
+    {
+      "path": "recovered_crops/CCC-40a4e971227bc88cd6__CP2_cam5_back.mp4_f372_zone_back_middle_left_4.png",
+      "sha256": "1c3c6c91f77487060ba1ef91e348bae3601ad51dc754fd9e9f7b75e113be5387",
+      "bytes": 12325
+    },
+    {
+      "path": "recovered_crops/CCC-6b53194439dd9b4108__CP4_cam5_back.mp4_f360_zone_back_rear_band_7.png",
+      "sha256": "abe4f52a4e6392468aa25c4385e8ab77360351cf900733639c3d8aeeae46e28c",
+      "bytes": 9189
+    },
+    {
+      "path": "recovered_crops/CCC-6b53194439dd9b4108__CP4_cam5_back.mp4_f396_zone_back_rear_band_7.png",
+      "sha256": "6fe969c19988686149dabcc1994bc5353271eec3c0c88b19e7a8d103c46c799a",
+      "bytes": 9152
+    },
+    {
+      "path": "recovered_crops/CCC-cecf2ac6baadeae504__CP3_cam5_back.mp4_f276_zone_back_right_seating_3.png",
+      "sha256": "31749b83376f278bec559820c677d68251ddb63c0f7039f2ee6a489d10c7b6ec",
+      "bytes": 9951
+    },
+    {
+      "path": "recovered_crops/CCC-cecf2ac6baadeae504__CP3_cam5_back.mp4_f300_zone_back_right_seating_3.png",
+      "sha256": "e27ae43590cd37e24f29f3be4c7ab71bcddea4c2feed8782ba6547733a8ecd04",
+      "bytes": 10870
+    },
+    {
+      "path": "recovered_crops/CCC-debcd075bb2e58209a__CP1_cam5_back.mp4_f456_zone_back_middle_left_1.png",
+      "sha256": "f634d6a48bb5f4a2af6548eb7369efbde152c5551d1b53d87ee2de7d23306be7",
+      "bytes": 12559
+    },
+    {
+      "path": "recovered_crops/CCC-debcd075bb2e58209a__CP1_cam5_back.mp4_f468_zone_back_middle_left_2.png",
+      "sha256": "d25fdef774f44c964df473a988ddd9fc1a0105ee8749f146deb20278f264cde4",
+      "bytes": 12849
+    },
+    {
+      "path": "recovered_crops/CCC-f3fb78fb641f4d014f__CP4_cam5_back.mp4_f120_zone_back_right_seating_2.png",
+      "sha256": "86e4106d31e9b1c73761cf6d422c07eae4565be2369505ba679daec7e2a2a462",
+      "bytes": 10795
+    },
+    {
+      "path": "recovered_crops/CCC-f3fb78fb641f4d014f__CP4_cam5_back.mp4_f72_zone_back_right_seating_4.png",
+      "sha256": "a04851496d4f5a0cf40cf4eb4ad013070f28f5d0c7dc4e5628e3d99408e810ba",
+      "bytes": 12312
+    },
+    {
+      "path": "recovered_embeddings.npz",
+      "sha256": "46654e927d58d4f226a91504b2063c39d3d816c56d36d29e96131974691e3e31",
+      "bytes": 8504
+    },
+    {
+      "path": "recovery_manifest.json",
+      "sha256": "15ee2e3d3deedb38d5bfc0d7164039fc5522496cefe98a053bffef1ae35fc1e4",
+      "bytes": 22349
+    },
+    {
+      "path": "same_track_recovery_audit.csv",
+      "sha256": "1756bb0d3abb6e5c406a3c74738509faf8fdb0a511d94178d0bebd3532046205",
+      "bytes": 16556
+    }
+  ],
+  "file_count": 13
+}

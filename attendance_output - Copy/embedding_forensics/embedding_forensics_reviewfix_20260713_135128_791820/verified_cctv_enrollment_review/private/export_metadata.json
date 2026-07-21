@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "package_id": "verified-cctv-fa7b422dc46c7b63",
+  "package_kind": "verified_cctv_enrollment",
+  "item_count": 98,
+  "actions": [
+    "approve_for_candidate_embedding_version",
+    "reject_wrong_or_unclear_identity",
+    "reject_quality",
+    "reject_duplicate",
+    "reject_mixed_person",
+    "uncertain"
+  ],
+  "source_mapping_sha256": "2b5d7a81d56f49ad77f04177c6f4d889d001ec25de248f5404faffab796ae497",
+  "source_files_unchanged": true,
+  "production_embeddings_changed": false,
+  "browser_private_mapping_loaded": false,
+  "forensic_run_id": "embedding_forensics_reviewfix_20260713_135128_791820",
+  "reviewer_bundle_revision": "reviewer-v3-progress-and-js-fix",
+  "benchmark_id": "multisession-gt-34581599118b530c",
+  "subject_abbr": "CVO",
+  "selected_crops": 98,
+  "selection_metadata": {
+    "benchmark_rows": 120,
+    "eligible_human_identified_tracks": 105,
+    "excluded_nonidentified_tracks": 15,
+    "valid_candidate_observations": 363,
+    "selected_crops": 98,
+    "selected_identities": 21,
+    "skipped_reason_counts": {
+      "crop_face_count_not_one": 24
+    },
+    "identity_source": "human_review_actual_roll",
+    "prediction_used_as_ground_truth": false,
+    "live_dataset_modified": false,
+    "mon_p3_processed": false
+  },
+  "student_map_sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91",
+  "identity_source": "human_review_actual_roll",
+  "model_prediction_used_as_ground_truth": false,
+  "approved_crops_are_future_adaptation_data": true,
+  "mon_p3_remains_untouched": true,
+  "automatic_dataset_copy": false
+}

@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "validation_policy": "phase-1.2i-b-v1.1",
+  "validated_at": "2026-07-14T00:43:57+05:30",
+  "packages": {
+    "enrollment": {
+      "package_id": "compact-enrollment-audit-df0b986b716a2cd5",
+      "package_kind": "compact_enrollment_audit",
+      "package_revision": "compact-priority-review-v1",
+      "package_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_enrollment_review",
+      "package_manifest": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_enrollment_review\\package_manifest.json",
+        "sha256": "d13c9ad646c18217e1e97787ffe81c3e713b21c2adc9a3c2d01909a693e8ac81"
+      },
+      "private_source_mapping": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_enrollment_review\\private\\source_mapping.csv",
+        "sha256": "cef8959e2b1c6b6b8b0b8dc9d34fc6cf87a9a5de7c06c7f8c5a89861e0052aec"
+      },
+      "review_manifest": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_enrollment_review\\reviewer\\review_manifest.json",
+        "sha256": "ffb937ddf2f75e63f24e96c192b0e1b015d4c18c1d56b109298f0f80c296e9dd"
+      },
+      "approval_csv": {
+        "path": "D:\\Downloads\\forensic_review_approvals_compact-enrollment-audit-df0b986b716a2cd5.csv",
+        "sha256": "e78fea2de9f169aa179b53b4291993060988af7a6266412ab166fe4293f1c2a3"
+      },
+      "parent_output_manifest": {
+        "required": true,
+        "present": true,
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\output_manifest.json",
+        "sha256": "f3a88bda9ee3904868d77ad6517da3fed8d7faa24a7dfdd5c5380a1c3d616da7",
+        "package_manifest_entry": "compact_enrollment_review/package_manifest.json",
+        "package_manifest_sha256": "d13c9ad646c18217e1e97787ffe81c3e713b21c2adc9a3c2d01909a693e8ac81"
+      },
+      "item_count": 50,
+      "item_ids_sha256": "a575cb43be8949454612f45769188259f8af41f3f18eaa729404d99955666b3a",
+      "action_counts": {
+        "duplicate_of_another_image": 21,
+        "keep": 22,
+        "multiple_people": 5,
+        "wrong_person_or_mislabeled": 2
+      },
+      "source_hashes_verified": true
+    },
+    "cctv": {
+      "package_id": "compact-verified-cctv-8785d6b28789ae6f",
+      "package_kind": "compact_verified_cctv",
+      "package_revision": "compact-priority-review-v1",
+      "package_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_cctv_review",
+      "package_manifest": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_cctv_review\\package_manifest.json",
+        "sha256": "db03cb81e66f13b2252774d60ca15db62e567330aa23ccc540d84551f62f968f"
+      },
+      "private_source_mapping": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_cctv_review\\private\\source_mapping.csv",
+        "sha256": "997714eea0df8f94f89aa38f56d265addac5c54f472af9bd17da4a8b5ddfe2f6"
+      },
+      "review_manifest": {
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\compact_cctv_review\\reviewer\\review_manifest.json",
+        "sha256": "79d0268b631acb8cd0fe61599d3ccbf4416a4d91d7566a94a54cab6090bfbac4"
+      },
+      "approval_csv": {
+        "path": "D:\\Downloads\\forensic_review_approvals_compact-verified-cctv-8785d6b28789ae6f.csv",
+        "sha256": "15ed3f5dceceacf95fe9c26b87ca8e265002ad12dfe0ee0a691393252a90d5bf"
+      },
+      "parent_output_manifest": {
+        "required": true,
+        "present": true,
+        "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_compact_review_20260713_161633_550718\\output_manifest.json",
+        "sha256": "f3a88bda9ee3904868d77ad6517da3fed8d7faa24a7dfdd5c5380a1c3d616da7",
+        "package_manifest_entry": "compact_cctv_review/package_manifest.json",
+        "package_manifest_sha256": "db03cb81e66f13b2252774d60ca15db62e567330aa23ccc540d84551f62f968f"
+      },
+      "item_count": 36,
+      "item_ids_sha256": "d651978a595c7711c8c43cc1d9814e40ff5de3d79a37a2d7c65e4598d62d9614",
+      "action_counts": {
+        "approve_for_candidate_embedding_version": 35,
+        "reject_wrong_or_unclear_identity": 1
+      },
+      "source_hashes_verified": true
+    }
+  },
+  "filenames_trusted_as_identity": false,
+  "embedded_package_ids_and_exact_item_sets_validated": true,
+  "source_evidence_hashes_validated": true,
+  "identity_correction": {
+    "correction_id": "idcorr-0120f712eeb7ba1b",
+    "source_roll": "2401100CSE0110",
+    "target_roll": "24011CSEAI0110",
+    "affected_enrollment_review_rows": 3,
+    "affected_cctv_review_rows": 0,
+    "global_alias_created": false
+  }
+}

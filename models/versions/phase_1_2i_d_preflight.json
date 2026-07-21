@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "policy_version": "phase-1.2i-d-recovered-family-v1",
+  "status": "passed",
+  "read_only": true,
+  "candidate_build_started": false,
+  "face_extraction_started": false,
+  "production": {
+    "production_embeddings": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\student_embeddings.pkl",
+      "sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49"
+    },
+    "production_summary": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\embedding_summary.csv",
+      "sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee"
+    },
+    "rejected_candidate_registry": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\candidate_registry\\rejected\\cal-5cd35b60dd83.json",
+      "sha256": "ab630c018af4fc53b89bb6d81c6780ed87a1cb105bcc46dd0c7eddc2e1374ba1",
+      "candidate_id": "cal-5cd35b60dd83",
+      "status": "rejected_multisession_false_accepts",
+      "production_approved": false,
+      "enabled": false
+    }
+  },
+  "approval_validation": {
+    "schema_version": 1,
+    "status": "passed",
+    "complete": true,
+    "enrollment_package_id": "compact-enrollment-audit-df0b986b716a2cd5",
+    "cctv_package_id": "compact-verified-cctv-8785d6b28789ae6f",
+    "package_revision": "compact-priority-review-v1",
+    "enrollment_rows": 50,
+    "cctv_rows": 36,
+    "enrollment_action_counts": {
+      "duplicate_of_another_image": 21,
+      "keep": 22,
+      "multiple_people": 5,
+      "wrong_person_or_mislabeled": 2
+    },
+    "cctv_action_counts": {
+      "approve_for_candidate_embedding_version": 35,
+      "reject_wrong_or_unclear_identity": 1
+    },
+    "duplicate_reference_mode": "opaque_item_id_or_unique_compact_rank_normalized_to_item_id",
+    "duplicate_references_valid": true,
+    "identity_correction_rows_valid": true,
+    "identity_correction_note": "This image belongs to 24011CSEAI0110, not 2401100CSE0110.",
+    "identity_correction_source_roll": "2401100CSE0110",
+    "identity_correction_target_roll": "24011CSEAI0110",
+    "corrected_enrollment_item_ids": [
+      "CEA-21cc8966217d8c51b8",
+      "CEA-6365fd0aa90b36b357"
+    ],
+    "approved_cctv_rows": 35,
+    "rejected_cctv_rows": 1,
+    "candidate_build_started": false,
+    "production_files_changed": false,
+    "identity_correction_applied": true,
+    "identity_correction_id": "idcorr-0120f712eeb7ba1b",
+    "reconciled_enrollment_review_rows": 3,
+    "reconciled_enrollment_review_item_ids": [
+      "CEA-040b421712c6c3bc47",
+      "CEA-21cc8966217d8c51b8",
+      "CEA-6365fd0aa90b36b357"
+    ],
+    "reconciled_cctv_review_rows": 0,
+    "reconciled_cctv_review_item_ids": [],
+    "global_alias_created": false
+  },
+  "identity_correction": {
+    "correction_id": "idcorr-0120f712eeb7ba1b",
+    "affected_image_hashes": 16,
+    "reconciled_review_rows": 3,
+    "explicit_human_confirmation_rows": 2,
+    "affected_cctv_rows": 0,
+    "global_alias_created": false
+  },
+  "shruthi_source": {
+    "status": "found_unique_renamed_folder_match",
+    "raw_embedding_key": "2401100CSE0140 (C) Shruthi",
+    "historical_path": "dataset\\2401100CSE0140 (C) Shruthi\\WhatsApp Image 2026-06-23 at 18.58.21.jpeg",
+    "resolved_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\2401100CSE0140\\WhatsApp Image 2026-06-23 at 18.58.21.jpeg",
+    "sha256": "3c4e1190ecb961d36f4d37e207aa6546ab67a18e2d018d607b70f845e67ef7ff",
+    "historical_inventory_matches": 1,
+    "candidate_action": "preserve_baseline_inclusion_unless_build_quality_rejects",
+    "human_exclusion_fabricated": false
+  },
+  "cvo_roster_count": 27,
+  "ai0110_in_cvo": true,
+  "cse0110_in_cvo": false,
+  "configured_enrollment_images": 388,
+  "policy_eligible_before_face_extraction": 383,
+  "reviewer_confirmed_duplicates_excluded": 3,
+  "reviewer_multiple_people_excluded": 2,
+  "approved_cctv_rows": 35,
+  "approved_cctv_session_counts": {
+    "2026-06-30__B51__P1__CVO": 30,
+    "2026-06-30__B51__P2__CVO": 5
+  },
+  "frozen_benchmark": {
+    "schema_version": 1,
+    "benchmark_id": "multisession-gt-34581599118b530c",
+    "benchmark_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\multisession_ground_truth.csv",
+    "benchmark_sha256": "47df37158bceac4a9b000188271e0b8664e84be8791a4e1691e3f38cb3eae979",
+    "benchmark_manifest_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\multisession_ground_truth_manifest.json",
+    "benchmark_manifest_sha256": "7e2266a0de9d4d576cf38b070ed03d25f61fd209f52a6c6dbd9c560438438fe4",
+    "reviewed_rows": 120,
+    "source_counts": {
+      "tue_p1_accepted_review": 37,
+      "tue_p1_corrected_unresolved_review": 63,
+      "tue_p2_shadow_recovery_review": 20
+    },
+    "source_sessions": [
+      "2026-06-30__B51__P1__CVO",
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "verified_source_files": 20,
+    "verified_evidence_files": 120,
+    "evidence_mode": "reviewer_contact_sheet_reextraction",
+    "video_decoding_rerun": false,
+    "recognition_rerun": false,
+    "official_attendance_written": false,
+    "mon_p3_accessed": false
+  },
+  "frozen_benchmark_rows": 120,
+  "protected_state_unchanged": true,
+  "production_files_changed": false,
+  "dataset_files_changed": false,
+  "official_attendance_changed": false,
+  "mon_p3_processed": false,
+  "review_scalability_policy": {
+    "current_manual_reviews_are_one_time_bootstrap_ground_truth": true,
+    "reviewed_tracks_reused_across_embedding_versions": true,
+    "approval_and_rejection_decisions_reused_permanently": true,
+    "future_embedding_updates_are_incremental_per_student": true,
+    "every_embedding_update_requires_automatic_regression": true,
+    "live_review_mode": "exception_only",
+    "live_review_reasons": [
+      "unknown_identity",
+      "conflicting_identity_evidence",
+      "low_confidence_or_low_quality_evidence"
+    ],
+    "live_identity_decision_basis": "multi_frame_tracklet_and_checkpoint_evidence",
+    "review_work_must_not_scale_linearly_with_frames_or_cameras": true,
+    "broad_review_round_requires_documented_exception": true,
+    "post_mon_p3_priority": [
+      "live_cctv_ingestion",
+      "asynchronous_processing",
+      "checkpoint_state",
+      "prioritized_exception_review_queue",
+      "hod_and_faculty_workflows"
+    ]
+  },
+  "same_track_recovery_consumption": {
+    "schema_version": 1,
+    "policy_version": "phase-1.2i-d-recovered-family-v1",
+    "recovery_id": "cctv-recovery-69e11ea931f79330626d",
+    "recovery_output_manifest_sha256": "45894c17d3639a54c2fe6198884e29201fe9c5926d2ea9307c1b1a14b3c12bdb",
+    "recovery_manifest_sha256": "15ee2e3d3deedb38d5bfc0d7164039fc5522496cefe98a053bffef1ae35fc1e4",
+    "recovered_embeddings_sha256": "46654e927d58d4f226a91504b2063c39d3d816c56d36d29e96131974691e3e31",
+    "same_track_recovery_audit_sha256": "1756bb0d3abb6e5c406a3c74738509faf8fdb0a511d94178d0bebd3532046205",
+    "source_family_id": "embfam-189aede520a3b581a17b",
+    "source_family_output_manifest_sha256": "b3cf82889c169b1b648b9f95bd07ab85971f6dc61874575a45949be57ae6e91c",
+    "target_session": "2026-06-30__B51__P2__CVO",
+    "target_tracks": 5,
+    "recovery_selected_embeddings_preserved": 10,
+    "candidate_consumed_medoid_embeddings": 5,
+    "consumption_rule": "exactly_one_medoid_embedding_per_human_reviewed_track",
+    "minimum_selected_pairwise_similarity": 0.4465789198875427,
+    "minimum_consumption_pairwise_similarity": 0.4,
+    "recovered_identities": [
+      "2401100CSE0016",
+      "2401100CSE0044",
+      "2401100CSE0067",
+      "2401100CSE0140"
+    ],
+    "human_review_labels_reused": true,
+    "model_prediction_used_as_identity": false,
+    "manual_rereview_required": false,
+    "quality_gate_relaxed": false,
+    "super_resolution_used": false,
+    "production_files_changed": false,
+    "dataset_files_changed": false,
+    "official_attendance_changed": false,
+    "mon_p3_processed": false
+  },
+  "manual_reviews_repeated": false,
+  "safe_to_start_candidate_build": true,
+  "preflight_fingerprint_sha256": "db8d58e6cf0e01a62368648debe545ddddc359c3151e1558db117b0bf6290518"
+}

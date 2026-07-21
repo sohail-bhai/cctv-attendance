@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "forensic_run_id": "embedding_forensics_20260713_132424_154284",
+  "error_type": "TypeError",
+  "error": "load_frozen_candidate() missing 1 required keyword-only argument: 'subject_abbr'",
+  "completed": false,
+  "production_success_claimed": false
+}

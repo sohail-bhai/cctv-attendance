@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712071948-97da3a",
+  "diagnostic_run_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890",
+  "session_id": "2026-06-30__B51__P1__CVO",
+  "subject_abbr": "CVO",
+  "accepted_tracklets": 37,
+  "blind_review": true,
+  "review_items": [
+    {
+      "review_id": "R0001",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0001.jpg",
+      "evidence_views": 3
+    },
+    {
+      "review_id": "R0002",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0002.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0003",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0003.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0004",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0004.jpg",
+      "evidence_views": 4
+    },
+    {
+      "review_id": "R0005",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0005.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0006",
+      "checkpoint_id": "CP5",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0006.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0007",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0007.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0008",
+      "checkpoint_id": "CP5",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0008.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0009",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0009.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0010",
+      "checkpoint_id": "CP5",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0010.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0011",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0011.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0012",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0012.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0013",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0013.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0014",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0014.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0015",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0015.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0016",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0016.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0017",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0017.jpg",
+      "evidence_views": 4
+    },
+    {
+      "review_id": "R0018",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0018.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0019",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0019.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0020",
+      "checkpoint_id": "CP5",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0020.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0021",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0021.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0022",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0022.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0023",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0023.jpg",
+      "evidence_views": 3
+    },
+    {
+      "review_id": "R0024",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0024.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0025",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0025.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0026",
+      "checkpoint_id": "CP2",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0026.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0027",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0027.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0028",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0028.jpg",
+      "evidence_views": 3
+    },
+    {
+      "review_id": "R0029",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0029.jpg",
+      "evidence_views": 3
+    },
+    {
+      "review_id": "R0030",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam10",
+      "evidence_file": "evidence/R0030.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0031",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0031.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0032",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0032.jpg",
+      "evidence_views": 4
+    },
+    {
+      "review_id": "R0033",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0033.jpg",
+      "evidence_views": 2
+    },
+    {
+      "review_id": "R0034",
+      "checkpoint_id": "CP5",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0034.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0035",
+      "checkpoint_id": "CP1",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0035.jpg",
+      "evidence_views": 4
+    },
+    {
+      "review_id": "R0036",
+      "checkpoint_id": "CP4",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0036.jpg",
+      "evidence_views": 5
+    },
+    {
+      "review_id": "R0037",
+      "checkpoint_id": "CP3",
+      "camera_id": "cam5",
+      "evidence_file": "evidence/R0037.jpg",
+      "evidence_views": 5
+    }
+  ]
+}

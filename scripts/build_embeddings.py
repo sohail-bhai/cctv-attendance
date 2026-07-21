@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 import cv2
-import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,6 +20,11 @@ from src.face_attendance.config import (
     DEFAULT_DETECTION_SCORE,
 )
 from src.face_attendance.embedding_db import StudentEmbeddingDB
+from src.face_attendance.enrollment_preprocessing import (
+    add_padding_for_detection,
+    expand_box,
+    face_quality_score,
+)
 from src.face_attendance.face_engine import FaceEngine
 from src.face_attendance.utils import clean_filename, ensure_dirs, iter_files, safe_crop
 
@@ -41,105 +45,6 @@ def parse_args():
     parser.add_argument("--validate-crop-score", type=float, default=0.0, help="Legacy option. Keep 0. Second-pass crop validation is disabled by default because it rejects many good tight selfies")
     parser.add_argument("--debug-crops", action="store_true", help="Save accepted and rejected face crops to debug_faces")
     return parser.parse_args()
-
-
-def add_padding_for_detection(img: np.ndarray, pad_percent: float) -> tuple[np.ndarray, tuple[int, int]]:
-    """Pad tight phone/selfie photos so YuNet can detect full faces more reliably."""
-    if img is None or img.size == 0 or pad_percent <= 0:
-        return img, (0, 0)
-    h, w = img.shape[:2]
-    pad_x = int(round(w * pad_percent))
-    pad_y = int(round(h * pad_percent))
-    padded = cv2.copyMakeBorder(
-        img,
-        pad_y,
-        pad_y,
-        pad_x,
-        pad_x,
-        borderType=cv2.BORDER_REPLICATE,
-    )
-    return padded, (pad_x, pad_y)
-
-
-def landmark_points(face: np.ndarray) -> np.ndarray:
-    if len(face) < 14:
-        return np.empty((0, 2), dtype=np.float32)
-    return np.asarray(face[4:14], dtype=np.float32).reshape(5, 2)
-
-
-def face_quality_score(
-    face: np.ndarray,
-    img_shape,
-    min_face_size: int,
-    min_area_ratio: float,
-    min_landmarks_inside: int,
-    min_eye_distance: float,
-) -> tuple[bool, str, float]:
-    """Validate a YuNet detection using the original/padded image box + landmarks.
-
-    We do NOT run YuNet again on the cropped face. That second-pass validation was too strict
-    for close selfies and rejected valid faces. Instead, use the face box, score, and landmarks.
-    """
-    ih, iw = img_shape[:2]
-    x, y, w, h = [float(v) for v in face[:4]]
-    det_score = float(face[14]) if len(face) > 14 else 0.0
-
-    if w <= 0 or h <= 0:
-        return False, "invalid_box", -999.0
-
-    # How much of the detected box is visible inside the image?
-    x1, y1 = max(0.0, x), max(0.0, y)
-    x2, y2 = min(float(iw), x + w), min(float(ih), y + h)
-    visible_w = max(0.0, x2 - x1)
-    visible_h = max(0.0, y2 - y1)
-    visible_ratio = (visible_w * visible_h) / max(w * h, 1.0)
-    if visible_ratio < 0.60:
-        return False, "box_mostly_outside_image", -999.0
-
-    # Reject tiny false detections. Use the visible box because padded/close photos can be clipped.
-    if min(visible_w, visible_h) < min_face_size:
-        return False, "face_too_small", -999.0
-
-    area_ratio = (visible_w * visible_h) / float(max(iw * ih, 1))
-    if area_ratio < min_area_ratio:
-        return False, "face_area_too_small", -999.0
-
-    aspect = visible_w / max(visible_h, 1.0)
-    if aspect < 0.40 or aspect > 2.20:
-        return False, "bad_aspect_ratio", -999.0
-
-    pts = landmark_points(face)
-    if pts.shape == (5, 2):
-        inside = 0
-        for px, py in pts:
-            if 0 <= px < iw and 0 <= py < ih:
-                inside += 1
-        if inside < min_landmarks_inside:
-            return False, "landmarks_outside_image", -999.0
-
-        eye_dist = float(np.linalg.norm(pts[0] - pts[1]))
-        if eye_dist < min_eye_distance:
-            return False, "eye_distance_too_small", -999.0
-    else:
-        inside = 0
-        eye_dist = 0.0
-
-    # Rank: prefer confident, large, centered detections with good landmark spread.
-    cx = x + w / 2.0
-    cy = y + h / 2.0
-    center_dist = np.sqrt(((cx - iw / 2) / max(iw, 1)) ** 2 + ((cy - ih / 2) / max(ih, 1)) ** 2)
-    center_bonus = max(0.0, 1.0 - center_dist * 1.8)
-    size_bonus = min(area_ratio * 12.0, 1.5)
-    landmark_bonus = min(eye_dist / 80.0, 1.0)
-    rank_score = det_score * 2.0 + size_bonus + center_bonus + landmark_bonus
-    return True, "accepted", float(rank_score)
-
-
-def expand_box(box, image_shape, scale: float = 0.25) -> tuple[float, float, float, float]:
-    x, y, w, h = [float(v) for v in box]
-    pad_x = w * scale
-    pad_y = h * scale
-    return x - pad_x, y - pad_y, w + 2 * pad_x, h + 2 * pad_y
 
 
 def save_debug_crop(base_dir: Path, roll_no: str, image_stem: str, crop, suffix: str) -> None:

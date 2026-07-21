@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "multisession-gt-34581599118b530c",
+  "benchmark_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\multisession_ground_truth.csv",
+  "benchmark_sha256": "47df37158bceac4a9b000188271e0b8664e84be8791a4e1691e3f38cb3eae979",
+  "benchmark_manifest_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\multisession_ground_truth_manifest.json",
+  "benchmark_manifest_sha256": "7e2266a0de9d4d576cf38b070ed03d25f61fd209f52a6c6dbd9c560438438fe4",
+  "reviewed_rows": 120,
+  "source_counts": {
+    "tue_p1_accepted_review": 37,
+    "tue_p1_corrected_unresolved_review": 63,
+    "tue_p2_shadow_recovery_review": 20
+  },
+  "source_sessions": [
+    "2026-06-30__B51__P1__CVO",
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "verified_source_files": 20,
+  "verified_evidence_files": 120,
+  "evidence_mode": "reviewer_contact_sheet_reextraction",
+  "video_decoding_rerun": false,
+  "recognition_rerun": false,
+  "official_attendance_written": false,
+  "mon_p3_accessed": false,
+  "feature_rows": 120,
+  "unavailable_rows": 0,
+  "feature_dimension": 128,
+  "cache_sha256": "89df448b191e5d7b608e2441d65e3ea17457475178070402a3395d6e3272b5eb",
+  "stored_observation_embeddings_available": false,
+  "fallback_reason": "Frozen diagnostics contain scores and contact-sheet evidence but no compatible observation embedding vectors.",
+  "video_decode_rerun": false
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "candidate_id": "cal-5cd35b60dd83",
+  "candidate_config_sha256": "60b065788d9a12c900c4259685d6c66d97bb1e731b715e9e96bb91b7afe9afa4",
+  "status": "rejected_multisession_false_accepts",
+  "final_decision": "reject_candidate",
+  "production_approved": false,
+  "enabled": false,
+  "immutable": true,
+  "archived_at": "2026-07-13T13:26:09",
+  "tue_p1_calibration_evidence": {
+    "reviewed_tracks": 100,
+    "out_of_fold_recoveries": 7,
+    "out_of_fold_false_accepts": 0,
+    "full_benchmark_recoveries": 8,
+    "full_benchmark_false_accepts": 0,
+    "decision": "promote_to_multisession_shadow_validation"
+  },
+  "tue_p2_evaluation_evidence": {
+    "package_id": "2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e",
+    "reviewed_tracks": 20,
+    "correct_recoveries": 13,
+    "confirmed_false_identities": 5,
+    "outsider_not_in_mapping_false_acceptances": 2,
+    "decision": "reject_candidate"
+  },
+  "source_artifacts": {
+    "candidate_config": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\candidate_config.json",
+      "sha256": "60b065788d9a12c900c4259685d6c66d97bb1e731b715e9e96bb91b7afe9afa4"
+    },
+    "calibration_output_manifest": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\output_manifest.json",
+      "sha256": "fb060369da440d63840dba0ecd48077348ef96be87afa52a1a53cdc157726829"
+    },
+    "calibration_summary": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\calibration_summary.json",
+      "sha256": "f739ec8b26bae981b25c60b458b52cd6d282fb66f6e9d0df0318d7914cacef9b"
+    },
+    "calibration_ground_truth_manifest": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\ground_truth_manifest.json",
+      "sha256": "555bfdb4030643119876f6d70febb15396e1eca421ba24ed8951cea78e800585"
+    },
+    "shadow_review_manifest": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\reviewer\\review_manifest.json",
+      "sha256": "6afa48dda47c4e6b5fa7f6a2c10c15edc8f475da9ca0122d2e3ebbfe1fd491aa"
+    },
+    "shadow_private_predictions": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\private\\hidden_predictions.csv",
+      "sha256": "ef9174f8baf40c2b3704ea02232421b5ed35287e079f645971a82b445bd595d6"
+    },
+    "shadow_export_metadata": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\private\\export_metadata.json",
+      "sha256": "9b71f8b6dbfed64db3a49bc6e2f58b35b7e547bf31a175596d8bbb553062687b"
+    },
+    "shadow_evaluation_manifest": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\evaluation\\shadow_validation_20260713_104603\\evaluation_output_manifest.json",
+      "sha256": "f66d065b1b8e3060eec68c99b8ee5bd66e1faa7cf2a419067493df628dfde0db"
+    },
+    "shadow_decision": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\evaluation\\shadow_validation_20260713_104603\\decision.json",
+      "sha256": "a6652a5ab4e75dd4169cd70e94035f377400d8ea80eb174dccdfd7dcb8dfcfef"
+    },
+    "shadow_summary": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\evaluation\\shadow_validation_20260713_104603\\shadow_validation_summary.json",
+      "sha256": "d5dd0e20a04b9f0ae0b666e2809ca90242e1d6d563bc7b3340c6ef2a7e3ca8f0"
+    },
+    "shadow_false_accept_audit": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\evaluation\\shadow_validation_20260713_104603\\false_accept_audit.csv",
+      "sha256": "0de1637a881f5a930bf480ba5c50e9676f695cffce2a5ba4c12ba06ec142f33b"
+    },
+    "shadow_reviewed_tracks": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\evaluation\\shadow_validation_20260713_104603\\reviewed_shadow_tracks.csv",
+      "sha256": "400263e07c093f863e96fbcf72a9841e3151b3b6230be244a6f1a713a122dfbd"
+    }
+  },
+  "verified_manifests": {
+    "calibration_files": 12,
+    "evaluation_files": 6
+  },
+  "future_policy": {
+    "may_be_enabled": false,
+    "may_be_approved": false,
+    "may_be_retuned_on_tue_p2": false,
+    "tue_p2_is_untouched_validation": false
+  }
+}

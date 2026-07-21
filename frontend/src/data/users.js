@@ -27,15 +27,15 @@ export const USERS = [
     "id": "admin",
     "username": "admin",
     "password": "admin123",
-    "name": "Main Admin",
+    "name": "HOD",
     "role": "admin",
-    "roleLabel": "Attendance Controller",
+    "roleLabel": "Head of Department",
     "subjects": [
       "SWE",
       "CCM",
       "CVO"
     ],
-    "facultyName": "Main Admin",
+    "facultyName": "HOD",
     "canManageSystem": true,
     "canSeeAll": true
   },

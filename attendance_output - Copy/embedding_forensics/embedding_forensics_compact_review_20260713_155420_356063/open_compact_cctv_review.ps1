@@ -1,0 +1,1 @@
+& 'F:\sohail\Class_Attendance_YuNet_SFace\venv\Scripts\python.exe' 'F:\sohail\Class_Attendance_YuNet_SFace\scripts\validate_tracklet_ground_truth.py' open-compact-cctv-review --review-package 'F:\sohail\Class_Attendance_YuNet_SFace\attendance_output\embedding_forensics\embedding_forensics_compact_review_20260713_155420_356063\compact_cctv_review'

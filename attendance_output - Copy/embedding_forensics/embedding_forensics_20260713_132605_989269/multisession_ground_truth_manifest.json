@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "multisession-gt-34581599118b530c",
+  "subject_abbr": "CVO",
+  "authoritative_roster_count": 27,
+  "student_map": {
+    "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\data\\student_faculty_map.json",
+    "sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91"
+  },
+  "source_sessions": [
+    "2026-06-30__B51__P1__CVO",
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "source_package_ids": [
+    "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d",
+    "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271",
+    "2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e"
+  ],
+  "sources": [
+    {
+      "source_kind": "tue_p1_accepted_review",
+      "package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d",
+      "session_id": "2026-06-30__B51__P1__CVO",
+      "reviewed_rows": 37,
+      "baseline_status": "baseline_accepted_human_reviewed",
+      "human_reviewed": true,
+      "blind_review": true,
+      "files": {
+        "labels": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\tracklet_labels_TUE_P1.csv",
+          "sha256": "185c9d4e09ff97e5cc1cd99f04e08f090b08dd58efe6dd391ab4e5aa1a1eee4e"
+        },
+        "hidden_predictions": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d\\private\\hidden_predictions.csv",
+          "sha256": "b924fc01d8bcf7742070001e83ae54b4d2dfa42d5b6ab150d38bd5e13c1b0809"
+        },
+        "export_metadata": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d\\private\\export_metadata.json",
+          "sha256": "00b68cbb8cb53538d137f9b7c7d334a70b075904ae16c0845481f130b25d6b8a"
+        },
+        "review_manifest": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d\\reviewer\\review_manifest.json",
+          "sha256": "9983dc0ffbdb632729080da2dbdf9b08c84f0a875409f024f72689e72b7a0455"
+        },
+        "tracklet_diagnostics": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_diagnostics_2026-06-30__B51__P1__CVO_20260712_000753_991890.csv",
+          "sha256": "0ec9539a7a7ac9be7f4eb0a51e8309dfb694529fbd34fc91a396887c56d01a77"
+        },
+        "tracklet_observations": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_observations_2026-06-30__B51__P1__CVO_20260712_000753_991890.csv",
+          "sha256": "5ac6beb223c2062e54e8cabcc6666d47a36871f6b48ad5c235c220cb09b12281"
+        },
+        "trusted_manifest": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\ground_truth_manifest.json",
+          "sha256": "555bfdb4030643119876f6d70febb15396e1eca421ba24ed8951cea78e800585"
+        }
+      }
+    },
+    {
+      "source_kind": "tue_p1_corrected_unresolved_review",
+      "package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271",
+      "session_id": "2026-06-30__B51__P1__CVO",
+      "reviewed_rows": 63,
+      "baseline_status": "baseline_unresolved_human_reviewed",
+      "human_reviewed": true,
+      "blind_review": true,
+      "files": {
+        "labels": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\unresolved_labels_TUE_P1_corrected.csv",
+          "sha256": "ce850c74550e9f8cc82a9468ce553b35c2a5f401e940b6073e03f412779fbb03"
+        },
+        "hidden_predictions": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_124500_128763\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271\\private\\hidden_predictions.csv",
+          "sha256": "eee1aff1c65eb671719f7e0de9fefc5bfa0f84cf6c0fea4f50f818dc912b05b1"
+        },
+        "export_metadata": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_124500_128763\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271\\private\\export_metadata.json",
+          "sha256": "8fe33b9c0d2eeddf69dfa3c1a2dda8602d09c0331962348c052cdbcd426fd565"
+        },
+        "review_manifest": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_124500_128763\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271\\reviewer\\review_manifest.json",
+          "sha256": "5d696053ce5ae6234914cd27590a9c98a98a24d7d2b3f02cfdf8fad6ae4e7f5c"
+        },
+        "tracklet_diagnostics": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_diagnostics_2026-06-30__B51__P1__CVO_20260712_000753_991890.csv",
+          "sha256": "0ec9539a7a7ac9be7f4eb0a51e8309dfb694529fbd34fc91a396887c56d01a77"
+        },
+        "tracklet_observations": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_observations_2026-06-30__B51__P1__CVO_20260712_000753_991890.csv",
+          "sha256": "5ac6beb223c2062e54e8cabcc6666d47a36871f6b48ad5c235c220cb09b12281"
+        },
+        "trusted_manifest": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448\\ground_truth_manifest.json",
+          "sha256": "555bfdb4030643119876f6d70febb15396e1eca421ba24ed8951cea78e800585"
+        }
+      }
+    },
+    {
+      "source_kind": "tue_p2_shadow_recovery_review",
+      "package_id": "2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e",
+      "session_id": "2026-06-30__B51__P2__CVO",
+      "reviewed_rows": 20,
+      "baseline_status": "baseline_rejected_shadow_proposal_human_reviewed",
+      "human_reviewed": true,
+      "blind_review": true,
+      "files": {
+        "labels": {
+          "path": "D:\\Downloads\\tracklet_review_labels_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e.csv",
+          "sha256": "cfd489d092256bbbff9822954c22cdafcce0aaa4823c7422957a44a3c7802ee8"
+        },
+        "hidden_predictions": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\private\\hidden_predictions.csv",
+          "sha256": "ef9174f8baf40c2b3704ea02232421b5ed35287e079f645971a82b445bd595d6"
+        },
+        "export_metadata": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\private\\export_metadata.json",
+          "sha256": "9b71f8b6dbfed64db3a49bc6e2f58b35b7e547bf31a175596d8bbb553062687b"
+        },
+        "review_manifest": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\shadow_validation\\shadow-validation_20260713_084319_043368\\shadow_recovery_review_2026-06-30__B51__P2__CVO_20260712_221105_286649-20260713084319-55466e\\reviewer\\review_manifest.json",
+          "sha256": "6afa48dda47c4e6b5fa7f6a2c10c15edc8f475da9ca0122d2e3ebbfe1fd491aa"
+        },
+        "tracklet_diagnostics": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\tracklet_diagnostics_2026-06-30__B51__P2__CVO_20260712_221105_286649.csv",
+          "sha256": "e8d4aea76cc281bd52efe26bab8f1da50bbe7e83c6167dc1054af7cf97aeeb25"
+        },
+        "tracklet_observations": {
+          "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P2__CVO_20260712_221105_286649\\tracklet_observations_2026-06-30__B51__P2__CVO_20260712_221105_286649.csv",
+          "sha256": "a834be1ae2d1ee4aa1b7a2e1883e8af6c9bcfb64e1c507053da8720d7b9b2119"
+        }
+      }
+    }
+  ],
+  "row_counts": {
+    "human_reviewed": 120,
+    "predicted_correct": 83,
+    "predicted_wrong": 22,
+    "outsider_not_in_mapping": 12,
+    "mixed_unverifiable": 3
+  },
+  "status_counts": {
+    "identified": 105,
+    "mixed_track": 1,
+    "not_in_mapping": 12,
+    "unidentifiable": 2
+  },
+  "session_use_policy": {
+    "2026-06-30__B51__P1__CVO": "reviewed_regression_and_possible_adaptation",
+    "2026-06-30__B51__P2__CVO": "reviewed_regression_and_possible_adaptation",
+    "MON_P3": "reserved_intended_untouched_validation_not_processed"
+  },
+  "sessions_prohibited_from_untouched_claim": [
+    "2026-06-30__B51__P1__CVO",
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "contains_unreviewed_tue_p2_baseline_tracks": false,
+  "predictions_used_as_ground_truth": false,
+  "private_internal_identity_artifact": true,
+  "source_manifest_sha256": "34581599118b530c8d3f314acec1d136b23d4826c688b9dde58400b7ea6fab0c",
+  "benchmark_artifact": {
+    "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_20260713_132605_989269\\multisession_ground_truth.csv",
+    "sha256": "47df37158bceac4a9b000188271e0b8664e84be8791a4e1691e3f38cb3eae979"
+  }
+}

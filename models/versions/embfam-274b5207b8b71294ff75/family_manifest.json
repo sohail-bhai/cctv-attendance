@@ -1,0 +1,3894 @@
+{
+  "schema_version": 1,
+  "family_id": "embfam-274b5207b8b71294ff75",
+  "status": "built_unapproved",
+  "final_decision": "built_unapproved_pending_new_untouched_session",
+  "build_timestamp": "2026-07-16T13:11:28+05:30",
+  "completed_at": "2026-07-16T13:13:04+05:30",
+  "elapsed_seconds": 101.23,
+  "content_fingerprint_sha256": "274b5207b8b71294ff758d6b7cb3e3a679ed03417e13194f527e136224b50256",
+  "input_fingerprint": {
+    "policy_version": "phase-1.2m-source-selected-family-v1",
+    "production_embeddings_sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+    "production_summary_sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+    "student_map_sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91",
+    "yunet_model_sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+    "sface_model_sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+    "enrollment_approval_sha256": "e78fea2de9f169aa179b53b4291993060988af7a6266412ab166fe4293f1c2a3",
+    "cctv_approval_sha256": "15ed3f5dceceacf95fe9c26b87ca8e265002ad12dfe0ee0a691393252a90d5bf",
+    "enrollment_package_manifest_sha256": "d13c9ad646c18217e1e97787ffe81c3e713b21c2adc9a3c2d01909a693e8ac81",
+    "cctv_package_manifest_sha256": "db03cb81e66f13b2252774d60ca15db62e567330aa23ccc540d84551f62f968f",
+    "benchmark_manifest_sha256": "7e2266a0de9d4d576cf38b070ed03d25f61fd209f52a6c6dbd9c560438438fe4",
+    "historical_inventory_sha256": "55e2d8f7bb717692e6150f71042fbe14d33fe165ca5a9af08d734bdceaec3a89",
+    "embedding_outliers_sha256": "f7e014579f67a27a5fd2c1a0a0826304f49f026d3f2dfb3e2af668935718b22e",
+    "dataset_aggregate_sha256": "8680cb147351c0698e5cc0e2e110996ef2eb374080ef8864f6bab03d3f77a80d",
+    "active_source_inputs": [
+      {
+        "source_id": "ENS-4c22705b4bf24f2d4d",
+        "sha256": "58c5ca940860a9764b959e184c02b5f87c72d9a3a72d9b9066d805727f44b329",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d9c25bbc48d0162417",
+        "sha256": "09b625150fa1989d91a880ba13f94408ae7b5381038a1c84ee69431fbfcae9ed",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6d7cbd0ddc560c6fc3",
+        "sha256": "fefd3566df4fe67798ff932b9cd9e7b8adf6c2e181b95aa4801f1d27bb63b874",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0918ac274950b5ee5c",
+        "sha256": "afe973b1f06c525cf93b93376a895277959c51d44cf2c6db45e7ed793acfcda1",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7a4dc973b66ca01d66",
+        "sha256": "0b77a4aa79d20eb3e5a440be276212cf8254a860205472dce13911a959d22f7c",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7a2888176b873ad38e",
+        "sha256": "5cc329b6aa4d9663a3d8f1a3d87d5565973302bc303784ad4b1d92b7c1fcc2ab",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4afafad427c01936c4",
+        "sha256": "aefd687a99fc7e26accefa7ccbbd73f859a1ecbf4168b310a60d8dba1da01f14",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-aa9a3a5e15af817b7e",
+        "sha256": "807b5b3ca71c1a2ec882854cd4160e80fc30261df871d27d4457dd6df9866f33",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-15d23e93b6126c698b",
+        "sha256": "ab0ad1704d65b85d2aecec893b1ab489de0f3d589dcf20faf35ec35643debfe5",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1af16de5bcd5c7e998",
+        "sha256": "58c5ca940860a9764b959e184c02b5f87c72d9a3a72d9b9066d805727f44b329",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ee0e0c2561d6887809",
+        "sha256": "09b625150fa1989d91a880ba13f94408ae7b5381038a1c84ee69431fbfcae9ed",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e20c5e645d88b3d995",
+        "sha256": "fefd3566df4fe67798ff932b9cd9e7b8adf6c2e181b95aa4801f1d27bb63b874",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-21d54762c2f36cefa5",
+        "sha256": "afe973b1f06c525cf93b93376a895277959c51d44cf2c6db45e7ed793acfcda1",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f2891f063c65bb453e",
+        "sha256": "0b77a4aa79d20eb3e5a440be276212cf8254a860205472dce13911a959d22f7c",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fbf473494572481e90",
+        "sha256": "5cc329b6aa4d9663a3d8f1a3d87d5565973302bc303784ad4b1d92b7c1fcc2ab",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7d8ae777f92183af9a",
+        "sha256": "aefd687a99fc7e26accefa7ccbbd73f859a1ecbf4168b310a60d8dba1da01f14",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bb59fded1399538fb6",
+        "sha256": "807b5b3ca71c1a2ec882854cd4160e80fc30261df871d27d4457dd6df9866f33",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fa532f23c234b055cb",
+        "sha256": "ab0ad1704d65b85d2aecec893b1ab489de0f3d589dcf20faf35ec35643debfe5",
+        "owner": "2401100CSE0016",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e4a245209cd9602339",
+        "sha256": "771bbce9ec72b4946ff67ba4a9b67414dcb6adeb622c6130805473177caff55f",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2c5593e10b0e997d30",
+        "sha256": "eb8f2fb983bfa86ef0d0ec9dead2f3438eaefad3593f8bc3df05e891b617d6e6",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-99b4bdd5875ee3f915",
+        "sha256": "383fcc3085dcd77f0daa84052c953d28c38e3847cb7b789aaa21ae35dc33f187",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9b8780da3b9db5bc21",
+        "sha256": "bb4f61a5af8e8ccb2cb7e385c2c041bcdb38e09704ae68876aeca8374bcb2029",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a31504a741cd2fb7b5",
+        "sha256": "f7d5e27ec8993d0db97480bf0579ba29ef3fd1cc407020d823cd0913875a413f",
+        "owner": "2401100CSE0019",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-01e2b007417a8dacff",
+        "sha256": "bb5d74106d7b61f8dfddbfe4ba58f67ef4875e7245587c9d0319ebc890825816",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d3b7a5e343d0f8ea02",
+        "sha256": "85dd1f625b20c0e12d2b6e156cee3d25757686b219ea1e2ab0be65b65130f23b",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-15817a2ecda236e394",
+        "sha256": "2c5870997572d4d580b20c0c659bfb42ad2e00286d3d4e7fff22dd7539d5dc6f",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-568c5680c9dc3bc497",
+        "sha256": "3f10499828f95167a050b97a3fe8202a5254a2edc57de0684bbefcf4f8b29ea0",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f02a3f93a16fe49a16",
+        "sha256": "621283c28cf52c1674edcf84a884c67182cfb5593ccf24a3fe4967af5857fa30",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-adcadb6522aac4c187",
+        "sha256": "38d220df915e33e7bc6dce240bb82fe8c1b7e4e3ceb996dfaa666ae19154b617",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-068544f7942da51f74",
+        "sha256": "d1de5b90a65d59f0c1932fe56ec501560d9d3b0fa546a6553aeccccdd8b93e6d",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-71fc8cc72db3ef3069",
+        "sha256": "889160c171c242efaed58519be6aae25974cebce4d41d8726ebc51ce31696e4d",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e5b079224870ac11ee",
+        "sha256": "f441fc21db3f6d38ca9c971a5b0d4d7333b5ebfe55d2dc5ee4f01c046f4791f0",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0329cfb821a6c6cc28",
+        "sha256": "c566e62d71ffa0fb6ba7e30bed32f39a2652a851091ff1d2486d78d7c972aacc",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2892e521a21966f603",
+        "sha256": "269fd5c198f9e3a3e28d33b725809875a9e5338daaf987a29da6bbb4f02bf1e0",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b34d46575c5920d5e3",
+        "sha256": "4e3c8b1a66e4ffea989f68f307fe16c59a5b853cd0afa9bc5bb322e597e883b8",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6bc58f72f0caa21155",
+        "sha256": "c2cb2253401e0e9e574db9bf5fc406bde003d80c455ca4634c1c2efefe3e6a36",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2015a945c22269b939",
+        "sha256": "0df99289ce193f87361fd00fe14037babb0e4aafc38bb68720a2162de39f5145",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-37e4f1bb39e79935fa",
+        "sha256": "0d97e7155870b913ed21371e419bc724898a38bc4850ae1e86f71598db5f6863",
+        "owner": "2401100CSE0019",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7a76df3c25baf7ea24",
+        "sha256": "1c6cd3f93506682c34a712d904f6da7c02a2d59a314d6c59248fd3533a3e8977",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-019bbdfb76d8bd65ab",
+        "sha256": "c729f87e3874126bc43d08af36a4971f369674af85818b12bc344781addf47ba",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f2026588f2f4152d47",
+        "sha256": "5c8b74e0a9e85033c169dabdbc06abddc061236f5205e2c15bb2277468f3006c",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c64020eb9d35a22642",
+        "sha256": "03375489354099ef82a5cae18234bd59217680479c83014a6048adee3346b358",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a052cbcb96f1216b69",
+        "sha256": "5e4a665d11c20e822c71fe11c697e3c3b8e01edb58104ffbe98b05ca77102f6c",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0571237742d77d3c61",
+        "sha256": "bb2bb8c59b589e82b6d6f7cee33d4749c24eb580bc4def1f11f86e920cae6ca2",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4bc2b41c12f182dfce",
+        "sha256": "d1012501d72e3671e9973e219f559fb7ad6a66047c1a9d8398a1fdacd40f2752",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-70c143d40f9ba87db7",
+        "sha256": "671035599a436a5b80928af62fffe09a1b0569224d655045544da4302e723d0f",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4590da0610ddc1f073",
+        "sha256": "1c70bcbeb29acf5594c8b2ee5b3842793731a9a3a8aa827a69947e4ca47e8147",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-977505027950962304",
+        "sha256": "e4b458a80d564aeeb4e8e01ae0e55da9fa29a289c0a9feead0cf262b9d7ca390",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-751a5870a09a5fbf33",
+        "sha256": "f49460b045c21f33bc2c2e9e5bc2701b3063ff3a04b298388ace07d9f0217a04",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-74cb579f6a4c1fd6b7",
+        "sha256": "00d187cc5605cf0f96ad09a71f23ed132d9c7c7292ff415c0b0b366f2322c00f",
+        "owner": "2401100CSE0028",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d87c4a80c0d734dbe9",
+        "sha256": "4aa05385a3d205ac6952c98730d981bb1d22190a65bfb90924c1a33c180eb8ef",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6be54c21fbb63c88bb",
+        "sha256": "48c67fc5b702cd8e4fceafc8288e8615373543a8b385619e80c316057e29efd8",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d76ecc39d01cc51f37",
+        "sha256": "d683cf770763ef2f45ddf4308154c3fb4cd7478c5ffcb9b4d9a535c049b9b78e",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-af7ac501bd7281e9e8",
+        "sha256": "782cf8e61b4f265c4748ee71a4158845a93bfbfec9659206dae8ca82c35b05b0",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-083a4c3ccebeb140f5",
+        "sha256": "0f9ca023024c2539acbf58f81abdf18c50d8665cc7708d8921d54b987efb4c30",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-20341f426ee69206bc",
+        "sha256": "74a56809578be9685037591b4275bcb79a1135de1a9e9ac31972e098434ce714",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fe7d498f067e76c604",
+        "sha256": "b6b0f2881ec2049b43d1537141fcc8258eeafe76dc795705d5cf0ba57d0fdec6",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7c1405846f459e836b",
+        "sha256": "3a87a10840c2e63eda9c256023f03f42b815383b1a8fb8ae70288039ba7615f7",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f0182c59789daef600",
+        "sha256": "7e2d11f712745d5a0f0ba011b7d2c6a32a510f989bc94430257b8bdcb5f41ea6",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-8b3cf06e8db1ac0e37",
+        "sha256": "85169aa6c1174e284d66b7d9fa0060771a412bd2c85bcdd543e7c27c37330096",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c808defaaa4a5e19ad",
+        "sha256": "831b186818af68eccb3192640b09f4a694ef8703d15d0e7e3446ee671b516986",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-208291d6085c791ddc",
+        "sha256": "d2e32dd99c54712d377216f57b1f8c271fcfcaabbb0a1e61179ebb584bfdc187",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-94182ddd8552862b02",
+        "sha256": "ec9c2c32d79e1c9746f3c292b47708b7f6e2d701de7942080284c93d764e8f82",
+        "owner": "2401100CSE0044",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4adf12ff77480e2ced",
+        "sha256": "e8e1c442a9b99f3092726fa061acf442b4c114d8d23ff9c2312b7186f961365e",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9030dce08803c00348",
+        "sha256": "35e7dc5c93d47391fcd5d699d514333f7653d89a314bab78106a2be694b7361f",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d9419cca18d789a1d7",
+        "sha256": "216edba32d2a744d358912e3f5092e1d4ecc8cc99a5062596ebdad6e900997fc",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-189c7de9addb7fc06a",
+        "sha256": "4aa80596ef653076e2d8b32aba5c67047fc4c2c8799ebcaf577426e84e53dce4",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-82e0b72c2f43f7b25b",
+        "sha256": "1e31d99af1634079cce7998773ff4667ca92a703bed28a499a68cf4abd3c04fd",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d2afbdb20ee7f4514e",
+        "sha256": "1cfe769c10d2eaa38461eb03910b6949e47c3c757b7638f9b68ca72026f83c4b",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3df7fc6d0cf0481c5d",
+        "sha256": "9bb9dc3f1be612f88eb2197fadbef2d59533d83696e9bd7c6c1029e29890513b",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9f484be603fe446c50",
+        "sha256": "b7a99e516ad770f1a4240ec08f9b6633eb6908872587ee4dfe41dc05821e5877",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bca2f2e5b389b1c2cd",
+        "sha256": "6c7329e35eebd1dfae021a9cf079385f88bd89100efc8dd4d1a6a0f7c47d4229",
+        "owner": "2401100CSE0050",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cbb33f031801fe98b4",
+        "sha256": "06951b64923b66c9f5c058a7a2186318d0a3301595102256271b500c9cdfe4a4",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ee96a1ae1d4265f120",
+        "sha256": "8e88e7600e3a1a41628296960c84b324771477b4ba93de87c5682b26e99e3634",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d5b3076657152e49cb",
+        "sha256": "a97fb64046598a3a7c8d734c8a805a2000122f560a111a3394d1c52aed52de75",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4226799fbb35c78cf3",
+        "sha256": "0042a71eddfddb3e49f65d259ceedf7498c299607c0d700076610d38dc142982",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7ff25fddf13c32ec63",
+        "sha256": "8b67b080d7fd0a885fb4dc0fcc70b53168d94629ade56e219797f3fe11c9ef95",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e75b6a0faa1f5e2923",
+        "sha256": "bda14d4440a4853ee8ebe67be34b7a2d414130637e5a6b5a46b95662dd0f14c6",
+        "owner": "2401100CSE0050",
+        "review_action": "duplicate_of_another_image",
+        "policy_eligible": false
+      },
+      {
+        "source_id": "ENS-d939d00cf6d6af965d",
+        "sha256": "2d1bf0484039bc1d015c31ea60fbb3412a93b71dc25d2541a65737fea9f463c9",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-55db6df42a8c3b9fea",
+        "sha256": "8be3b13dd5fc55eacbfa4a13790cf64b9f0989ed0f892ab2a1ac0b423f1fc5c0",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ff48ad6576ad10dd4a",
+        "sha256": "99ae5c2b95a881f78577fa2930907f7aebd6c5fe61a9211228a2f3fa9df6ebb6",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-728428f03f52b51b04",
+        "sha256": "92839d302f61e00b6c5d8f6b2f2e187cc686241629aea03d977a8615d26009b9",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-02a69dd3bbc0e404a0",
+        "sha256": "f9058d7238fc4ac7fa2a528de999100aa27ffa167152b9c015f9508ea28187cc",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-82cbdef7721a1f11c3",
+        "sha256": "79d536d15ee7f082d86af776678c11c2b3fa21bb2795b84941c95977d01f1a5d",
+        "owner": "2401100CSE0050",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a87f20e7764c4b6b8e",
+        "sha256": "b1ebbda21d7dc3d0d888d299fa047a2dac9a54c3cfc03b04ffafc2ac7fd716c8",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-34fb6a073aad9b91a8",
+        "sha256": "588073f341cef47c047296a0ab01c6b46b41e82b23ed561f2d22c9f8b90e1466",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6b5b27e2b6157ba757",
+        "sha256": "dcc46527ee30459c3d32a98416b8c4b4ee7c8a0e8ef9036ee0c22caf2a8566e5",
+        "owner": "2401100CSE0050",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e2c3a62a44f227d15e",
+        "sha256": "d1a9759cffd4a77e2f10a3c8096035dfcbd8d52fe271c4e08ccffd559724dac8",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5f8a59426a342e42cb",
+        "sha256": "ab122c7d9d61e0146a53a9952eb8a775171e82dc7ce06470483d35470595f2c8",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-48efe652bcd82f4f87",
+        "sha256": "b1348eb6f8a8ccbc2fc56671f00ceb706ab06aba0350c1c3f3d89eb489514858",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ba2fa3b8f1c554f767",
+        "sha256": "07ba130f3a684419262fe75355fcee09a739416f454de2055f7d2220dfc7e53f",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6d4029dd91c83abccc",
+        "sha256": "19e739dff7e8069d96051ca9589ea517d56b10de731a51213f8c90bab5a4efbc",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b3878dd02e576476a0",
+        "sha256": "59525f05d11b058a41a736e9e8bc99238c16c73946724bfd6211ec3f0f4dc594",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-161b95218e8b7e7994",
+        "sha256": "a074f2fecfab4593394261b85865b3a0f7ce71a84df5bbac499c107b2383f071",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c284154c660e420f0c",
+        "sha256": "38983069f90a2ee39c6b9fccea462a0a853fb60eae1b41405e5fb3b6e529ae1d",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c6464eb43b013e2fa0",
+        "sha256": "667c29a98fea9f5b35078b387a8ee78d6c6e620e633366b85348c9aa716ee798",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b653d0975beb1241ff",
+        "sha256": "53b5f1bd801b8cf50ff9facf34659a5d720a6bf7e5c972bf4e7b9a419e21258d",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-78f38c93857771c37b",
+        "sha256": "2f3b4f0b2023dfa9ff8f5d0bb3edcbb51f67ab2ec5dddddc34d624e2360781c7",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ff5a8864a9e83c80f8",
+        "sha256": "2033686896a11ef01e8b5e0f0476b19172ce6724d62ba27aeecfe31b778d3314",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2cb165cd04605cfc22",
+        "sha256": "b6ee4ab5b90d0faab45418edf0d458b0c0a424c0a8e86e7bc919dfcc6bc9b0b3",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9bae02cbf5d6834024",
+        "sha256": "cfa1705aeb25bbd3ac17ebea03719cf7c8a8e7459f027f37a62ded75857330e3",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4794ed5556d5436030",
+        "sha256": "c83d33a49245c393bf134c9ee972892c53005fd511299c701476579b690be377",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bc15d0f07c31fb66bf",
+        "sha256": "0bb31b1eb58a3aa0df4e2bd7854606ee9b9fa89a6eafa9988d52b5432c45930b",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-216643409c136268b0",
+        "sha256": "b99221c2060fba5f2dae08288fd673c6e2e5f5a1d2d9b5ce85efca491fc4b125",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-94f0a7f7e4b228f3f2",
+        "sha256": "ae47e0e15672e5127bf8fd7e09745c6bd73fd10757596dcceafa1217882483dd",
+        "owner": "2401100CSE0052",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4dedd112d82622d07c",
+        "sha256": "bf131537eb8a2f97c27eab1a9798ff36c43ec007a62e545c6a1ebcaf2398a9cc",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-43247cedd45c09c4c0",
+        "sha256": "a531557adb75c9ae927e72244e0b754d5223222df72b2d4003fd0b639c2c9cf0",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2d6e20aeeef7db26d6",
+        "sha256": "d555faa0f52dc5877151b2443de4ea98b0fbfbb40afca84bb02cc585a689f4db",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-63c4272ad18a97c6b5",
+        "sha256": "1ee386d119c7d01c99580d1b9caf3fcd530538853084b0f2f81bd8fd07ac5065",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-424db6fc5ddfa6dd8c",
+        "sha256": "eb349e77fe4de402c496b0795038fc6f6033b8e969eebec56dcf3859d475dbf6",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-751ffb2942f3d5e626",
+        "sha256": "86684d68915e3cd03ead12a5b84bf0c81efac116ca9d69e5e8c9a641a0ca9893",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ce749c21affc28cf41",
+        "sha256": "1b9856cca1292b0b3ff629d0ebb8fb6f0cfa963e6902d617c1bac27e96767007",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ce743ceb051e40ed85",
+        "sha256": "09eb53b8142cc1ca5aea9b31f49460ec90defd782046608cf7a66394efef6c6b",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-229ccbc3682c9c7b1c",
+        "sha256": "9abbc47c4b6b1f61967eb6ee976aff380fe5a0865914ec9cec54a183fa5d61a1",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-dcbd0b2f0657779112",
+        "sha256": "5bfd6ca976fca0c1fe9e38c87bd790407df2c0a12394ad6cc5431524b5ea1369",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9aa901bfa5abae0670",
+        "sha256": "f6786249380ea0a78c7aae29c728665de27b1f89a037bb944826e9526f4e56cd",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bec67c39ed234cf502",
+        "sha256": "16d9957f28dd7ade751e4af7e2da9e198bf9c2a5b3e9cc0238373e58816e0639",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e737a750e19feb616e",
+        "sha256": "5271d334a740714a5a44a2dfd281df2484d879be116dac0d4d205cd961c0f176",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5be47b1b99ad86a53f",
+        "sha256": "dd6b55fc6ccb272f83e35f0580b63fc18b6e99123357386857c85091d3bfabd1",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d2591be4d730d069b5",
+        "sha256": "f90a428c4c67202e48ca2149de097b447353ebe81075b8bc1159d32997bbbb43",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-329e2dfce2352b51a4",
+        "sha256": "7fdb44e5f0a9d6e7875ba673ced1f360fdde669c4bc4b5e695e51a833a3caf17",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fc99637fd14df8748d",
+        "sha256": "32260a139a796b18ad815b606e37efd95ac3cd09529323003682949399877228",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5e05903d7b545ab9e5",
+        "sha256": "af4a9c7a5673d55472b890744c7c81cf22dfd338f78d4725b213d109e9a76502",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-45b4e4878e73474e00",
+        "sha256": "e141085596424772a812934ab25976053b5092bdd8c15b5fe04ca57796c6152e",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6167670c0ea361239a",
+        "sha256": "93018b1d7af0575c97ce1a29acdd950077c010b798c7384f16af58d1d22adb2b",
+        "owner": "2401100CSE0060",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-662362a4c99ebaca6a",
+        "sha256": "c1279d784823e9b8e26f2862406b3094514a855dd236a7aaae2c0a04cc12c298",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c51fafdcc1bcce2d27",
+        "sha256": "2f9a261762c1be0d4e85a6bc2fb9d09fc9f66a3a45db25cebbd991d9b46e3b80",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a6b37ab8da4493fffb",
+        "sha256": "f4b10090db175f5c196236f7d0f2374ab1f39649a5b7ea8d1cb00f4a5210822c",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f5fbbb5452590decf4",
+        "sha256": "e79ac1a69b24b7afd30d285c95d202ae0c092f27da4737584b981b68b3411f4c",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-df979e284c35c0ac41",
+        "sha256": "4b43601153028748acd874831598209dee6ffc9c6fffcca512ca12d3b42665b3",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5457fc0e28de19a971",
+        "sha256": "689a383e921704ae6e5deecada3a068bebc77f49238b13fea9be072e1c803458",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3d35bcc08c1823e397",
+        "sha256": "7781c065392f818d2f578707caad66da9ba38e7489bd04f03db03c20d87bfeab",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f11ed2ae058c5338f1",
+        "sha256": "65c6f492aad11d979aeadf9f528001b54dab374868338e5a51df723fbb678ec0",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d829e761f863ec5e91",
+        "sha256": "c0531cca7c1505297760045f28b1262a83fcf0a3cf732bc84c27c361847a3945",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-94fcf0b0df4c4a51a4",
+        "sha256": "a0540bf70e4b6904d2bc73acd7237291b55f3e139af9109fc399241f9763b5e8",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e74253efb9f4533ef5",
+        "sha256": "83ca33dbe32df98ce7582066592ae58868ae8f4d462600e8550b4c69122f6511",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-72077ddd91b5980dda",
+        "sha256": "1bef29950b97e7334770b208569e6b10a425afed45cbe7e9df9851b0c2ce3a87",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6f7cdd2b3829a5f8b8",
+        "sha256": "45739652eef6e562ed5f979a11691920da73a01fa4b04d42fcddf9d02413eee2",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ed9032e8431a437f30",
+        "sha256": "bd9cf4ff7268eb74ceb825a2f7a263cd13b42c80a39d161b6e2e48f4b4b76170",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-71c73508c722ff6114",
+        "sha256": "b0b736745af7824104ec99edac231282fbaa886b4b266faada21bdf33818a473",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2744e0dbc2be61ca14",
+        "sha256": "fc94ee76f3b7bcbc33fd9ef1295f1aa88538128af5733b6d67b24cdbd8fae88d",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-dbe8713e48b1b92391",
+        "sha256": "9c6da31b1e3671f37ed0b9b6196e1289c9bc4a6f2f6b577f99336d4107e62786",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-238c2c7b01c7257e9d",
+        "sha256": "1d2c87f7cd03d282c5b95693e50c67e700cf3b0d5f5bdfa109a3a54bab0e881d",
+        "owner": "2401100CSE0067",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-80d6cdb9ccd19ea810",
+        "sha256": "4befdcbfe312e664463fac9817a33f885071b90009961835043deadf2e45564a",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a8ad11aacec4e86e64",
+        "sha256": "cbbb230d7f713645199424be1f90e52c4cd27558b928bcd56d1f3d859b082a50",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-95441e5e42549f239f",
+        "sha256": "8d553b37e53be68f6c2c0d0b0c6c8dfc193a626ef247b64499cc9433579cccb9",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a640e17d2c372bf63b",
+        "sha256": "30998387d907c58c75432823333d5f9081d92d1520323fabd5dd1ecf498010b1",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ed166327fa1ce34965",
+        "sha256": "68330935d157bfe6b941d81622321d253a833544d735700cda68e5aac97d5748",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1b52ac9da08830a6d9",
+        "sha256": "11f49e24f293e80c95de625afedc5f048bf1dd4166488976ca1d2a9dfe0f01cd",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c2f93b58e0b3c469cf",
+        "sha256": "bba22a38db92a15069e1ae6bfdd2b53a54c30cafab7202b257eadbe23323d051",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0f3247fc82798c63ea",
+        "sha256": "3636db4592fa09b971c84a7641285bea08bc1840d1e595f59240d705df87089e",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-61646f3efb762e5695",
+        "sha256": "3eda8729e82885d835412a2540c0a5ec80c51957c4850a8d9dd9fa16e559cf86",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1947b6d737a5ad14ce",
+        "sha256": "01a93e011f289d47980ef55b50f7a9e7e310d8d5a72ac56f65c0b37b06f1ff31",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f068f97ef9eea2c601",
+        "sha256": "78fb89a09ced11e84800a223c2c628d5f1f776432a67c4b48d88b78b79bfdc22",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0b2fd091a0f736fad1",
+        "sha256": "988c4af704377391ef395d08efc27398b80f9c67522d4610b950d833eb426ae3",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e3c02d84a5f12b5029",
+        "sha256": "fbd5afe38455843e2c893ebb34db8231455b7fc48c9c16a76be298b0f5f82598",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b9ba24c9e533b6f53f",
+        "sha256": "10b3edc1727e05fe0390866c6720df4424a49474f7305aaf5d6cb579427207e2",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c87c43165f3817bbe4",
+        "sha256": "a6fc752bf04e53fa6693b15a2ba66d556bd0cb77e5eed1c85cd4f6f79cef5cd0",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3f9e2d8f12d7b117ae",
+        "sha256": "16c417ce23d971a506634f52ee117363e22abb08e5f97108235c64ae61888eb8",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-02940df66a2aa6b593",
+        "sha256": "9894b5df97f9b80dec0e5ba7459807e6e19862cbd3288dfb342390a0e562895a",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-400b6342530e219ee6",
+        "sha256": "1a422df1c6b6090856d2f08a9fce8231600256c95651242ab6928ea48b378ce6",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-826de56b5989885cfc",
+        "sha256": "ad933a777246d025cf83436b8aa88c0386696d16d80f025210204866773c59ee",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-74496f03df4a3ad4a5",
+        "sha256": "4baf4ae44d294a76b1ff21ba20f0f150976c121cd591f0cb192e8f96aff646e0",
+        "owner": "2401100CSE0073",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c54c3852144ae298dc",
+        "sha256": "8d671beac645395383cdcd2e8d7a9dc7782807fca09052980b395eacebb98032",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-192768bceea6575d6b",
+        "sha256": "1b36fa7ff7a9d938c84197ad30aefea2987bd5c72bd5f7b5a1299113edb31ee7",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-afe2dc43f5a898c360",
+        "sha256": "6c9875957fecf9b9f14ccb255ec4530cca2cb5efa5aa8eb8389c225c76efbbd5",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0ad8383b948aaf526a",
+        "sha256": "5fde550e53655b9a0b81cced58e475d5103de9a1de915b121a7988b124b43dfa",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b58e4903aa937024a8",
+        "sha256": "d6ca98cb6bff9922ad1cfb7e66dccee5f47dd2cc945a8a141d1a15c79e6cead3",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-981e014bef4615e064",
+        "sha256": "f7bba8dcca873dab4877ecb11a2d25b1db6b57ae4edf7c355f2a5ecc38ea0711",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cc2e3c4c24a0e24af6",
+        "sha256": "90c7ee6ee02a9dd7b5efc83ba4b11413f1ba7d54b4db5206dcaae7fe732e0ad2",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ccc34723c98dcb9737",
+        "sha256": "f26010493644f351a04fdbb3e1d83a4c73ef6dd63a851b2946f15dbd248c7b3e",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-25fb89805e18732883",
+        "sha256": "443134e7b3d0565f62908f17b0193917333164d67d8a55ce6e8c3e40e4fbf8f3",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-736678865f9c8beeca",
+        "sha256": "a98f3566b502cf02839c2a8abc1ac86a2efb91abb6dcf76a6590c9f50c5218db",
+        "owner": "2401100CSE0074",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f4c2567b8acbcd3792",
+        "sha256": "620e3d328863e073a73b19b3092437bc3221871fc390b45582c34c465493c7eb",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c79b6bafdb55c11c1e",
+        "sha256": "788a19d87b0fd4ed4a6f0b23950425abf00fa3fb55bfd820b283805b07e25761",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e3798e258be92310c4",
+        "sha256": "8cd67b0edce178b1f6303e2412198a2dc822af4c9019af2f242f35bb18a45913",
+        "owner": "2401100CSE0074",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-39b0a4fb57062a9daa",
+        "sha256": "1bd9a6f53f5da399c0c2ed322eca04178a0e440e484cd4001e6de5281cb33a5e",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5cc942139f05536810",
+        "sha256": "8a7ba21458b8bfe1d811870f93878fa8f03f740074232b7eec19f40dfe6c3f7a",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d270819e42b5e08c0b",
+        "sha256": "baabf8d9a9d746f70d1226ad17c8efcf0d05e9a3e40053f8668f500fb7b2df66",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fbef9de955d436b839",
+        "sha256": "96ea117a94abf4624f64b1412d3f2a06ca861bb2fed1a3ed262a72aaa1828860",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c4341aed5bcde21b09",
+        "sha256": "71ff14e84af9be466ecaa7fcc482b7f9dd18cfb173c02deeae5cd0c591cf1eda",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2354047542c25570b1",
+        "sha256": "32f588c2c99a8c17df836482f7cd8fe15a9a6120e2690c5a26c3efa9de37bfa1",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b81bfe5db9827ef07a",
+        "sha256": "451ab248bd94bf458d55e7bf32c5c1d4f265e9f63177d5dd65a462fa50def3f2",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cf2858367cbc2f7563",
+        "sha256": "e6240fe7f079b8e8ee9ff308c6fedfa725a750afa2375f1132c517204962a5e4",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a27ccda1cf050579c5",
+        "sha256": "33dc9f7408c397d5cb3b97e1be851a07df065ee1f6e3c139994993deb5ca779f",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f07878043aacf3f2e5",
+        "sha256": "61bdc0e5bb12077ed29b1b02dc6b34b6678f19cb4f048645414033f2701ec4ba",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7e8b9de59b212320b1",
+        "sha256": "b43c721525f564bdce225102449e828f9be0a83697ce667b4b2b0555999902ee",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0dfee00eb3b431f7d7",
+        "sha256": "2000b7700c171adfea7086d523913fe6c3453322469dde274d75149854dccdd3",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4c4c0976773a2ab1fc",
+        "sha256": "09410db68fd21a412af1552fa4f26ec5f46782679218846f33ead5480a9c022c",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-83e52fbed0ff9d4eec",
+        "sha256": "340a7a484b6cabdf66bac49d94518594b5849cf821bb3d394f389b0b42b1c378",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-46d3766eca4a693cf1",
+        "sha256": "909ec133ee1863778b0127c63ca229d387087aeeab9ce0886c550309d699a6fb",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-534a09b51d5c6b3cca",
+        "sha256": "c5c195a4f6e47c25079c16b03105890814d8d7d24145e6bc13001262657fb7ff",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-428d47df0d7f5d3c38",
+        "sha256": "ac5ff81ddcd3b41044adbec9cdf0d3ffa8de927a5ffb59c85eea0fef0293d29b",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6d42c534633850b9bc",
+        "sha256": "e0b48d14c03243864f71ed6f7f554a2ee7825fd2ad90c02579e13815c0876348",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1e385bdf683f37eb29",
+        "sha256": "11991159422e628114f6994982ea659fb217535c81b22a7955f4c81b65a6683f",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a806f363927444cad1",
+        "sha256": "224816c84938afebba8547b7f877fd505171111e7fbb006a9d82455198bcfafa",
+        "owner": "2401100CSE0093",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cb14c6bc80628bb388",
+        "sha256": "ab37165da24d44b9d8873e61cab8378cfb7456571a82e2b22fc72ff2fe985ebd",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-dae6bde27b05812c8b",
+        "sha256": "a2b4920cc1f92717bb9f6f74d5bd37e2e4454d37b0e6a6be691b73a817f55dba",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-64e5b0de9526958acb",
+        "sha256": "73d833be72911a577a3f7d7a6a0784eb81fd45f4669796d25db08f50e41d2d4a",
+        "owner": "2401100CSE0097",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2c5544b5def7d464e2",
+        "sha256": "e61b10423554dd54dd02ff6d88971a98ad008c7c164a3b87828a0fa618f8277f",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-652bd5b2985334f59c",
+        "sha256": "c50ea2d15fab7525058bec241547079917a613a68678ac9648cb6c189ef12770",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c386449603057c8603",
+        "sha256": "672f6f50e4722c555724a87b82214159be188863d39078109c2a481f3e9018ba",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a15941be14022a2008",
+        "sha256": "a835ecdd692f21724c2648c5e989122a79155c2f42f39603383bddb68cf8f869",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3790367b0069481860",
+        "sha256": "6ec3fe6a4cbacd81ce547df1e3f59d13ea1baed510ae196de8b3e871ee48dc59",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a65928d71d471dfbbe",
+        "sha256": "b497770dbcff687dbf767cfcc54f0108f0bf31fa19b894d1ab912b68c7550124",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-663f7d172a4b6d1dbe",
+        "sha256": "2da318112723ac79480f916f99791a86cea86b1c8af3ba9935c561016dbfaf84",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-46c14c991920eaee89",
+        "sha256": "0ccdc3a7748164e011b66c06b0cfa4b9dadce452ebf865a759bf2e1d4eaebc39",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c4212d6a904df4f710",
+        "sha256": "0ccdc3a7748164e011b66c06b0cfa4b9dadce452ebf865a759bf2e1d4eaebc39",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5465db5a5ef1aa500e",
+        "sha256": "6f6a557f36eaa5b9f32947f8755ee476d0500bd7377d410f69531f26504fc8bf",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f1d6da1cb11aa7ca09",
+        "sha256": "5d0024050349d5ccbe3161dca44683ee8f06b57e6379fed3f20071e6af4e2405",
+        "owner": "2401100CSE0097",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6aff530424a0d15bbf",
+        "sha256": "5c7f38810a305f51ec4bcf3914de559282d1e37b7843c062fdfd38b3394feaec",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-91236c742165578314",
+        "sha256": "fe9f3019467ab5bd18cc27c2ea747b66ae5d9e18b81e3709e205a8f7b0707519",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5d9b20a391eb3913e7",
+        "sha256": "3ffcbf17c07dab9fb09118ccb4f9f3efdc5d032a96e11c72450d7930e3709dfd",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-307b56a5e330d293c0",
+        "sha256": "ba05653efcb9df86d8e526abeae44ac74593d746c0748aa0440f0a0f4b71e382",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-55dcafb0fafe9651e9",
+        "sha256": "5d5815383f3dfbb26ea5a2334bffffe3fa74212445ee085480db6d2a921d88e0",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-425d50571238ed3549",
+        "sha256": "6b72e2a463a09966901d5f84094e5686ba3561d10903f0fb13ba4f4320cc1db5",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ea57faea4add3b3383",
+        "sha256": "d9c3e916279a495c5af98b97c265613e8f8a393920173b3dd9ed6af3d7ba106f",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-31d05b5f715efd01e4",
+        "sha256": "05a46471ceca19ca29019c1c5c80b8a17f4219cafa05bc8c25f12ea50abafbe8",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1ab1d28bbc63ac3887",
+        "sha256": "511ec216b16e386e184fb27a79c9def268a6dfefe5cad891a38be80fa95dd317",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ac16da847f68d36ce5",
+        "sha256": "0b8b22f31e44fe20255142d81873a69d636e4f8614a0240a64c94e363d96d256",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6e4cefe698770b0ce4",
+        "sha256": "d2e13ffa9cf0339a0ce96db137757ec949e136352dc4ebe20ff7d08e7fbac137",
+        "owner": "2401100CSE0109",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1274cd74958471292b",
+        "sha256": "2b34a2a3aca2dcb72b928d07360685d7d364be9ff8a786ed1e59605790d7ffe4",
+        "owner": "2401100CSE0109",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-431ff025085c1d30cf",
+        "sha256": "6fcb3c58f0348243d0d634d996c4ed7e58a0d50237dcfe380798bbfb86675194",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-36e3ce5b816b04469d",
+        "sha256": "fa5c4f349101b48ab4e7e97a233b0703aca6aaefd2f54367157dfcb989e51362",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-46aacb7a4fb68a5f33",
+        "sha256": "a5dc73eb3dc6b1c6a283877f376cd48cff12c8dcdbcffaf35b23f4d1b2df3973",
+        "owner": "2401100CSE0111",
+        "review_action": "duplicate_of_another_image",
+        "policy_eligible": false
+      },
+      {
+        "source_id": "ENS-ff0648a07cae2d4019",
+        "sha256": "b74a1abe837eb64eb4f83e39570157dafdb08551ab849502eeb17653791c99ac",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1729c7244feeaf6366",
+        "sha256": "9070a38b6729407af83a4e5e06b173814e6d159044bd13c294db6b005916563a",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-335af93bfc18a2d3ff",
+        "sha256": "9bd4882e1ee66ee2963116472f16da3e87615b2dc63afbec0c70658f6936ca1e",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fbafe78746d6616184",
+        "sha256": "fe5c9411ec82274b1d21c6ffbadadc5ae426e43dd225dea65964c3a5c3b8d7da",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c7a164834097065e2d",
+        "sha256": "d254b0e5a6e8ebf590229c719f00dbff01710362c51fc35a78f97d608e8cc27b",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3f2953144b512d64c9",
+        "sha256": "12fd49ee49bab8d3dcacbc2522576ff74c618d5a0dd99529d40f30a3b571dbcb",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-94d35018648b51e860",
+        "sha256": "2568681dd4957fc3572ea5f7d9ffe9fa25c664a473c428fac7beef3ac98050b8",
+        "owner": "2401100CSE0111",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d69c1d08fa6c020740",
+        "sha256": "5f2ff8ef31d951d9718fc2c9e720e192a7cff47447e24e7028c74a11c3a67157",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1b7da9b792882adf72",
+        "sha256": "682e6171d1b716ab27d2d72bdea11a9505aa152d2d9a85b1addab7d4ca189f1d",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e5989c36a2462b467d",
+        "sha256": "8d19175726938f060fa7d0c89054fd65bbd50d385bc5807473c9e9c600c0c598",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bbe3354a40e6db72a5",
+        "sha256": "06ea70bc4132048ec99a982f041bcf6906f58f518d6d453a8bc11b8e8457dd07",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f14a6d653fd0491f58",
+        "sha256": "9fd443402f856723748bbad5071fc1e03c63e80e3ea891d69f89d217b1efaaa2",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-dd87bff8602ecad593",
+        "sha256": "503f03558639c79169acac7aac7563a2151fbfd63271bfca2cebf5bde62824e7",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a98a27d6eb5f37d1a2",
+        "sha256": "033724ccf96bbb901b69b62955f67df2f9351c114fd630f694d4e6bb132c689b",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d0376bc6327583b7a8",
+        "sha256": "ecd99697c97e03ca9c192f9ee71012a03f1595b5aff3b1cd8fe03975dae076a1",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-74d7550aa81f6129c7",
+        "sha256": "6e4a34b55b4b4b26ca5355c359454174d0641168d499868b0f00e11875482a36",
+        "owner": "2401100CSE0121",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c18231bddf5ee9a4a3",
+        "sha256": "5b518971713bef4bdb3577524660c3a9ce3f2ee716ff9c93ccab7c7ed9acda80",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-77837b7b7f3d92ab9a",
+        "sha256": "041cf255551f2ce7128fd665532c30bb6a1deb36a67183ac9852c91cb1b01f42",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-78a1794fb59cc3371e",
+        "sha256": "625f67f9b03c35881b2e070275d6bbaffa9e1693324ad27f04c18ca659e93025",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-42d19744867623cf30",
+        "sha256": "77405cd5e2d317855b78ec11714f66b3f873e00faf1810fc15c1a34c49df4838",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9eb72c44c63e9d1097",
+        "sha256": "73e822cd46da94bb56ef88d96ce8d7ac6d620d02f20b6b901d4fcf6c88cc8cd1",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-90dab9c7ee51305deb",
+        "sha256": "b5540f0f41001575c6770eb8884281aefb1b5beaab8834a315e66616f2af73d4",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ec86ef8980bf411ff8",
+        "sha256": "372be513123dc1cb232ce0e8ba6ef56740141be69b81d47359cf3c9e35028481",
+        "owner": "2401100CSE0124",
+        "review_action": "duplicate_of_another_image",
+        "policy_eligible": false
+      },
+      {
+        "source_id": "ENS-975a947f686f55f07e",
+        "sha256": "7bafbd4072a2fc9bf0645a172a85bd54cf6c87e1f6d68424802065711941d67a",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bd2863f185a02fd833",
+        "sha256": "047f9dae9ef33205aea3b5a3ba150ee71942a96d13ecbf27f4ca16d6c7d2c5e5",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b8262b81b704fce005",
+        "sha256": "94e989e297c4425f20992aa89f33ec7a7e0b278a24bae0f58847d74269124c38",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b208e4074b652d8093",
+        "sha256": "96521f72775417d88e11141cb63e73dcbd3e7d56425796a34ecaca57932449c4",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fb7b8e87ed495f32cc",
+        "sha256": "58526c8e6a0511436045d2815dc82e3624e31079bec38ca28b9170f6712f190d",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1311188ab70b4ddbb6",
+        "sha256": "302b2918d7ef7e1700d541a7a7c8f043a0db1bb15adb6f449231afce0c7ac401",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-28cc4398a867a55406",
+        "sha256": "114176d7d8a1ba67a84bfbc3ac4e97dfebea64d529b660c62c807291161a1c4c",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3541c8d61783e7dc7a",
+        "sha256": "b87532058d329f258de22bf5e3a8e94a20eb6ff45bf2badc374234cac5aba6f1",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7b4d11509b3137ea92",
+        "sha256": "b1fd1d91e2c59a3e9493ac4171b484965864dc6b5787c2bddbfe5bf40fdbdcff",
+        "owner": "2401100CSE0124",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7938a00706ecb1473e",
+        "sha256": "3c4e1190ecb961d36f4d37e207aa6546ab67a18e2d018d607b70f845e67ef7ff",
+        "owner": "2401100CSE0140",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b460cbf0b206b8c20a",
+        "sha256": "c20a11fa1f0d2719324e3051f95910117f87d6397e9f18838026cb05b7028d54",
+        "owner": "2401100CSE0140",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7e9b8b0c139cebc2d7",
+        "sha256": "a69c1f8372eac30db7fdfd4f7c9aee7f4a800569df265a5564f9c95e3dea5e1a",
+        "owner": "2401100CSE0140",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3cc3cf8d2ac13536eb",
+        "sha256": "048123710c92b4e523fea98d7c836a98a725b1e331780edb6e64edb748b83c7d",
+        "owner": "2401100CSE0140",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-be962fbb0fa373bae5",
+        "sha256": "70176dab78007aea82df24a8aa156e77604ae8af527fb772030bccb07d9208f6",
+        "owner": "2401100CSE0140",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7dc9413fe8f7b336b7",
+        "sha256": "b88087d19a65114caa4587c27f792b9de155b0c07a4507c73bf565b87ccef314",
+        "owner": "2401100CSE0140",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cb969ce83dfcde355a",
+        "sha256": "25cc6d5de461f0f77615d3249e4eb764616bd6df136ae2b206d1791d9ef37ef3",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-eaf9d32c2dca4a6bd2",
+        "sha256": "0092acd7cbd84c71bf4950eac6d4961c202aa24279b479497ef4111cd03cdf89",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c7023a1d7d0338ba42",
+        "sha256": "26b69b249336c1fc38e3952d8bb7a469b1aeef82a677f6760aa793a7f1e7297e",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4db80181ad9cbf6e67",
+        "sha256": "09957a1a3415533ecc3932686144102b856052a658a016c734b46f3e6102206f",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a94b8cf435735844da",
+        "sha256": "2bcdd957b9bdac8138d0af989ead0856993af3b9578518be4895d470bf32f346",
+        "owner": "2401100CSE0184",
+        "review_action": "multiple_people",
+        "policy_eligible": false
+      },
+      {
+        "source_id": "ENS-c2aee50278f8c97ca4",
+        "sha256": "30811105a625c5da70db93ea7619501b0a956df1255acdb2687c2b2b231274f7",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5022d2bc36f93d6753",
+        "sha256": "b55422a3389ba06d95bd63c1eef4e2f93846001a93cc504b67e8e7bfaec079b1",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f8e2ad769f903ed1f0",
+        "sha256": "452d5cc2fe1511505ce77dbaed7624e804f83b6b27ac3089fb61420d0b710e42",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-eb34548701e2cd3d44",
+        "sha256": "88d57bc9c6a9f0a129a4da0a8be28828c55af0be7f3c11b3d2e5941fb140ddd9",
+        "owner": "2401100CSE0184",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5fc6a4460fe129ec28",
+        "sha256": "1ea6bb63fa938d43e7e2f656900ae25a933e15a8943296c1e6fd6059b561e3f4",
+        "owner": "2401100CSE0184",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1a49aa19fcdaf79796",
+        "sha256": "dc2ebd7bf1e1d1793473145677053011dce1f1237ced727a52781ac72004231c",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a923329eadfd57cb11",
+        "sha256": "4dbf550e126dc14689f18e5aab502942368f077ca83b704ed9dc7fbf56ee7fd8",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0ec9a6ffd54c07ae75",
+        "sha256": "aad48d2731da9e08f1ad137a6986cac488e0b90db97835cedcc5fb429fe628c1",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4aba7b4d49d3c1713a",
+        "sha256": "2c589624f4ad8e75613c01545552b021f4815eb7435005f9723ca92a513fa48f",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-629ce8139c2f99e63a",
+        "sha256": "5542470ae3c32d9dff53bb8c15a808b54fd54ee65bbd41d75d3fb8c2933c954b",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4410ebf6e9cea73f02",
+        "sha256": "7512db55ed52ac2b9dc6e292ee407c11d12e5c31798b79a9e2dd46ae52d5b2af",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-23f04f0010b8d2192a",
+        "sha256": "2b8fbd0d9be00d63840a1657e1a9cbf6c8e5e0a93257d03de7b314596987ac1f",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-917104ad9d2fb3c7c4",
+        "sha256": "6db5e17372310a2e9a6d95cd7523956c8dcf025dc465c4cdbed083e35b458d0e",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-beb821f4dbefe6b33e",
+        "sha256": "0d48909efb061c4a29f41b0c210f5766f722e2391780b6a5e1851a29c17afac8",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3f5bf3378feaf48e1d",
+        "sha256": "c09b4f3aca8e8675ec25e52a45aa60640c4feb23a7989d98d986708bbfaa9899",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cb078d5a32459526b4",
+        "sha256": "2a59c651209ec18bc3fe06f50fd9346c5b6bd1fda4cf51bd2e8aba330b3c8970",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3f46d58418dd747f6a",
+        "sha256": "4c9f73d3213aedc4b87e0aa12b7af81b96c77d101236afb4fe2054d90f29a03b",
+        "owner": "2401100CSE0202",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-23761464aa90e9484b",
+        "sha256": "8050f86d0b5732bd653722fe140836dd44481eeac84a46b98aa6b10a93f1dbfa",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e4a5d70306550f7561",
+        "sha256": "af5ad488de70b5efb2e0e135a13fcee7c9d106bdae323a0ff301f8ca38fab83d",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ccf50d95f0c99c0656",
+        "sha256": "70af94c832daf7de6dee5df2de1020e1da061d42699722af5fc4f3699924514b",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9d02ff279eb099f445",
+        "sha256": "18452ec0b298878ade2619d70514ee1896da288804b8b36fc50118dde8b869f8",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2f36843791b659546f",
+        "sha256": "0e03509c51ea2fdfce346ce1bd50fcf4f29bd1ddc1f1be406c850869244b6136",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-63aaad0190b88e211a",
+        "sha256": "7be1e5557395ff0f39b427801f70d32c1669e8419e1e0bedb9109b20f7fb8275",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f961829feb60753146",
+        "sha256": "892de9b0eb9dd1dfa01ac5300e5bda7144593e78e5a326cbf4e6a21d20c489be",
+        "owner": "2401100CSE0209",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9bcfcab3f7ac85003b",
+        "sha256": "8e09b465008a5b5ce0ac1491082955dbba4bcb0d891c16114e397c70e43a6225",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-aac9dadaa3e5bccaf7",
+        "sha256": "f81380d1b85277f33ccb8cfdb1fce7c0b242c92e23b4141ad29e0ec081373b69",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-95d3d9e69cab908634",
+        "sha256": "e4c5a6586ec344e9ab5aa25a6f86100d9c52e12456bf25c11eec8ab1609e8e3c",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-714e0113478ec88d73",
+        "sha256": "19d5c591712e2d739f8b8987b35fecdab4ef735834fa2b77c3e77f6d52f8afbf",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9b0cfb668aae018a7d",
+        "sha256": "8511a92ecf728628208cdfe3076541ff5256a16b17d1fee63907509b60559c92",
+        "owner": "2401100CSE0209",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6770a0c2c75b962010",
+        "sha256": "c6731411d5402ab553851c28317d24f5ac8220115e1fa6fbe581a8511fec38dc",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-16a64ee272abb573ad",
+        "sha256": "1dca955fed47dce052524371baa45843b2c534b0d693342e357c70167a3124e6",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e860321e3618bcc25b",
+        "sha256": "55f2f8664aaed784dbc22f8c0b4d5c4a457475c94a3d3892b356e8f863a0d3a3",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-d8e1de2c43e1e08388",
+        "sha256": "c011bceea0fbcfa3a61296913f16d81b2ed224513a96679236d7c91ff3c31acf",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0a890f9e97dc518d33",
+        "sha256": "130452e36b8d89f8879d7eb743d94b79f703d2fd3ea244ddd33cbb96e0d96164",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e59bb3cc4c6539ccd5",
+        "sha256": "99ecd3cedcb95047fb49c1414b091f9bfa97567a482c1fbe2e804efec2f0e78d",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-88bbb6dfd072bde762",
+        "sha256": "ad075499153638957bd74ea7412203e50488f5f67b4fbc8a88caddc04ebbcafd",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ae5da5d58619f7db58",
+        "sha256": "c359514af6486b62e05887ab7af2856818db370fba939ece9a85b03f06b03f94",
+        "owner": "2401100CSE0237",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-88842426f8ea8a2bad",
+        "sha256": "d3aebd0ffb41feb802e4591937beab3f593669f2b62bd2c235fe9a182e335f0f",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a047a81d8254e1fc6b",
+        "sha256": "fe7e46a9c1aafca6b3559b210e3dacd2fc468cd861bfc16f5c40d43bc2404cd2",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b89b60908802434833",
+        "sha256": "92e22978766b9d634e3e0d80d436299bf5938cc32dee26d7f6f8788a3ed30e70",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-8552ada64d9115c474",
+        "sha256": "882f6b78316192e85fe27e36e985fad2b2b6a9e7133d3921b0b770800119b958",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bb177e2f17f25e4632",
+        "sha256": "b2db1a2fa0fed6e42178ab8a443e1f65441a73bd22ac0ae4e9563907d57280b8",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-0bd4a0c37fe9b4cf66",
+        "sha256": "8a8704ae4a740435bbe5a9a6f27172802ecb42c6819920246c3af51d0bc944cf",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1825b64fc04fba502c",
+        "sha256": "0efbf1444eb51eb3d584b3ac17cc20fdc9ea0194786e62adadb3b40d9f0223f6",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-95f4b44213323e68b4",
+        "sha256": "8dfb693f2c829dca091ef984aabec7047209dd7717db7e02532eb8cbd9e1ae13",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f3d2149ed471511c92",
+        "sha256": "59ea9e9b15bd5055a05d23e2aea2acae032c7882f7d639dd83e1de8569009b7d",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f44d8c1602e5adea7f",
+        "sha256": "8d73e9d7dabe0454af990858d2517beb61129cc32634cd086a1d19cc8d63ebca",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ae078446b17eb1a742",
+        "sha256": "d296263419d03055b42bf5b9822fd1b2c6b9c1eac0e49054a275e9832a42e951",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-30c602b42dd24f6b58",
+        "sha256": "cd6f1ac782b5a633fba6554c3c3423f76015921e97822725aabcc49c65809a7b",
+        "owner": "2401100CSE0254",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5aad32d2f52a4a1461",
+        "sha256": "f93402cdfd9e3babefa6d85b634379fbdbc4de5106ea7b044fc285bde11899c8",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-b08c02357ab67784d9",
+        "sha256": "3b4206b38dd9349d74b339e808490d4c79d2f910f50440166eef0f53e15f4e62",
+        "owner": "24011CSEAI0007",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cc9f51fb19675a40c9",
+        "sha256": "4965491f122f37545fef2beeb0c6ff4e79feeb0126c9c3131634daedb3d8525d",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-5609736babb5418c5b",
+        "sha256": "487386653bc28ea6105a9a5dd48239ae22581ac734e3e5a212a58a70a988d48f",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1984f05b31b4ac2e12",
+        "sha256": "97b549e6338aa63bdd2e4a54d3579e50ec9d67d04d9a50eac642809f68e45932",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-aa790d54041fea2614",
+        "sha256": "799a465fb004914e58ffa1c1ffa5b1de5c45ea33d6c1c3e4c10e30805de7e423",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ce70eb426f06aab3e9",
+        "sha256": "2432720618966613821b1c13c0a6ff471414fe468bdab9044998fb362dc7cb11",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c90980127b5cfcdd4f",
+        "sha256": "a3e4b36c6bcb2c4e1726e965c278cdca122cf134b4107a80ec072be2a07a0b27",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-50d0a64a8e966570f9",
+        "sha256": "051ec0e648123a08cdceef2a562e6c8fdeb601cae02e11b1189b050a5ff9021e",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2d3d9a7544d17fe555",
+        "sha256": "235a2abdf0db3ca30098fd92512ecc8ceeab297046d2ec5e93958c917c0ec4a9",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-367b66ffcdee2eb44d",
+        "sha256": "84e0410941ac623c7b5dabc646749ec52c70e4c7bd186c00b40cf90ba8232216",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bad029a693318cac6b",
+        "sha256": "4b201fc487892fda3f6656df4cd163a1941c261b5877a2f849ccc1dfae7d1302",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-71fc983e9072c4ad4e",
+        "sha256": "285b242605e70425afad0b8a1c58057f8dcc49ce1164b315f87378b6ee3ef0cd",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-582913067b38f8a6c7",
+        "sha256": "eac3e138103f598d54f574f0653373a1813b65aa6f0cd406ff1bda9fc34dd160",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-58a080a33d5fb6bddb",
+        "sha256": "35e240b35b3ea68284f611b628ae65666bb312bebc3d69d1929520afd2b8f726",
+        "owner": "24011CSEAI0007",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7983128006068b1a33",
+        "sha256": "b8ca2a3b82f0ff41e11d729dae9ae1ff2065f724a92e5f065c8c22f24a8f449e",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-e2bd053ef67a470734",
+        "sha256": "fbfd7582c903526297fc7d558c87508791f682c5c226247fa6af006160644097",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-198a76e8b6116826d3",
+        "sha256": "2efa401d0e200aa1221a42f137800b8c73ccc15bf81ba854e467de7ba820879d",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-bcd4f8e125567c4795",
+        "sha256": "a0d53322731d0d0a2cb7357cee5d2e31f8ed70e3cb00debba10874389b786cfc",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-ac0fa83ae77badddcb",
+        "sha256": "c4dbb9ff1bbced4dad1be958ccb05df7c962a8e62774fc215c33fe7476b32997",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-63ffeda0c50e4ed056",
+        "sha256": "846ce7a7ec4e139392f9dde2492c95412ff479ad2e4a3bf5111d51d3686efa4c",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-846ba0dc18ee98f1ea",
+        "sha256": "26f6d0ad3c89d5deb47676f86be9ecb5aaa7ee1a8c1cee0cd57c2345a21fe81d",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-f45fcdaee665ad4b11",
+        "sha256": "cabd5348e3e1ffeec7db7c0620e9fb51479a100897f14fcbb63f994ce2f2d7c4",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-134ebc85a5fab10720",
+        "sha256": "f3368e06454c50d5adc008f392f64403921295a138246391fa4693e41afdea35",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-000e59fae6ec0c5b8c",
+        "sha256": "03dc484051128179ea4a9713cc62a1c52cf30d3bf1fb3410c2002491cb27799d",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-72c4214ac006f1329d",
+        "sha256": "a5121bd5e9e2dc46fc47d9894522a3aed6aa84fb372e9d6a45ef04899d880656",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-de3c5514abd5efee5a",
+        "sha256": "f7d92f4e0c42b5492ab2726f189ef0f3c55fed3c9469ccb10f217c148bdc68aa",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-748a97fea57072c74f",
+        "sha256": "70410753c14ed0d779fe86b85576389999b4d16801c01d154879316b2e31607c",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4b1dbae9a91ce402af",
+        "sha256": "8f35ef38c6eb9d54a27cad1accdf483a953ae7ae51632818f96935690e07fdb9",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6d4d32258f94cc88b7",
+        "sha256": "44dce6e0d97a88c7376f2d77b2e417c4c4d946a7da21591d6f7bccbd98fe7c5a",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c33a59d35c13477c52",
+        "sha256": "a335df5c2d1c6b38590d4088bff0c2ac7b2fb73cf56499a0a2b57c4e6be0a0f8",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7ff85b32df9b23192a",
+        "sha256": "554941e7d901030d7eccd308e9d3d91cb2993f6dc369bd311647729e35608802",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cefef12fd8b864c812",
+        "sha256": "1c37094635b2db7b73071f526e8e8284c75086d97b8268394eb5f4b7636690a1",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-18a99cc49e8a007b09",
+        "sha256": "cf2e6175054a4f4baacf24ff3514bda85273088093b1d4af5396cfda8c88dfd4",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6de486709f63b2cd93",
+        "sha256": "a3b8089c4b685b7026ee14fbda6725176d06c565ab5874119256bf4f77593ae7",
+        "owner": "24011CSEAI0051",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-38b198d4c6c14594ce",
+        "sha256": "55d4e4b8796eae5895ebeb4b2b06113cf9695877686d64e4f28d58216e98b889",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-912dcdd9209919dffa",
+        "sha256": "55aeb6f135d1f860952393e48864f0c5904f2d076b4ec97d0e416523333e600a",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9a12dc546bf9336ee6",
+        "sha256": "30b7a1d22d8c4ff271b25517f72abdf30e868273329e5e4cd5d95a6d29a1d62b",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-37d6d918785209b238",
+        "sha256": "50ac6a64284a17fa989356e7fe3ccf9f60c86326df4e95a42c338510c8167044",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1149e77ee5d8259107",
+        "sha256": "75a35bdbd1a256e267ba145ff157f89e4178f76739bb42d8edca43f9624cd153",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-2b4b242275ef0ec34b",
+        "sha256": "f96d82894b9466cdc1cdf6372d055741ae91ea717faf5581c66cea42a7a36c99",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6f0b05fcff112ad3f6",
+        "sha256": "08fc59b0fb2146eda7213e1932b8ff67d2d5ec88ae26bcee9f354934bae8eadc",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-1f53a9cc1d43015b3a",
+        "sha256": "96bbe90e46d7271b624b69dd6a54274b7946c827e9b8d17dbf22d536a4f1640d",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9319c3199ee1698487",
+        "sha256": "59922d9baf5bfcdb643b711efb9ae68c123b3f8c69edfbd7164bb156339c3dac",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c012b50f523eae3639",
+        "sha256": "11164d1522ad564c76df2d0ebf37c8682ea1f80d620e5cae6d52c9dee1e8b2b4",
+        "owner": "24011CSEAI0103",
+        "review_action": "keep",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-4f25f5bfdf4b1e07b4",
+        "sha256": "063e8a98ebc4131f858dabc88264deba7f21f728c0ab6e68410a9609c567b65a",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-adbb825846e67ee346",
+        "sha256": "d1c182197210c80b7019b50ab1e89f8bf5d895efff146859533211c27e0bd16f",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a14a9906319621153e",
+        "sha256": "4a0b5e0eef5dc108b51e4f05499876e2cdceb95aac7cc7b02571cd851ed200e5",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-83f456dad716e8916e",
+        "sha256": "fc22f43c745bf21f2aab11526bb2b279c3c2a20503ccb5640685aa086f15e3c6",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-215f2a24dfe11fedd8",
+        "sha256": "93f16e7a5953f20c9df6bfd6c169255c2064ac8f6e8158d9846bf77384cead78",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-6746db538bb63bfe38",
+        "sha256": "b63045fcfc21623f56de4871fb23720c899ca537c519a6051e2cf33b296d617b",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-fef60bf0a8c10df3b8",
+        "sha256": "1421230d8efa55dbb77bc5ed485176e5a830280e6744285652f246aa870e5997",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c8039f7ed48e2bfadd",
+        "sha256": "f897a4a5ed5ec58c0847ac6831e92a20361617b2ab753e3a494f2c5de2d0b81b",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cac4d10d5f330cd5d2",
+        "sha256": "0087c4e5de2f031d66c14a9b4e7ce5006e0c62c803eebde70e4d53dd8e576ced",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-3c13b7f19a47584b60",
+        "sha256": "c7ac6c1f7877ba07550215191e1591feed63849fd364eddf9377a06dbcd73e17",
+        "owner": "24011CSEAI0103",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-34b8facdd4ef40282b",
+        "sha256": "d66246d2a7af021ebf75586715b6010257e4f222e511635743339f5157faa47f",
+        "owner": "24011CSEAI0110",
+        "review_action": "multiple_people",
+        "policy_eligible": false
+      },
+      {
+        "source_id": "ENS-8063bbf2ef451def21",
+        "sha256": "b56dadb03e9f069653da116effb136d1d123090740f669e8e8fa1235b444be09",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-46cf7325e93eaf5e02",
+        "sha256": "51827322635200014439826a943660ecb6e41b3d4179ea5394b451cf44d73dfb",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-a6000eee67332adc4c",
+        "sha256": "4b6eb76d66cd3477b801190e9d2e187b38b006be531ea547eda7c57f4eab7ae6",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-61f0102f391d0df29d",
+        "sha256": "d66f8056715b886928f190b219f0f15fa4ac5b2a2af110538bb6dc95ecbd8204",
+        "owner": "24011CSEAI0110",
+        "review_action": "wrong_person_or_mislabeled",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7d6bdb14075bdfb40b",
+        "sha256": "3bd77bc40ea903fd1eeaf7d0447cd63eae5599d99b5bd3a6bbcd49cf5d48fc04",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-49b9bd1dfda1bba505",
+        "sha256": "f427f80fe59ff53863b93084dc1eaf88745b2b0e9a0758ce689873a98a5cb8bf",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-57c8e167c7c6f2bb69",
+        "sha256": "d0dd3f3f264c70f0fec9143fd830cdcd47a469676a32d366d5f82b9e755584a1",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-c5227eff0346e55c1f",
+        "sha256": "86bfd21e6a3cfe2c5bf30b234ea3b8ccfa40fc0d9658a070b77979243ae28796",
+        "owner": "24011CSEAI0110",
+        "review_action": "wrong_person_or_mislabeled",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-8778d3eadcdfd7300b",
+        "sha256": "ed085ddcf8ed7f5c32b4b61b7581fe322d65ecc40df3662557f73291fb740757",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-04caa84cbbe0952501",
+        "sha256": "058de0d418dba3d8094fb35702d03d96c0219ff750703c5679f722b648da958a",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-cf25878ba63f625a31",
+        "sha256": "24118db1baec767be030167beddb2a3890e265b19ea45aeb21a6495182e5d80e",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-87a3a993d24406075a",
+        "sha256": "bac14861470b1d96d0fb20bf51e1a08b5bc7d9eeb1ca885e34c6c4de50014500",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-7905a400bcf6fb1dbe",
+        "sha256": "cc9ba901b03d06ceeaf981c12ec6ac6a330a8612daf91654718e633be8cba2ed",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-9016d53fcdb837bdff",
+        "sha256": "e0d04d6bc52a33a93ab080a1c58b354e9605c184b0494c7008853117bba05548",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      },
+      {
+        "source_id": "ENS-16d84fb3c3385e4e6a",
+        "sha256": "60a5fcf8c271cc4d0b7d9d1526381d0b73afb97814c6f446b4a5b1a6c78bbdc5",
+        "owner": "24011CSEAI0110",
+        "review_action": "not_selected_for_compact_review",
+        "policy_eligible": true
+      }
+    ],
+    "identity_correction": {
+      "schema_version": 1,
+      "correction_id": "idcorr-0120f712eeb7ba1b",
+      "status": "validated_narrow_candidate_only_correction",
+      "source_roll": "2401100CSE0110",
+      "target_roll": "24011CSEAI0110",
+      "human_confirmation_basis": {
+        "folder_manually_renamed_by_user_before_this_phase": true,
+        "explicit_wrong_person_note": "This image belongs to 24011CSEAI0110, not 2401100CSE0110.",
+        "explicit_enrollment_item_ids": [
+          "CEA-21cc8966217d8c51b8",
+          "CEA-6365fd0aa90b36b357"
+        ]
+      },
+      "affected_source_folders": {
+        "historical": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\2401100CSE0110",
+        "current": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\24011CSEAI0110"
+      },
+      "affected_image_count": 16,
+      "affected_image_hashes": [
+        "058de0d418dba3d8094fb35702d03d96c0219ff750703c5679f722b648da958a",
+        "24118db1baec767be030167beddb2a3890e265b19ea45aeb21a6495182e5d80e",
+        "3bd77bc40ea903fd1eeaf7d0447cd63eae5599d99b5bd3a6bbcd49cf5d48fc04",
+        "4b6eb76d66cd3477b801190e9d2e187b38b006be531ea547eda7c57f4eab7ae6",
+        "51827322635200014439826a943660ecb6e41b3d4179ea5394b451cf44d73dfb",
+        "60a5fcf8c271cc4d0b7d9d1526381d0b73afb97814c6f446b4a5b1a6c78bbdc5",
+        "86bfd21e6a3cfe2c5bf30b234ea3b8ccfa40fc0d9658a070b77979243ae28796",
+        "b56dadb03e9f069653da116effb136d1d123090740f669e8e8fa1235b444be09",
+        "bac14861470b1d96d0fb20bf51e1a08b5bc7d9eeb1ca885e34c6c4de50014500",
+        "cc9ba901b03d06ceeaf981c12ec6ac6a330a8612daf91654718e633be8cba2ed",
+        "d0dd3f3f264c70f0fec9143fd830cdcd47a469676a32d366d5f82b9e755584a1",
+        "d66246d2a7af021ebf75586715b6010257e4f222e511635743339f5157faa47f",
+        "d66f8056715b886928f190b219f0f15fa4ac5b2a2af110538bb6dc95ecbd8204",
+        "e0d04d6bc52a33a93ab080a1c58b354e9605c184b0494c7008853117bba05548",
+        "ed085ddcf8ed7f5c32b4b61b7581fe322d65ecc40df3662557f73291fb740757",
+        "f427f80fe59ff53863b93084dc1eaf88745b2b0e9a0758ce689873a98a5cb8bf"
+      ],
+      "affected_enrollment_review_item_ids": [
+        "CEA-21cc8966217d8c51b8",
+        "CEA-6365fd0aa90b36b357"
+      ],
+      "review_rows_with_historical_source_folder": [
+        "CEA-040b421712c6c3bc47",
+        "CEA-21cc8966217d8c51b8",
+        "CEA-6365fd0aa90b36b357"
+      ],
+      "affected_cctv_review_item_ids": [],
+      "old_provenance": {
+        "historical_inventory": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\dataset_image_inventory.csv",
+        "historical_source_rows": 16,
+        "historical_target_rows": 0,
+        "production_source_embedding_records": 16,
+        "production_target_embedding_records": 0
+      },
+      "new_candidate_provenance": {
+        "candidate_owner": "24011CSEAI0110",
+        "physical_source_folder": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\24011CSEAI0110",
+        "source_hash_set_exact_historical_match": true,
+        "production_database_rewritten": false
+      },
+      "registry_checks": {
+        "subject_abbr": "CVO",
+        "authoritative_roster_count": 27,
+        "source_in_authoritative_roster": false,
+        "target_in_authoritative_roster": true,
+        "registry_rows_loaded": 49,
+        "student_map_sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91"
+      },
+      "collision_checks": {
+        "source_folder_images": 0,
+        "target_folder_images": 16,
+        "historical_independent_target_images": 0,
+        "production_independent_target_records": 0,
+        "duplicate_current_hashes": 0,
+        "passed": true
+      },
+      "scope_limitations": [
+        "Only the hash-proven dataset folder contents are corrected in candidate artifacts.",
+        "Unrelated records for the source roll are not reassigned.",
+        "No model prediction was used as identity evidence.",
+        "The production embedding database and global registry remain unchanged."
+      ],
+      "global_alias_created": false,
+      "production_embeddings_changed": false
+    },
+    "build_configuration": {
+      "detection_score": 0.6,
+      "det_max_width": 1280,
+      "min_face_size": 50,
+      "min_area_ratio": 0.003,
+      "pad_percent": 0.25,
+      "min_landmarks_inside": 4,
+      "min_eye_distance": 8.0,
+      "validation_mode": "padded_photo_landmark_validation"
+    },
+    "cctv_embedding_usability_policy": {
+      "human_approval_is_not_embedding_usability": true,
+      "single_face_preprocessing_remains_required": true,
+      "unusable_approved_crop_action": "preserve_and_exclude_from_embedding_payload",
+      "required_sessions": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "minimum_usable_crops_per_required_session": 1,
+      "missing_session_action": "mark_dependent_variant_unavailable_and_continue_partial_family",
+      "cross_session_pair_required_for_mon_p3_advance": true,
+      "unavailable_variant_payload_fabricated": false,
+      "manual_rereview_required": false,
+      "quality_gate_relaxed": false,
+      "super_resolution_used": false
+    },
+    "variant_definitions": [
+      {
+        "key": "A",
+        "directory": "cleaned_enrollment_only",
+        "role": "cleaned_enrollment_only",
+        "included_cctv_sessions": [],
+        "evaluation_sessions": [
+          "2026-06-30__B51__P1__CVO",
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "contaminated_sessions": [],
+        "descriptive_only": false
+      },
+      {
+        "key": "B",
+        "directory": "cross_session_for_tue_p1",
+        "role": "tue_p1_cross_session_evaluation",
+        "included_cctv_sessions": [
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "evaluation_sessions": [
+          "2026-06-30__B51__P1__CVO"
+        ],
+        "contaminated_sessions": [
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "descriptive_only": false
+      },
+      {
+        "key": "C",
+        "directory": "cross_session_for_tue_p2",
+        "role": "tue_p2_cross_session_evaluation",
+        "included_cctv_sessions": [
+          "2026-06-30__B51__P1__CVO"
+        ],
+        "evaluation_sessions": [
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "contaminated_sessions": [
+          "2026-06-30__B51__P1__CVO"
+        ],
+        "descriptive_only": false
+      },
+      {
+        "key": "D",
+        "directory": "full_candidate",
+        "role": "full_candidate_for_future_mon_p3",
+        "included_cctv_sessions": [
+          "2026-06-30__B51__P1__CVO",
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "evaluation_sessions": [],
+        "contaminated_sessions": [
+          "2026-06-30__B51__P1__CVO",
+          "2026-06-30__B51__P2__CVO"
+        ],
+        "descriptive_only": true
+      }
+    ],
+    "same_track_recovery_consumption": {
+      "schema_version": 1,
+      "policy_version": "phase-1.2i-d-recovered-family-v1",
+      "recovery_id": "cctv-recovery-69e11ea931f79330626d",
+      "recovery_output_manifest_sha256": "45894c17d3639a54c2fe6198884e29201fe9c5926d2ea9307c1b1a14b3c12bdb",
+      "recovery_manifest_sha256": "15ee2e3d3deedb38d5bfc0d7164039fc5522496cefe98a053bffef1ae35fc1e4",
+      "recovered_embeddings_sha256": "46654e927d58d4f226a91504b2063c39d3d816c56d36d29e96131974691e3e31",
+      "same_track_recovery_audit_sha256": "1756bb0d3abb6e5c406a3c74738509faf8fdb0a511d94178d0bebd3532046205",
+      "source_family_id": "embfam-189aede520a3b581a17b",
+      "source_family_output_manifest_sha256": "b3cf82889c169b1b648b9f95bd07ab85971f6dc61874575a45949be57ae6e91c",
+      "target_session": "2026-06-30__B51__P2__CVO",
+      "target_tracks": 5,
+      "recovery_selected_embeddings_preserved": 10,
+      "candidate_consumed_medoid_embeddings": 5,
+      "consumption_rule": "exactly_one_medoid_embedding_per_human_reviewed_track",
+      "minimum_selected_pairwise_similarity": 0.4465789198875427,
+      "minimum_consumption_pairwise_similarity": 0.4,
+      "recovered_identities": [
+        "2401100CSE0016",
+        "2401100CSE0044",
+        "2401100CSE0067",
+        "2401100CSE0140"
+      ],
+      "human_review_labels_reused": true,
+      "model_prediction_used_as_identity": false,
+      "manual_rereview_required": false,
+      "quality_gate_relaxed": false,
+      "super_resolution_used": false,
+      "production_files_changed": false,
+      "dataset_files_changed": false,
+      "official_attendance_changed": false,
+      "mon_p3_processed": false
+    },
+    "cctv_source_selection": {
+      "schema_version": 1,
+      "policy_version": "phase-1.2m-source-selected-family-v1",
+      "selection_audit_id": "selection-audit-bacb195efc6751ca2c22",
+      "selection_policy_version": "phase-1.2l1-promotion-evidence-parsimony-v1",
+      "source_ablation_id": "source-ablation-da12b41f85bc813a6de1",
+      "corrected_config_id": "ABL-16-ee3a4ff6",
+      "kept_source_ids": [
+        "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+      ],
+      "removed_source_ids": [
+        "CCTV-CCC-16b0462d0f283edb9f",
+        "CCTV-CCC-492ad8ac8e05bd2cac",
+        "CCTV-CCC-9852dcae08d8e171db",
+        "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6"
+      ],
+      "implicated_source_ids": [
+        "CCTV-CCC-16b0462d0f283edb9f",
+        "CCTV-CCC-492ad8ac8e05bd2cac",
+        "CCTV-CCC-9852dcae08d8e171db",
+        "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6",
+        "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+      ],
+      "selection_audit_output_manifest_sha256": "7baa68fb901e8af8e3bd420282b1d84d96e79382bb43a24a65ea3a91058ac410",
+      "selection_decision_sha256": "97de993665df3c39dc59f38c7fca30009be1b8f4ae86c06f5ebf9b6b98ceb7d8",
+      "source_ablation_output_manifest_sha256": "2a34c5c107e4966fdfafed8a2a2e5d5e2bae1e5ab2a914116c97eacad82c54a3",
+      "final_promotion_requires_new_untouched_session": true,
+      "selection_is_build_design_only": true,
+      "candidate_promoted": false
+    }
+  },
+  "parent_production": {
+    "production_embeddings": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\student_embeddings.pkl",
+      "sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49"
+    },
+    "production_summary": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\embedding_summary.csv",
+      "sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee"
+    },
+    "rejected_candidate_registry": {
+      "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\candidate_registry\\rejected\\cal-5cd35b60dd83.json",
+      "sha256": "ab630c018af4fc53b89bb6d81c6780ed87a1cb105bcc46dd0c7eddc2e1374ba1",
+      "candidate_id": "cal-5cd35b60dd83",
+      "status": "rejected_multisession_false_accepts",
+      "production_approved": false,
+      "enabled": false
+    }
+  },
+  "model_hashes": {
+    "yunet_sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+    "sface_sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79"
+  },
+  "variants": {
+    "A": {
+      "version_id": "embfam-274b5207b8b71294ff75-a",
+      "role": "cleaned_enrollment_only",
+      "status": "built_unapproved",
+      "availability": true,
+      "unavailable_reason": "",
+      "embedding_records": 347,
+      "embedding_dimension": 128,
+      "embedding_sha256": "7d4fd816b606941fd4bc6f620d9710f2e38546613e7c0be66908471998194e29",
+      "summary_sha256": "beccfa60d9adee66044e8ae0d4484570d07fc00ea8a51b5161bbdb25b6dce94c",
+      "source_sessions_included": [],
+      "required_source_sessions": [],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "training_contaminated_descriptive_only": false,
+      "production_promoted": false
+    },
+    "B": {
+      "version_id": "embfam-274b5207b8b71294ff75-b",
+      "role": "tue_p1_cross_session_evaluation",
+      "status": "built_unapproved",
+      "availability": true,
+      "unavailable_reason": "",
+      "embedding_records": 351,
+      "embedding_dimension": 128,
+      "embedding_sha256": "cac063988aa8659db5d27fd5acc5cbfcc22ef73c5a5971db9df56ffc9309fdac",
+      "summary_sha256": "e4f5657747404f116ac9f54f3f5620773c09ed5eb5f5ea98735ed36eb7fa9d13",
+      "source_sessions_included": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "required_source_sessions": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "training_contaminated_descriptive_only": false,
+      "production_promoted": false
+    },
+    "C": {
+      "version_id": "embfam-274b5207b8b71294ff75-c",
+      "role": "tue_p2_cross_session_evaluation",
+      "status": "built_unapproved",
+      "availability": true,
+      "unavailable_reason": "",
+      "embedding_records": 350,
+      "embedding_dimension": 128,
+      "embedding_sha256": "1a05782b5e93a9ec893399cb94a931e54ef7694065168447b28e6ca985a397dd",
+      "summary_sha256": "8f6cafbd68b17c9a0421686e78e7f1d6928e7d8b4d3cf7941d7f4ffeaa25b05b",
+      "source_sessions_included": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "required_source_sessions": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "training_contaminated_descriptive_only": false,
+      "production_promoted": false
+    },
+    "D": {
+      "version_id": "embfam-274b5207b8b71294ff75-d",
+      "role": "full_candidate_for_future_mon_p3",
+      "status": "built_unapproved",
+      "availability": true,
+      "unavailable_reason": "",
+      "embedding_records": 354,
+      "embedding_dimension": 128,
+      "embedding_sha256": "f088d827adc548ee95f46566d758fd71fc304d042c43f1ecffc6526b60bcd832",
+      "summary_sha256": "63885588c374c37f4da9bf85294f240bdf0f28cb585e77b894ab516139ca46ae",
+      "source_sessions_included": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "required_source_sessions": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [],
+      "training_contaminated_descriptive_only": true,
+      "production_promoted": false
+    }
+  },
+  "approval_validation_status": "passed",
+  "identity_correction_status": "validated_narrow_candidate_only_correction",
+  "identity_correction_id": "idcorr-0120f712eeb7ba1b",
+  "global_alias_created": false,
+  "shruthi_source_reconciliation": {
+    "status": "found_unique_renamed_folder_match",
+    "raw_embedding_key": "2401100CSE0140 (C) Shruthi",
+    "historical_path": "dataset\\2401100CSE0140 (C) Shruthi\\WhatsApp Image 2026-06-23 at 18.58.21.jpeg",
+    "resolved_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\2401100CSE0140\\WhatsApp Image 2026-06-23 at 18.58.21.jpeg",
+    "sha256": "3c4e1190ecb961d36f4d37e207aa6546ab67a18e2d018d607b70f845e67ef7ff",
+    "historical_inventory_matches": 1,
+    "candidate_action": "preserve_baseline_inclusion_unless_build_quality_rejects",
+    "human_exclusion_fabricated": false
+  },
+  "enrollment_source_policy": {
+    "schema_version": 1,
+    "policy_version": "phase-1.2i-b-v1.2",
+    "configured_source_role": "production_recorded_dataset",
+    "configured_source_images": 388,
+    "source_groups": 347,
+    "active_sources": 347,
+    "active_originals": 347,
+    "active_augmentations": 0,
+    "excluded_exact_duplicates": 10,
+    "excluded_reviewer_confirmed_duplicates": 3,
+    "excluded_excess_augmentations": 0,
+    "reviewer_multiple_people_excluded": 2,
+    "deferred_images_active": 336,
+    "dataset_files_modified": false,
+    "maximum_active_images_per_source_group": 2,
+    "maximum_additional_augmentation_per_group": 1,
+    "deterministic": true
+  },
+  "approved_cctv_staged_count": 35,
+  "same_track_recovered_medoid_count": 4,
+  "usable_cctv_embedding_count": 7,
+  "approved_but_embedding_unusable_count": 29,
+  "same_track_recovery_consumption": {
+    "schema_version": 1,
+    "policy_version": "phase-1.2i-d-recovered-family-v1",
+    "recovery_id": "cctv-recovery-69e11ea931f79330626d",
+    "recovery_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d",
+    "recovery_output_manifest_sha256": "45894c17d3639a54c2fe6198884e29201fe9c5926d2ea9307c1b1a14b3c12bdb",
+    "recovery_manifest_sha256": "15ee2e3d3deedb38d5bfc0d7164039fc5522496cefe98a053bffef1ae35fc1e4",
+    "recovered_embeddings_sha256": "46654e927d58d4f226a91504b2063c39d3d816c56d36d29e96131974691e3e31",
+    "same_track_recovery_audit_sha256": "1756bb0d3abb6e5c406a3c74738509faf8fdb0a511d94178d0bebd3532046205",
+    "source_family_id": "embfam-189aede520a3b581a17b",
+    "source_family_output_manifest_sha256": "b3cf82889c169b1b648b9f95bd07ab85971f6dc61874575a45949be57ae6e91c",
+    "target_session": "2026-06-30__B51__P2__CVO",
+    "target_tracks": 5,
+    "recovery_selected_embeddings_preserved": 10,
+    "candidate_consumed_medoid_embeddings": 5,
+    "consumption_rule": "exactly_one_medoid_embedding_per_human_reviewed_track",
+    "minimum_selected_pairwise_similarity": 0.4465789198875427,
+    "minimum_consumption_pairwise_similarity": 0.4,
+    "recovered_identities": [
+      "2401100CSE0016",
+      "2401100CSE0044",
+      "2401100CSE0067",
+      "2401100CSE0140"
+    ],
+    "human_review_labels_reused": true,
+    "model_prediction_used_as_identity": false,
+    "manual_rereview_required": false,
+    "quality_gate_relaxed": false,
+    "super_resolution_used": false,
+    "production_files_changed": false,
+    "dataset_files_changed": false,
+    "official_attendance_changed": false,
+    "mon_p3_processed": false,
+    "staged_sources": [
+      {
+        "Source_ID": "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6",
+        "Item_ID": "CCC-40a4e971227bc88cd6",
+        "Source_Package_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Source_Broad_Item_ID": "CCC-40a4e971227bc88cd6",
+        "Source_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d\\recovered_crops\\CCC-40a4e971227bc88cd6__CP2_cam5_back.mp4_f372_zone_back_middle_left_4.png",
+        "Source_SHA256": "1c3c6c91f77487060ba1ef91e348bae3601ad51dc754fd9e9f7b75e113be5387",
+        "Staged_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75\\candidate_sources\\same_track_recovered_cctv\\tue_p2\\CCC-40a4e971227bc88cd6__CP2_cam5_back.mp4_f372_zone_back_middle_left_4.png",
+        "Staged_SHA256": "1c3c6c91f77487060ba1ef91e348bae3601ad51dc754fd9e9f7b75e113be5387",
+        "Source_Session": "2026-06-30__B51__P2__CVO",
+        "Track_ID": "CP2-cam5-back-TRK00034",
+        "Observation_ID": "CP2:cam5:back.mp4:f372:zone:back_middle_left:4",
+        "Checkpoint": "CP2",
+        "Camera": "cam5",
+        "Human_Actual_Roll": "2401100CSE0140",
+        "Candidate_Roll": "2401100CSE0140",
+        "Identity_Source": "human_reviewed_track_actual_roll",
+        "Identity_Correction_ID": "",
+        "Human_Review_Action": "same_track_recovery_from_approved_item",
+        "Human_Approval_Preserved": true,
+        "Embedding_Usable": true,
+        "Embedding_Status": "same_track_recovered_medoid",
+        "Embedding_Exclusion_Reason": "",
+        "Manual_Rereview_Required": false,
+        "Quality_Gate_Relaxed": false,
+        "Image_Width": 73,
+        "Image_Height": 80,
+        "Detector_Score": 0.852009,
+        "Rank_Score": "",
+        "Detection_Count": 1,
+        "Accepted_Candidate_Count": 1,
+        "Preprocessing_Policy": "live_zone_same_track_exact_observation_reproduction",
+        "Embedding_Dimension": 128,
+        "Recovery_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Recovery_Embedding_Key": "CCC-40a4e971227bc88cd6__CP2_cam5_back.mp4_f372_zone_back_middle_left_4",
+        "Recovery_Selected_Pairwise_Min": 0.6987265348434448,
+        "Recovery_Consumption_Role": "track_medoid_only",
+        "Video_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-30\\TUE_P2\\CP2_1010\\back.mp4",
+        "Video_SHA256": "1e503274295c5cad2786686cfefc2d434b8ed1991a6b7a0bc8ea7317b8644ef5",
+        "Frame_Index": 372,
+        "Matched_IoU": 0.999749,
+        "Source_Category": "same_track_recovery"
+      },
+      {
+        "Source_ID": "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-6b53194439dd9b4108",
+        "Item_ID": "CCC-6b53194439dd9b4108",
+        "Source_Package_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Source_Broad_Item_ID": "CCC-6b53194439dd9b4108",
+        "Source_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d\\recovered_crops\\CCC-6b53194439dd9b4108__CP4_cam5_back.mp4_f396_zone_back_rear_band_7.png",
+        "Source_SHA256": "6fe969c19988686149dabcc1994bc5353271eec3c0c88b19e7a8d103c46c799a",
+        "Staged_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75\\candidate_sources\\same_track_recovered_cctv\\tue_p2\\CCC-6b53194439dd9b4108__CP4_cam5_back.mp4_f396_zone_back_rear_band_7.png",
+        "Staged_SHA256": "6fe969c19988686149dabcc1994bc5353271eec3c0c88b19e7a8d103c46c799a",
+        "Source_Session": "2026-06-30__B51__P2__CVO",
+        "Track_ID": "CP4-cam5-back-TRK00060",
+        "Observation_ID": "CP4:cam5:back.mp4:f396:zone:back_rear_band:7",
+        "Checkpoint": "CP4",
+        "Camera": "cam5",
+        "Human_Actual_Roll": "2401100CSE0016",
+        "Candidate_Roll": "2401100CSE0016",
+        "Identity_Source": "human_reviewed_track_actual_roll",
+        "Identity_Correction_ID": "",
+        "Human_Review_Action": "same_track_recovery_from_approved_item",
+        "Human_Approval_Preserved": true,
+        "Embedding_Usable": true,
+        "Embedding_Status": "same_track_recovered_medoid",
+        "Embedding_Exclusion_Reason": "",
+        "Manual_Rereview_Required": false,
+        "Quality_Gate_Relaxed": false,
+        "Image_Width": 59,
+        "Image_Height": 79,
+        "Detector_Score": 0.868188,
+        "Rank_Score": "",
+        "Detection_Count": 1,
+        "Accepted_Candidate_Count": 1,
+        "Preprocessing_Policy": "live_zone_same_track_exact_observation_reproduction",
+        "Embedding_Dimension": 128,
+        "Recovery_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Recovery_Embedding_Key": "CCC-6b53194439dd9b4108__CP4_cam5_back.mp4_f396_zone_back_rear_band_7",
+        "Recovery_Selected_Pairwise_Min": 0.48094457387924194,
+        "Recovery_Consumption_Role": "track_medoid_only",
+        "Video_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-30\\TUE_P2\\CP4_1030\\back.mp4",
+        "Video_SHA256": "667186b5bb92eb604c8c144f0708b0b0558b57376c1ec342d1babdd8e00c5a2e",
+        "Frame_Index": 396,
+        "Matched_IoU": 0.999817,
+        "Source_Category": "same_track_recovery"
+      },
+      {
+        "Source_ID": "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-cecf2ac6baadeae504",
+        "Item_ID": "CCC-cecf2ac6baadeae504",
+        "Source_Package_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Source_Broad_Item_ID": "CCC-cecf2ac6baadeae504",
+        "Source_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d\\recovered_crops\\CCC-cecf2ac6baadeae504__CP3_cam5_back.mp4_f276_zone_back_right_seating_3.png",
+        "Source_SHA256": "31749b83376f278bec559820c677d68251ddb63c0f7039f2ee6a489d10c7b6ec",
+        "Staged_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75\\candidate_sources\\same_track_recovered_cctv\\tue_p2\\CCC-cecf2ac6baadeae504__CP3_cam5_back.mp4_f276_zone_back_right_seating_3.png",
+        "Staged_SHA256": "31749b83376f278bec559820c677d68251ddb63c0f7039f2ee6a489d10c7b6ec",
+        "Source_Session": "2026-06-30__B51__P2__CVO",
+        "Track_ID": "CP3-cam5-back-TRK00038",
+        "Observation_ID": "CP3:cam5:back.mp4:f276:zone:back_right_seating:3",
+        "Checkpoint": "CP3",
+        "Camera": "cam5",
+        "Human_Actual_Roll": "2401100CSE0067",
+        "Candidate_Roll": "2401100CSE0067",
+        "Identity_Source": "human_reviewed_track_actual_roll",
+        "Identity_Correction_ID": "",
+        "Human_Review_Action": "same_track_recovery_from_approved_item",
+        "Human_Approval_Preserved": true,
+        "Embedding_Usable": true,
+        "Embedding_Status": "same_track_recovered_medoid",
+        "Embedding_Exclusion_Reason": "",
+        "Manual_Rereview_Required": false,
+        "Quality_Gate_Relaxed": false,
+        "Image_Width": 61,
+        "Image_Height": 69,
+        "Detector_Score": 0.8709,
+        "Rank_Score": "",
+        "Detection_Count": 1,
+        "Accepted_Candidate_Count": 1,
+        "Preprocessing_Policy": "live_zone_same_track_exact_observation_reproduction",
+        "Embedding_Dimension": 128,
+        "Recovery_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Recovery_Embedding_Key": "CCC-cecf2ac6baadeae504__CP3_cam5_back.mp4_f276_zone_back_right_seating_3",
+        "Recovery_Selected_Pairwise_Min": 0.4465789198875427,
+        "Recovery_Consumption_Role": "track_medoid_only",
+        "Video_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-30\\TUE_P2\\CP3_1020\\back.mp4",
+        "Video_SHA256": "252b7743c2154bd6e385858d87c74be23dad05590a31b198a796de4860223690",
+        "Frame_Index": 276,
+        "Matched_IoU": 0.999621,
+        "Source_Category": "same_track_recovery"
+      },
+      {
+        "Source_ID": "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a",
+        "Item_ID": "CCC-debcd075bb2e58209a",
+        "Source_Package_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Source_Broad_Item_ID": "CCC-debcd075bb2e58209a",
+        "Source_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d\\recovered_crops\\CCC-debcd075bb2e58209a__CP1_cam5_back.mp4_f468_zone_back_middle_left_2.png",
+        "Source_SHA256": "d25fdef774f44c964df473a988ddd9fc1a0105ee8749f146deb20278f264cde4",
+        "Staged_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75\\candidate_sources\\same_track_recovered_cctv\\tue_p2\\CCC-debcd075bb2e58209a__CP1_cam5_back.mp4_f468_zone_back_middle_left_2.png",
+        "Staged_SHA256": "d25fdef774f44c964df473a988ddd9fc1a0105ee8749f146deb20278f264cde4",
+        "Source_Session": "2026-06-30__B51__P2__CVO",
+        "Track_ID": "CP1-cam5-back-TRK00062",
+        "Observation_ID": "CP1:cam5:back.mp4:f468:zone:back_middle_left:2",
+        "Checkpoint": "CP1",
+        "Camera": "cam5",
+        "Human_Actual_Roll": "2401100CSE0140",
+        "Candidate_Roll": "2401100CSE0140",
+        "Identity_Source": "human_reviewed_track_actual_roll",
+        "Identity_Correction_ID": "",
+        "Human_Review_Action": "same_track_recovery_from_approved_item",
+        "Human_Approval_Preserved": true,
+        "Embedding_Usable": true,
+        "Embedding_Status": "same_track_recovered_medoid",
+        "Embedding_Exclusion_Reason": "",
+        "Manual_Rereview_Required": false,
+        "Quality_Gate_Relaxed": false,
+        "Image_Width": 68,
+        "Image_Height": 85,
+        "Detector_Score": 0.898805,
+        "Rank_Score": "",
+        "Detection_Count": 1,
+        "Accepted_Candidate_Count": 1,
+        "Preprocessing_Policy": "live_zone_same_track_exact_observation_reproduction",
+        "Embedding_Dimension": 128,
+        "Recovery_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Recovery_Embedding_Key": "CCC-debcd075bb2e58209a__CP1_cam5_back.mp4_f468_zone_back_middle_left_2",
+        "Recovery_Selected_Pairwise_Min": 0.678389310836792,
+        "Recovery_Consumption_Role": "track_medoid_only",
+        "Video_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-30\\TUE_P2\\CP1_1000\\back.mp4",
+        "Video_SHA256": "6a8e1fedae693c2810949eae2e424b5c344c263fbf3340998c702b6dbf531970",
+        "Frame_Index": 468,
+        "Matched_IoU": 0.999823,
+        "Source_Category": "same_track_recovery"
+      },
+      {
+        "Source_ID": "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-f3fb78fb641f4d014f",
+        "Item_ID": "CCC-f3fb78fb641f4d014f",
+        "Source_Package_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Source_Broad_Item_ID": "CCC-f3fb78fb641f4d014f",
+        "Source_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\recovery_runs\\cctv-recovery-69e11ea931f79330626d\\recovered_crops\\CCC-f3fb78fb641f4d014f__CP4_cam5_back.mp4_f120_zone_back_right_seating_2.png",
+        "Source_SHA256": "86e4106d31e9b1c73761cf6d422c07eae4565be2369505ba679daec7e2a2a462",
+        "Staged_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75\\candidate_sources\\same_track_recovered_cctv\\tue_p2\\CCC-f3fb78fb641f4d014f__CP4_cam5_back.mp4_f120_zone_back_right_seating_2.png",
+        "Staged_SHA256": "86e4106d31e9b1c73761cf6d422c07eae4565be2369505ba679daec7e2a2a462",
+        "Source_Session": "2026-06-30__B51__P2__CVO",
+        "Track_ID": "CP4-cam5-back-TRK00024",
+        "Observation_ID": "CP4:cam5:back.mp4:f120:zone:back_right_seating:2",
+        "Checkpoint": "CP4",
+        "Camera": "cam5",
+        "Human_Actual_Roll": "2401100CSE0044",
+        "Candidate_Roll": "2401100CSE0044",
+        "Identity_Source": "human_reviewed_track_actual_roll",
+        "Identity_Correction_ID": "",
+        "Human_Review_Action": "same_track_recovery_from_approved_item",
+        "Human_Approval_Preserved": true,
+        "Embedding_Usable": true,
+        "Embedding_Status": "same_track_recovered_medoid",
+        "Embedding_Exclusion_Reason": "",
+        "Manual_Rereview_Required": false,
+        "Quality_Gate_Relaxed": false,
+        "Image_Width": 60,
+        "Image_Height": 76,
+        "Detector_Score": 0.894058,
+        "Rank_Score": "",
+        "Detection_Count": 1,
+        "Accepted_Candidate_Count": 1,
+        "Preprocessing_Policy": "live_zone_same_track_exact_observation_reproduction",
+        "Embedding_Dimension": 128,
+        "Recovery_ID": "cctv-recovery-69e11ea931f79330626d",
+        "Recovery_Embedding_Key": "CCC-f3fb78fb641f4d014f__CP4_cam5_back.mp4_f120_zone_back_right_seating_2",
+        "Recovery_Selected_Pairwise_Min": 0.665067732334137,
+        "Recovery_Consumption_Role": "track_medoid_only",
+        "Video_Path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\cctv_videos\\prepared_slots\\2026-06-30\\TUE_P2\\CP4_1030\\back.mp4",
+        "Video_SHA256": "667186b5bb92eb604c8c144f0708b0b0558b57376c1ec342d1babdd8e00c5a2e",
+        "Frame_Index": 120,
+        "Matched_IoU": 0.99954,
+        "Source_Category": "same_track_recovery"
+      }
+    ],
+    "staged_source_count": 5,
+    "candidate_embedding_record_count": 5,
+    "source_hashes_verified": true,
+    "staged_hashes_verified": true,
+    "live_dataset_writes": false,
+    "production_embedding_writes": false,
+    "candidate_promoted": false
+  },
+  "candidate_source_selection": {
+    "schema_version": 1,
+    "policy_version": "phase-1.2m-source-selected-family-v1",
+    "selection_audit_id": "selection-audit-bacb195efc6751ca2c22",
+    "selection_policy_version": "phase-1.2l1-promotion-evidence-parsimony-v1",
+    "source_ablation_id": "source-ablation-da12b41f85bc813a6de1",
+    "corrected_config_id": "ABL-16-ee3a4ff6",
+    "kept_source_ids": [
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+    ],
+    "removed_source_ids": [
+      "CCTV-CCC-16b0462d0f283edb9f",
+      "CCTV-CCC-492ad8ac8e05bd2cac",
+      "CCTV-CCC-9852dcae08d8e171db",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6"
+    ],
+    "implicated_source_ids": [
+      "CCTV-CCC-16b0462d0f283edb9f",
+      "CCTV-CCC-492ad8ac8e05bd2cac",
+      "CCTV-CCC-9852dcae08d8e171db",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-40a4e971227bc88cd6",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a"
+    ],
+    "selection_audit_output_manifest_sha256": "7baa68fb901e8af8e3bd420282b1d84d96e79382bb43a24a65ea3a91058ac410",
+    "selection_decision_sha256": "97de993665df3c39dc59f38c7fca30009be1b8f4ae86c06f5ebf9b6b98ceb7d8",
+    "source_ablation_output_manifest_sha256": "2a34c5c107e4966fdfafed8a2a2e5d5e2bae1e5ab2a914116c97eacad82c54a3",
+    "final_promotion_requires_new_untouched_session": true,
+    "selection_is_build_design_only": true,
+    "candidate_promoted": false,
+    "status": "applied",
+    "pre_selection_usable_cctv_embedding_records": 11,
+    "active_cctv_embedding_records": 7,
+    "removed_cctv_embedding_records": 4,
+    "active_source_ids": [
+      "CCTV-CCC-7e46ad49251721372e",
+      "CCTV-CCC-a7471ab54df8f7fd0c",
+      "CCTV-CCC-ddcd6fbfe2af49a704",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-6b53194439dd9b4108",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-cecf2ac6baadeae504",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-debcd075bb2e58209a",
+      "RECOVERY-cctv-recovery-69e11ea931f79330626d-CCC-f3fb78fb641f4d014f"
+    ],
+    "active_session_counts": {
+      "2026-06-30__B51__P1__CVO": 3,
+      "2026-06-30__B51__P2__CVO": 4
+    },
+    "active_source_kind_counts": {
+      "human_approved_cctv_crop": 3,
+      "same_track_recovered_cctv_medoid": 4
+    },
+    "staged_sources_preserved_for_audit": true,
+    "source_files_deleted": 0,
+    "source_files_moved": 0,
+    "manual_review_repeated": false,
+    "full_mon_p3_recognition_repeated": false,
+    "production_embeddings_changed": false,
+    "official_attendance_changed": false
+  },
+  "variant_availability": {
+    "A": {
+      "available": true,
+      "status": "built_unapproved",
+      "required_source_sessions": [],
+      "source_sessions_included": [],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "evaluation_sessions_contaminated": [],
+      "unavailable_reason": ""
+    },
+    "B": {
+      "available": true,
+      "status": "built_unapproved",
+      "required_source_sessions": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "source_sessions_included": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "evaluation_sessions_contaminated": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "unavailable_reason": ""
+    },
+    "C": {
+      "available": true,
+      "status": "built_unapproved",
+      "required_source_sessions": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "source_sessions_included": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "evaluation_sessions_contaminated": [
+        "2026-06-30__B51__P1__CVO"
+      ],
+      "unavailable_reason": ""
+    },
+    "D": {
+      "available": true,
+      "status": "built_unapproved",
+      "required_source_sessions": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "source_sessions_included": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "missing_usable_source_sessions": [],
+      "evaluation_sessions_allowed": [],
+      "evaluation_sessions_contaminated": [
+        "2026-06-30__B51__P1__CVO",
+        "2026-06-30__B51__P2__CVO"
+      ],
+      "unavailable_reason": ""
+    },
+    "summary": {
+      "usable_session_counts": {
+        "2026-06-30__B51__P1__CVO": 3,
+        "2026-06-30__B51__P2__CVO": 4
+      },
+      "available_variants": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "unavailable_variants": [],
+      "cross_session_pair_complete": true,
+      "partial_family_allowed": true,
+      "quality_gate_relaxed": false,
+      "manual_rereview_required": false
+    }
+  },
+  "cctv_embedding_usability_policy": {
+    "required_sessions": [
+      "2026-06-30__B51__P1__CVO",
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "minimum_usable_crops_per_required_session": 1,
+    "human_approval_is_not_embedding_usability": true,
+    "unusable_approved_crop_action": "preserve_and_exclude_from_embedding_payload",
+    "manual_rereview_required": false,
+    "quality_gate_relaxed": false,
+    "same_track_recovery_allowed": true,
+    "same_track_recovery_consumption": "one_medoid_per_reviewed_track",
+    "minimum_recovery_pairwise_similarity": 0.4,
+    "super_resolution_used": false,
+    "source_subset_selection_allowed": true,
+    "source_subset_selection_policy": "phase-1.2m-source-selected-family-v1",
+    "staged_sources_preserved_for_audit": true,
+    "final_promotion_requires_new_untouched_session": true
+  },
+  "candidate_cvo_coverage": {
+    "covered": 26,
+    "roster": 27,
+    "rolls": [
+      "2401100CSE0016",
+      "2401100CSE0019",
+      "2401100CSE0028",
+      "2401100CSE0044",
+      "2401100CSE0050",
+      "2401100CSE0052",
+      "2401100CSE0060",
+      "2401100CSE0067",
+      "2401100CSE0073",
+      "2401100CSE0074",
+      "2401100CSE0093",
+      "2401100CSE0097",
+      "2401100CSE0109",
+      "2401100CSE0111",
+      "2401100CSE0121",
+      "2401100CSE0124",
+      "2401100CSE0140",
+      "2401100CSE0184",
+      "2401100CSE0202",
+      "2401100CSE0209",
+      "2401100CSE0237",
+      "2401100CSE0254",
+      "24011CSEAI0007",
+      "24011CSEAI0051",
+      "24011CSEAI0103",
+      "24011CSEAI0110"
+    ]
+  },
+  "production_cvo_coverage": {
+    "covered": 25,
+    "missing": [
+      "2401100CSE0268",
+      "24011CSEAI0110"
+    ],
+    "embedding_counts": {
+      "2401100CSE0016": 8,
+      "2401100CSE0019": 20,
+      "2401100CSE0028": 11,
+      "2401100CSE0044": 13,
+      "2401100CSE0050": 24,
+      "2401100CSE0052": 16,
+      "2401100CSE0060": 19,
+      "2401100CSE0067": 18,
+      "2401100CSE0073": 20,
+      "2401100CSE0074": 10,
+      "2401100CSE0093": 19,
+      "2401100CSE0097": 14,
+      "2401100CSE0109": 8,
+      "2401100CSE0110": 16,
+      "2401100CSE0111": 10,
+      "2401100CSE0121": 9,
+      "2401100CSE0124": 13,
+      "2401100CSE0140": 5,
+      "2401100CSE0184": 10,
+      "2401100CSE0202": 12,
+      "2401100CSE0209": 12,
+      "2401100CSE0237": 8,
+      "2401100CSE0254": 8,
+      "24011CSEAI0007": 15,
+      "24011CSEAI0051": 18,
+      "24011CSEAI0103": 19
+    }
+  },
+  "ai0110_candidate_coverage": true,
+  "missing_0268_status": "Dataset Missing",
+  "benchmark_metrics": {
+    "production_baseline": {
+      "rows": 120,
+      "evaluable_rows": 120,
+      "identified_rows": 105,
+      "accepted": 27,
+      "correct_accepted": 27,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 15,
+      "incorrect_unresolved": 78,
+      "raw_top1_correct": 77,
+      "unique_accepted_identities": 10,
+      "identified_correct_accept_rate": 0.257143,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.42490269243717194,
+        "p90": 0.5483510911464692,
+        "min": 0.25534534454345703,
+        "max": 0.6398045420646667
+      },
+      "margin_distribution": {
+        "median": 0.054230377078056335,
+        "p90": 0.1685789227485657,
+        "min": 0.0002448558807373047,
+        "max": 0.3297854959964752
+      }
+    },
+    "variant_a_cleaned_enrollment": {
+      "rows": 120,
+      "evaluable_rows": 120,
+      "identified_rows": 105,
+      "accepted": 27,
+      "correct_accepted": 27,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 15,
+      "incorrect_unresolved": 78,
+      "raw_top1_correct": 77,
+      "unique_accepted_identities": 10,
+      "identified_correct_accept_rate": 0.257143,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.42490269243717194,
+        "p90": 0.5483510911464692,
+        "min": 0.25534534454345703,
+        "max": 0.6398045420646667
+      },
+      "margin_distribution": {
+        "median": 0.05550214648246765,
+        "p90": 0.1685789227485657,
+        "min": 0.0002448558807373047,
+        "max": 0.3297854959964752
+      }
+    },
+    "variant_b_tue_p1_cross_session": {
+      "rows": 100,
+      "evaluable_rows": 100,
+      "identified_rows": 87,
+      "accepted": 26,
+      "correct_accepted": 26,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 13,
+      "incorrect_unresolved": 61,
+      "raw_top1_correct": 63,
+      "unique_accepted_identities": 10,
+      "identified_correct_accept_rate": 0.298851,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.43016281723976135,
+        "p90": 0.5553760826587677,
+        "min": 0.25534534454345703,
+        "max": 0.6398045420646667
+      },
+      "margin_distribution": {
+        "median": 0.0527222603559494,
+        "p90": 0.17110716402530673,
+        "min": 0.0004341602325439453,
+        "max": 0.3297854959964752
+      }
+    },
+    "variant_c_tue_p2_cross_session": {
+      "rows": 20,
+      "evaluable_rows": 20,
+      "identified_rows": 18,
+      "accepted": 2,
+      "correct_accepted": 2,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 2,
+      "incorrect_unresolved": 16,
+      "raw_top1_correct": 11,
+      "unique_accepted_identities": 2,
+      "identified_correct_accept_rate": 0.111111,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.4090316742658615,
+        "p90": 0.46678946316242226,
+        "min": 0.3348986804485321,
+        "max": 0.5381209254264832
+      },
+      "margin_distribution": {
+        "median": 0.05613589286804199,
+        "p90": 0.13993811905384065,
+        "min": 0.002354264259338379,
+        "max": 0.20562681555747986
+      }
+    },
+    "variant_d_full_contaminated_descriptive": {
+      "rows": 120,
+      "evaluable_rows": 120,
+      "identified_rows": 105,
+      "accepted": 32,
+      "correct_accepted": 32,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 15,
+      "incorrect_unresolved": 73,
+      "raw_top1_correct": 76,
+      "unique_accepted_identities": 12,
+      "identified_correct_accept_rate": 0.304762,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.43189939856529236,
+        "p90": 0.5615450024604798,
+        "min": 0.283579021692276,
+        "max": 0.6398045420646667
+      },
+      "margin_distribution": {
+        "median": 0.05535702407360077,
+        "p90": 0.18110094070434582,
+        "min": 0.0004341602325439453,
+        "max": 0.3297854959964752
+      }
+    },
+    "available_leakage_safe_cross_session_combined": {
+      "rows": 120,
+      "evaluable_rows": 120,
+      "identified_rows": 105,
+      "accepted": 28,
+      "correct_accepted": 28,
+      "wrong_accepted": 0,
+      "outsider_absorption": 0,
+      "mixed_acceptance": 0,
+      "unverifiable_acceptance": 0,
+      "unsafe_confirmed_acceptances": 0,
+      "correct_unresolved": 15,
+      "incorrect_unresolved": 77,
+      "raw_top1_correct": 74,
+      "unique_accepted_identities": 10,
+      "identified_correct_accept_rate": 0.266667,
+      "confirmed_accepted_precision": 1.0,
+      "score_distribution": {
+        "median": 0.42736418545246124,
+        "p90": 0.5483510911464692,
+        "min": 0.25534534454345703,
+        "max": 0.6398045420646667
+      },
+      "margin_distribution": {
+        "median": 0.053562283515930176,
+        "p90": 0.1685789227485657,
+        "min": 0.0004341602325439453,
+        "max": 0.3297854959964752
+      }
+    }
+  },
+  "false_identity_gate": {
+    "passed": true,
+    "unsafe_model_rows": 0,
+    "unique_unsafe_benchmark_rows": 0,
+    "unsafe_benchmark_row_ids": [],
+    "policy": "zero new known-student wrong accepts; zero candidate not-in-mapping absorptions; zero candidate mixed-track accepts",
+    "comparisons": {
+      "A": {
+        "rows": 120,
+        "new_wrong_accepted": 0,
+        "new_outsider_absorption": 0,
+        "new_mixed_acceptance": 0,
+        "correct_to_wrong": 0,
+        "candidate_outsider_absorption": 0,
+        "candidate_mixed_acceptance": 0,
+        "lost_correct_acceptance": 0,
+        "recovered_correct_acceptance": 0,
+        "unsafe_model_rows": 0,
+        "unsafe_benchmark_row_ids": []
+      },
+      "B": {
+        "rows": 100,
+        "new_wrong_accepted": 0,
+        "new_outsider_absorption": 0,
+        "new_mixed_acceptance": 0,
+        "correct_to_wrong": 0,
+        "candidate_outsider_absorption": 0,
+        "candidate_mixed_acceptance": 0,
+        "lost_correct_acceptance": 0,
+        "recovered_correct_acceptance": 1,
+        "unsafe_model_rows": 0,
+        "unsafe_benchmark_row_ids": []
+      },
+      "C": {
+        "rows": 20,
+        "new_wrong_accepted": 0,
+        "new_outsider_absorption": 0,
+        "new_mixed_acceptance": 0,
+        "correct_to_wrong": 0,
+        "candidate_outsider_absorption": 0,
+        "candidate_mixed_acceptance": 0,
+        "lost_correct_acceptance": 0,
+        "recovered_correct_acceptance": 0,
+        "unsafe_model_rows": 0,
+        "unsafe_benchmark_row_ids": []
+      }
+    }
+  },
+  "leakage_control": {
+    "passed": true,
+    "failures": [],
+    "variant_d_promotion_evidence": false,
+    "mon_p3_accessed": false
+  },
+  "exact_next_step": "Reserve and run a different untouched validation session. MON_P3 is design evidence and cannot be reused as final promotion evidence.",
+  "review_scalability_policy": {
+    "current_manual_reviews_are_one_time_bootstrap_ground_truth": true,
+    "reviewed_tracks_reused_across_embedding_versions": true,
+    "approval_and_rejection_decisions_reused_permanently": true,
+    "future_embedding_updates_are_incremental_per_student": true,
+    "every_embedding_update_requires_automatic_regression": true,
+    "live_review_mode": "exception_only",
+    "live_review_reasons": [
+      "unknown_identity",
+      "conflicting_identity_evidence",
+      "low_confidence_or_low_quality_evidence"
+    ],
+    "live_identity_decision_basis": "multi_frame_tracklet_and_checkpoint_evidence",
+    "review_work_must_not_scale_linearly_with_frames_or_cameras": true,
+    "broad_review_round_requires_documented_exception": true,
+    "post_mon_p3_priority": [
+      "live_cctv_ingestion",
+      "asynchronous_processing",
+      "checkpoint_state",
+      "prioritized_exception_review_queue",
+      "hod_and_faculty_workflows"
+    ]
+  },
+  "manual_reviews_repeated": false,
+  "production_embeddings_changed": false,
+  "production_summary_changed": false,
+  "datasets_changed_by_this_phase": false,
+  "official_thresholds_changed": false,
+  "attendance_rule_changed": false,
+  "official_attendance_changed": false,
+  "mon_p3_processed": false,
+  "mon_p3_reuse_for_promotion_allowed": false,
+  "new_untouched_session_required": true,
+  "candidate_built": true,
+  "candidate_promoted": false,
+  "production_approved": false,
+  "current_version_pointer_updated": false,
+  "rejected_candidate_remains_rejected": "cal-5cd35b60dd83",
+  "output_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\versions\\embfam-274b5207b8b71294ff75"
+}

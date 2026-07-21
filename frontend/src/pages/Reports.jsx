@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { isAdmin } from '../data/users.js';
 import { filterStudentRowsForUser } from '../data/students.js';
+import { classifyReviewRows, rowMatchesReviewMode, validateReportScope } from '../utils/consistency.js';
+import { apiGetResult } from '../api/client.js';
+import { entryToSlotSummaryRow, sessionStateLabel, sessionStateTone, sortAttendanceSessions } from '../utils/reportWorkflow.js';
 import {
   fileToRows,
   parseCsv,
@@ -12,7 +16,6 @@ import {
   getDetectionCount,
   getRoll,
   getStatus,
-  summarizeAttendance,
   summarizeDetectionLog,
 } from '../utils/csv.js';
 
@@ -136,6 +139,50 @@ const S = {
   },
   statusReady: { background: '#ecfdf5', color: '#047857', borderColor: '#bbf7d0' },
   statusMissing: { background: '#fffbeb', color: '#b45309', borderColor: '#fde68a' },
+  savedGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
+    gap: 12,
+    marginTop: 16,
+  },
+  savedCard: {
+    border: '1px solid #dbe6f1',
+    borderRadius: 18,
+    background: '#ffffff',
+    padding: 16,
+    display: 'grid',
+    gap: 12,
+    boxShadow: '0 10px 26px rgba(15, 23, 42, 0.05)',
+  },
+  savedMeta: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 8,
+    color: '#64748b',
+    fontSize: 12,
+    fontWeight: 800,
+  },
+  statePill: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    width: 'fit-content',
+    padding: '6px 9px',
+    borderRadius: 999,
+    fontSize: 12,
+    fontWeight: 900,
+    background: '#f1f5f9',
+    color: '#475569',
+    border: '1px solid #e2e8f0',
+  },
+  qualityWarning: {
+    marginTop: 16,
+    border: '1px solid #fde68a',
+    background: '#fffbeb',
+    color: '#92400e',
+    borderRadius: 16,
+    padding: 14,
+    lineHeight: 1.45,
+  },
   uploadGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
@@ -338,6 +385,46 @@ function rollCompare(a, b) {
   return String(getRoll(a)).localeCompare(String(getRoll(b)), undefined, { numeric: true, sensitivity: 'base' });
 }
 
+function truthyReportValue(value) {
+  const text = String(value ?? '').trim().toLowerCase();
+  return ['1', 'true', 'yes', 'needs_review'].includes(text);
+}
+
+function falseyReportValue(value) {
+  const text = String(value ?? '').trim().toLowerCase();
+  return ['0', 'false', 'no'].includes(text);
+}
+
+function numberValue(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function buildReportQuality(row) {
+  if (!row) return { requiresManualReview: false, finalized: true, status: 'Valid', reason: '' };
+  const explicitStatus = String(row.Run_Quality_Status || '').trim();
+  const explicitReview = truthyReportValue(row.Requires_Manual_Review);
+  const explicitUnfinalized = falseyReportValue(row.Attendance_Finalized);
+  const detected = numberValue(row.Total_Face_Detections || row.Detected_Faces);
+  const accepted = numberValue(row.Accepted_Recognitions);
+  const total = numberValue(row.Total_Students);
+  const present = numberValue(row.Students_Present);
+  const review = numberValue(row.Students_Needs_Review);
+  const absent = numberValue(row.Students_Absent);
+  const recognitionRate = detected ? Math.round((accepted / detected) * 1000) / 10 : 0;
+  const poor = String(row.Poor_Checkpoints || '').split(',').map((item) => item.trim()).filter(Boolean);
+  const inferredLowQuality = detected >= 50 && recognitionRate < 10 && present === 0 && review === 0 && absent >= Math.max(10, Math.ceil(total * 0.8));
+  const requiresManualReview = explicitReview || explicitUnfinalized || inferredLowQuality;
+  return {
+    requiresManualReview,
+    finalized: !requiresManualReview,
+    status: explicitStatus || (requiresManualReview ? 'Needs Review - Low Recognition Quality' : 'Valid'),
+    reason: row.Run_Quality_Reason || (requiresManualReview ? 'Attendance requires review because recognition quality was too low. The system detected faces but could not confidently identify enough students.' : ''),
+    recognitionRate,
+    poorCheckpoints: poor.join(', '),
+  };
+}
+
 function buildCleanSlotSummary(row) {
   if (!row) return null;
   const start = getSlotValue(row, ['Start_Time', 'Start Time']);
@@ -403,6 +490,17 @@ function ActiveButton({ active, children, onClick }) {
   );
 }
 
+function sessionPillStyle(session) {
+  const tone = sessionStateTone(session);
+  const tones = {
+    success: { background: '#ecfdf5', color: '#047857', borderColor: '#bbf7d0' },
+    danger: { background: '#fff1f2', color: '#be123c', borderColor: '#fecdd3' },
+    warning: { background: '#fffbeb', color: '#92400e', borderColor: '#fde68a' },
+    info: { background: '#eff6ff', color: '#1d4ed8', borderColor: '#bfdbfe' },
+  };
+  return merge(S.statePill, tones[tone]);
+}
+
 function CsvPicker({ title, hint, onFile }) {
   return (
     <label style={S.fileCard}>
@@ -423,6 +521,7 @@ function CsvPicker({ title, hint, onFile }) {
 
 export default function Reports() {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const admin = isAdmin(currentUser);
   const [attendanceRows, setAttendanceRows] = useState([]);
   const [slotSummaryRows, setSlotSummaryRows] = useState([]);
@@ -438,6 +537,33 @@ export default function Reports() {
   const [loadingDemo, setLoadingDemo] = useState(false);
   const [showTech, setShowTech] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+  const [reportScopeMessage, setReportScopeMessage] = useState('');
+  const [savedSessions, setSavedSessions] = useState([]);
+  const [savedSessionsStatus, setSavedSessionsStatus] = useState('loading');
+  const [savedSessionsMessage, setSavedSessionsMessage] = useState('Loading saved reports...');
+  const [loadingSessionId, setLoadingSessionId] = useState('');
+  const [loadedSession, setLoadedSession] = useState(null);
+  const [loadedSource, setLoadedSource] = useState('');
+
+  const refreshSavedSessions = async () => {
+    setSavedSessionsStatus('loading');
+    setSavedSessionsMessage('Loading saved reports...');
+    const result = await apiGetResult('/api/attendance-sessions');
+    if (!result.ok) {
+      setSavedSessions([]);
+      setSavedSessionsStatus('error');
+      setSavedSessionsMessage(result.networkError ? 'Backend offline. Saved reports cannot be loaded.' : (result.error || 'Could not load saved reports.'));
+      return;
+    }
+    const sessions = sortAttendanceSessions(result.data?.sessions || []);
+    setSavedSessions(sessions);
+    setSavedSessionsStatus('ready');
+    setSavedSessionsMessage(sessions.length ? `${sessions.length} saved report${sessions.length === 1 ? '' : 's'} available for this login.` : 'No completed reports are available for this login yet.');
+  };
+
+  useEffect(() => {
+    refreshSavedSessions();
+  }, [currentUser]);
 
   useEffect(() => {
     let cancelled = false;
@@ -452,10 +578,22 @@ export default function Reports() {
           return;
         }
         const manifest = await response.json();
+        let summary = [];
+        if (manifest?.files?.slot_summary) {
+          summary = await publicCsvToRows(manifest.files.slot_summary);
+        }
+        const scope = validateReportScope(currentUser, [], summary);
         if (!cancelled) {
           setDemoManifest(manifest);
-          setDemoStatus('ready');
-          setDemoMessage('Demo report files are ready.');
+          if (scope.allowed) {
+            setDemoStatus('ready');
+            setDemoMessage(scope.subjects.length
+              ? `Demo report ready for ${scope.subjects.join(', ')}.`
+              : 'Demo report files are ready.');
+          } else {
+            setDemoStatus('incompatible');
+            setDemoMessage(`${scope.reason} Ask HOD to prepare a demo for your assigned subject.`);
+          }
         }
       } catch (error) {
         if (!cancelled) {
@@ -466,16 +604,67 @@ export default function Reports() {
     }
     loadManifest();
     return () => { cancelled = true; };
-  }, []);
+  }, [currentUser]);
 
   const loadFile = async (kind, file) => {
     if (!file) return;
     const rows = await fileToRows(file);
+    const nextAttendance = kind === 'attendance' ? rows : attendanceRows;
+    const nextSummary = kind === 'summary' ? rows : slotSummaryRows;
+    const scope = validateReportScope(currentUser, nextAttendance, nextSummary);
+    if (!scope.allowed) {
+      setReportScopeMessage(scope.reason);
+      return;
+    }
+
+    setReportScopeMessage(scope.reason || '');
     setFileNames((prev) => ({ ...prev, [kind]: file.name }));
     if (kind === 'attendance') setAttendanceRows(rows);
     if (kind === 'summary') setSlotSummaryRows(rows);
     if (kind === 'log') setLogRows(rows);
     setSelectedStudent(null);
+    setLoadedSession(null);
+    setLoadedSource('csv');
+  };
+
+  const loadSavedSession = async (session) => {
+    if (!session?.session_id) return;
+    setLoadingSessionId(session.session_id);
+    setReportScopeMessage('');
+    const result = await apiGetResult(`/api/attendance/${encodeURIComponent(session.session_id)}`);
+    if (!result.ok || !result.data?.success) {
+      setSavedSessionsMessage(result.error || result.data?.error || 'Could not load this saved report.');
+      setSavedSessionsStatus('error');
+      setLoadingSessionId('');
+      return;
+    }
+    const attendance = result.data.attendance_data || [];
+    const summary = [entryToSlotSummaryRow(result.data.entry || {})];
+    const scope = validateReportScope(currentUser, attendance, summary);
+    if (!scope.allowed) {
+      setReportScopeMessage(scope.reason);
+      setLoadingSessionId('');
+      return;
+    }
+    setAttendanceRows(attendance);
+    setSlotSummaryRows(summary);
+    setLogRows([]);
+    setFileNames({ attendance: 'Saved attendance session', summary: 'Saved session metadata' });
+    setSearch('');
+    setViewMode('all');
+    setSelectedStudent(null);
+    setShowUpload(false);
+    setLoadedSession({
+      ...session,
+      ...(result.data.entry || {}),
+      review_state: result.data.review_state?.state || session.review_state,
+      unresolved_count: result.data.review_state?.unresolved_count ?? session.unresolved_count,
+      attendance_finalized: result.data.review_state?.attendance_finalized ?? session.attendance_finalized,
+    });
+    setLoadedSource('saved');
+    setSavedSessionsStatus('ready');
+    setSavedSessionsMessage(`Loaded ${session.subject || 'attendance'} ${session.period || ''} report.`);
+    setLoadingSessionId('');
   };
 
   const loadDemoFiles = async () => {
@@ -490,6 +679,14 @@ export default function Reports() {
       const attendance = await publicCsvToRows(files.attendance);
       const summary = files.slot_summary ? await publicCsvToRows(files.slot_summary) : [];
       const log = files.detection_log ? await publicCsvToRows(files.detection_log) : [];
+      const scope = validateReportScope(currentUser, attendance, summary);
+      if (!scope.allowed) {
+        setReportScopeMessage(scope.reason);
+        setDemoMessage(scope.reason);
+        setDemoStatus('incompatible');
+        return;
+      }
+      setReportScopeMessage('');
       setAttendanceRows(attendance);
       setSlotSummaryRows(summary);
       setLogRows(log);
@@ -502,6 +699,8 @@ export default function Reports() {
       setViewMode('all');
       setSelectedStudent(null);
       setShowUpload(false);
+      setLoadedSession(null);
+      setLoadedSource('demo');
       setDemoMessage('Demo report loaded.');
       setDemoStatus('ready');
     } catch (error) {
@@ -520,20 +719,42 @@ export default function Reports() {
     setSearch('');
     setSelectedStudent(null);
     setShowTech(false);
+    setReportScopeMessage('');
+    setLoadedSession(null);
+    setLoadedSource('');
   };
 
   const visibleAttendanceRows = useMemo(() => filterStudentRowsForUser(attendanceRows, currentUser), [attendanceRows, currentUser]);
-  const attendanceSummary = useMemo(() => summarizeAttendance(visibleAttendanceRows), [visibleAttendanceRows]);
+  const attendanceSummary = useMemo(() => {
+    const result = classifyReviewRows(visibleAttendanceRows, {}, {
+      statusOf: (row) => getStatus(row),
+      isPresent: (status) => /present|yes/i.test(String(status || '')),
+      isEvidenceReview: isReviewCase,
+    });
+    return { ...result, percentage: result.pct };
+  }, [visibleAttendanceRows]);
   const logSummary = useMemo(() => summarizeDetectionLog(logRows), [logRows]);
   const cleanSlot = buildCleanSlotSummary(slotSummaryRows[0]);
+  const reportQuality = buildReportQuality(slotSummaryRows[0]);
   const hasReport = visibleAttendanceRows.length > 0 || slotSummaryRows.length > 0;
   const reportLoadedButHidden = attendanceRows.length > 0 && visibleAttendanceRows.length === 0;
+  const savedSessionPreview = savedSessions.slice(0, 6);
+  const openReviewSession = (session) => {
+    const params = new URLSearchParams({ session_id: session.session_id });
+    if (session.day) params.set('day', session.day);
+    navigate(`/manual-review?${params.toString()}`);
+  };
+  const downloadSavedSession = (session) => {
+    if (session?.download_url) window.open(session.download_url, '_blank', 'noopener,noreferrer');
+  };
 
   const filteredRows = useMemo(() => {
     let output = visibleAttendanceRows.filter((row) => getRoll(row).toLowerCase().includes(search.toLowerCase()));
-    if (viewMode === 'review') output = output.filter(isReviewCase);
-    if (viewMode === 'present') output = output.filter((row) => /present|yes/i.test(getStatus(row)));
-    if (viewMode === 'absent') output = output.filter((row) => /absent/i.test(getStatus(row)));
+    output = output.filter((row) => rowMatchesReviewMode(row, viewMode, {}, {
+      statusOf: (item) => getStatus(item),
+      isPresent: (status) => /present|yes/i.test(String(status || '')),
+      isEvidenceReview: isReviewCase,
+    }));
     output.sort((a, b) => {
       if (sortMode === 'roll_desc') return -rollCompare(a, b);
       if (sortMode === 'status') return getStatus(a).localeCompare(getStatus(b)) || rollCompare(a, b);
@@ -552,23 +773,104 @@ export default function Reports() {
         actions={hasReport ? <button type="button" style={S.secondaryBtn} onClick={clearLoadedFiles}>Clear report</button> : null}
       />
 
+      <section style={S.card}>
+        <div style={S.topGrid}>
+          <div>
+            <p style={S.eyebrow}>Saved attendance sessions</p>
+            <h2 style={S.h2}>Open a live report from the backend</h2>
+            <p style={S.muted}>These reports are session-scoped and filtered to your assigned subjects. Review and finalization state comes directly from the backend.</p>
+          </div>
+          <button type="button" style={merge(S.secondaryBtn, savedSessionsStatus === 'loading' && { opacity: 0.55, cursor: 'not-allowed' })} onClick={refreshSavedSessions} disabled={savedSessionsStatus === 'loading'}>
+            {savedSessionsStatus === 'loading' ? 'Refreshing…' : 'Refresh reports'}
+          </button>
+        </div>
+        <span style={merge(S.statusLine, savedSessionsStatus === 'ready' && S.statusReady, savedSessionsStatus === 'error' && S.statusMissing)}>{savedSessionsMessage}</span>
+
+        {savedSessionPreview.length > 0 && (
+          <div style={S.savedGrid}>
+            {savedSessionPreview.map((session) => (
+              <article key={session.session_id} style={merge(S.savedCard, loadedSession?.session_id === session.session_id && { borderColor: '#0f8b8d', boxShadow: '0 15px 32px rgba(15, 139, 141, 0.13)' })}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'flex-start' }}>
+                  <div>
+                    <strong style={{ color: '#0f172a', fontSize: 17 }}>{session.subject || 'Class'} · {session.period || '—'}</strong>
+                    <p style={{ ...S.muted, marginTop: 4 }}>{session.course_name || 'Attendance report'}</p>
+                  </div>
+                  <span style={sessionPillStyle(session)}>{sessionStateLabel(session)}</span>
+                </div>
+                <div style={S.savedMeta}>
+                  <span>{session.session_date || session.day || 'Historical'}</span>
+                  <span>•</span>
+                  <span>{session.present_count || 0} present</span>
+                  <span>•</span>
+                  <span>{session.needs_review_count || 0} review</span>
+                  <span>•</span>
+                  <span>{session.unconfirmed_count || 0} unconfirmed</span>
+                  {Number(session.missing_enrollment_count || 0) > 0 && (
+                    <>
+                      <span>•</span>
+                      <span>{session.missing_enrollment_count} missing enrollment</span>
+                    </>
+                  )}
+                </div>
+                {session.revision_authority === 'official_reviewed' && (
+                  <div style={{ marginTop: 9, color: '#047857', fontSize: 12, fontWeight: 900 }}>✓ Official reviewed revision</div>
+                )}
+                {session.pending_candidate_revision && (
+                  <div style={{ marginTop: 7, padding: '8px 10px', borderRadius: 10, background: '#f8fafc', border: '1px solid #dbe6f1', color: '#475569', fontSize: 12, lineHeight: 1.45 }}>
+                    Latest automatic rerun archived: {session.pending_candidate_revision.present_count || 0} present · {session.pending_candidate_revision.needs_review_count || 0} review · {session.pending_candidate_revision.unconfirmed_count || 0} unconfirmed. It did not replace the official report.
+                  </div>
+                )}
+                {session.latest_candidate_matches_official && session.latest_equivalent_candidate_revision && (
+                  <div style={{ marginTop: 7, padding: '8px 10px', borderRadius: 10, background: '#ecfdf5', border: '1px solid #a7f3d0', color: '#047857', fontSize: 12, lineHeight: 1.45, fontWeight: 800 }}>
+                    ✓ Latest identical-source rerun matched the official reviewed decision. No repeated review was required.
+                  </div>
+                )}
+                <div style={S.actions}>
+                  <button type="button" style={S.secondaryBtn} onClick={() => loadSavedSession(session)} disabled={loadingSessionId === session.session_id}>
+                    {loadingSessionId === session.session_id ? 'Loading…' : 'Open report'}
+                  </button>
+                  {!session.attendance_finalized && (
+                    <button type="button" style={S.primaryBtn} onClick={() => openReviewSession(session)}>Review</button>
+                  )}
+                  {session.attendance_finalized && session.download_url && (
+                    <button type="button" style={S.primaryBtn} onClick={() => downloadSavedSession(session)}>Download final CSV</button>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
       <section style={merge(S.card, S.sourceCard)}>
         <div style={S.sourceCopy}>
           <span style={S.icon}>📊</span>
           <div>
             <p style={S.eyebrow}>Report source</p>
-            <h2 style={S.h2}>Start with demo report or CSV upload</h2>
-            <p style={S.muted}>Use the demo for presentation. Use CSV upload when checking a generated attendance run.</p>
-            <span style={merge(S.statusLine, demoStatus === 'ready' && S.statusReady, demoStatus === 'missing' && S.statusMissing)}>{demoMessage}</span>
+            <h2 style={S.h2}>{admin ? 'Start with demo report or CSV upload' : 'Load an assigned-subject report'}</h2>
+            <p style={S.muted}>{admin ? 'Use the demo for presentation. Use CSV upload when checking a generated attendance run.' : 'Only reports matching your assigned subject can be opened. Use a compatible demo or upload your generated CSV.'}</p>
+            <span style={merge(S.statusLine, demoStatus === 'ready' && S.statusReady, (demoStatus === 'missing' || demoStatus === 'incompatible') && S.statusMissing)}>{demoMessage}</span>
           </div>
         </div>
         <div style={S.actions}>
           <button type="button" style={merge(S.primaryBtn, (demoStatus !== 'ready' || loadingDemo) && { opacity: 0.55, cursor: 'not-allowed' })} onClick={loadDemoFiles} disabled={demoStatus !== 'ready' || loadingDemo}>
-            {loadingDemo ? 'Loading…' : 'Load Demo Report'}
+            {loadingDemo ? 'Loading…' : demoStatus === 'incompatible' ? 'Demo not assigned to you' : 'Load Demo Report'}
           </button>
           <button type="button" style={S.secondaryBtn} onClick={() => setShowUpload((value) => !value)}>{showUpload ? 'Hide CSV Upload' : 'Upload CSV Manually'}</button>
         </div>
       </section>
+
+      {reportScopeMessage && (
+        <section style={merge(S.card, { borderColor: '#fecaca', background: '#fff7f7' })}>
+          <div style={S.empty}>
+            <span style={{ ...S.emptyIcon, background: '#fff1f2' }}>⚠️</span>
+            <div>
+              <h3 style={S.h3}>Report blocked by faculty scope</h3>
+              <p style={S.muted}>{reportScopeMessage}</p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {showUpload && (
         <section style={S.card}>
@@ -589,7 +891,7 @@ export default function Reports() {
             <span style={S.emptyIcon}>📈</span>
             <div>
               <h3 style={S.h3}>No report loaded yet</h3>
-              <p style={S.muted}>Click <b>Load Demo Report</b> for a quick presentation view, or upload the generated CSV files manually.</p>
+              <p style={S.muted}>{demoStatus === 'ready' ? 'Load the compatible demo report, or upload generated CSV files for your assigned subject.' : 'Upload generated CSV files for your assigned subject. The prepared demo is not available for this login.'}</p>
             </div>
           </div>
         </section>
@@ -615,14 +917,73 @@ export default function Reports() {
               <h2 style={S.h2}>{cleanSlot.title}</h2>
               <p style={S.muted}>{cleanSlot.subtitle} · Faculty: {cleanSlot.faculty} · {cleanSlot.room}</p>
             </div>
-            <button type="button" style={S.secondaryBtn} onClick={() => setShowTech((x) => !x)}>{showTech ? 'Hide technical details' : 'Show technical details'}</button>
+            <div style={S.actions}>
+              {loadedSource === 'saved' && loadedSession && !loadedSession.attendance_finalized && (
+                <button type="button" style={S.primaryBtn} onClick={() => openReviewSession(loadedSession)}>Review & finalize</button>
+              )}
+              {loadedSource === 'saved' && loadedSession?.attendance_finalized && loadedSession?.download_url && (
+                <button type="button" style={S.primaryBtn} onClick={() => downloadSavedSession(loadedSession)}>Download final CSV</button>
+              )}
+              <button type="button" style={S.secondaryBtn} onClick={() => setShowTech((x) => !x)}>{showTech ? 'Hide technical details' : 'Show technical details'}</button>
+            </div>
           </div>
+
+          {loadedSource === 'saved' && loadedSession?.source_report_superseded && (
+            <div style={merge(S.qualityWarning, { borderColor: '#bfdbfe', background: '#eff6ff', color: '#1d4ed8' })}>
+              <strong>Official reviewed multi-frame revision</strong>
+              <p style={{ margin: '6px 0 0' }}>The earlier frame-only result is preserved as superseded. Exact-source reviewed tracklet evidence remains authoritative and insufficient camera evidence is not treated as absence.</p>
+            </div>
+          )}
+
+          {loadedSource === 'saved' && loadedSession?.pending_candidate_revision && (
+            <div style={merge(S.qualityWarning, { borderColor: '#fde68a', background: '#fffbeb', color: '#92400e' })}>
+              <strong>New automatic rerun preserved as a candidate</strong>
+              <p style={{ margin: '6px 0 0' }}>The rerun produced {loadedSession.pending_candidate_revision.present_count || 0} present, {loadedSession.pending_candidate_revision.needs_review_count || 0} review, and {loadedSession.pending_candidate_revision.unconfirmed_count || 0} unconfirmed. It was archived for audit and did not overwrite this reviewed official revision.</p>
+            </div>
+          )}
+
+          {loadedSource === 'saved' && loadedSession?.latest_candidate_matches_official && loadedSession?.latest_equivalent_candidate_revision && (
+            <div style={merge(S.qualityWarning, { borderColor: '#a7f3d0', background: '#ecfdf5', color: '#047857' })}>
+              <strong>Latest rerun matched the official reviewed report</strong>
+              <p style={{ margin: '6px 0 0' }}>The exact source videos, production embeddings, and reviewed tracklet signatures matched. Existing review decisions were carried forward safely, so the rerun did not create another review task or replace the official revision.</p>
+            </div>
+          )}
+
+          {loadedSource === 'saved' && loadedSession && (
+            <div style={merge(
+              S.qualityWarning,
+              loadedSession.attendance_finalized && { borderColor: '#bbf7d0', background: '#ecfdf5', color: '#047857' },
+              loadedSession.roster_complete === false && { borderColor: '#fecdd3', background: '#fff1f2', color: '#be123c' },
+              !loadedSession.attendance_finalized && loadedSession.roster_complete !== false && Number(loadedSession.unresolved_count || 0) === 0 && { borderColor: '#bfdbfe', background: '#eff6ff', color: '#1d4ed8' },
+            )}>
+              <strong>{sessionStateLabel(loadedSession)}</strong>
+              <p style={{ margin: '6px 0 0' }}>
+                {loadedSession.attendance_finalized
+                  ? `Finalized${loadedSession.finalized_by ? ` by ${loadedSession.finalized_by}` : ''}${loadedSession.finalized_at ? ` on ${loadedSession.finalized_at}` : ''}.`
+                  : loadedSession.roster_complete === false
+                    ? `${loadedSession.roster_reason || 'The saved rows do not match the authoritative subject roster.'} Finalization is blocked until the source report is corrected or reprocessed.`
+                  : Number(loadedSession.unresolved_count || 0) > 0
+                    ? `${loadedSession.needs_review_count || 0} identity-evidence case(s), ${loadedSession.unconfirmed_count || 0} camera-unconfirmed case(s), and ${loadedSession.missing_enrollment_count || 0} missing-enrollment case(s) remain unresolved. Only the first group has model evidence to review; the others need an explicit faculty attendance decision before finalization.`
+                    : 'All unresolved cases are resolved. Open Review Students to explicitly finalize this report.'}
+              </p>
+            </div>
+          )}
+
+          {reportQuality.requiresManualReview && loadedSource !== 'saved' && (
+            <div style={S.qualityWarning}>
+              <strong>{reportQuality.status}</strong>
+              <p style={{ margin: '6px 0 0' }}>{reportQuality.reason}</p>
+              <small>Raw calculated counts are shown below, but this attendance is unfinalized until Review Students is completed.</small>
+            </div>
+          )}
 
           <div style={S.metricGrid}>
             <MetricCard label="Students" value={attendanceSummary.total} hint={admin ? 'All loaded students' : 'Filtered by faculty'} tone="info" />
-            <MetricCard label="Present" value={attendanceSummary.present} hint={`${attendanceSummary.percentage}% attendance`} tone="success" />
-            <MetricCard label="Need review" value={visibleAttendanceRows.filter(isReviewCase).length} hint="Doubtful / flagged" tone="warning" />
-            <MetricCard label="Absent" value={attendanceSummary.absent} hint="System result" tone="danger" />
+            <MetricCard label="Present" value={attendanceSummary.present} hint={`${attendanceSummary.percentage}% confirmed present`} tone="success" />
+            <MetricCard label="Needs review" value={attendanceSummary.review} hint="Some identity evidence, below final rule" tone="warning" />
+            <MetricCard label="Unconfirmed" value={attendanceSummary.unconfirmed} hint="Insufficient camera evidence; not proven absent" tone="info" />
+            <MetricCard label="Missing enrollment" value={attendanceSummary.missingEnrollment} hint="No production embedding" tone="warning" />
+            <MetricCard label="Absent" value={attendanceSummary.absent} hint="Only after a quality-valid session" tone="danger" />
           </div>
 
           {showTech && (
@@ -634,7 +995,12 @@ export default function Reports() {
               <span style={S.techItem}>Total faces<br /><b>{cleanSlot.totalFaces}</b></span>
               <span style={S.techItem}>Accepted<br /><b>{cleanSlot.accepted || logSummary.accepted}</b></span>
               <span style={S.techItem}>Rejected/unknown<br /><b>{cleanSlot.rejected || logSummary.rejected}</b></span>
+              <span style={S.techItem}>Run quality<br /><b>{reportQuality.status}</b></span>
               <span style={S.techItem}>Mode<br /><b>{cleanSlot.modeText}</b></span>
+              {loadedSession?.official_recognition_authority && <span style={S.techItem}>Official authority<br /><b>{loadedSession.official_recognition_authority}</b></span>}
+              {loadedSession?.revision_authority && <span style={S.techItem}>Revision role<br /><b>{loadedSession.revision_authority}</b></span>}
+              {loadedSession?.candidate_revision_count > 0 && <span style={S.techItem}>Archived candidates<br /><b>{loadedSession.candidate_revision_count}</b></span>}
+              {loadedSession?.tracklets_used_for_official_attendance !== undefined && <span style={S.techItem}>Tracklets official<br /><b>{loadedSession.tracklets_used_for_official_attendance ? 'Yes' : 'No'}</b></span>}
             </div>
           )}
         </section>
@@ -644,8 +1010,8 @@ export default function Reports() {
         <section style={S.card}>
           <div style={S.topGrid}>
             <div>
-              <h3 style={S.h3}>Final attendance</h3>
-              <p style={S.muted}>Search, filter, and open evidence for the selected student.</p>
+              <h3 style={S.h3}>{reportQuality.requiresManualReview ? 'Raw calculated attendance' : 'Final attendance'}</h3>
+              <p style={S.muted}>{reportQuality.requiresManualReview ? 'Search, filter, and review raw evidence before treating this as official.' : 'Search, filter, and open evidence for the selected student.'}</p>
             </div>
           </div>
 
@@ -653,8 +1019,11 @@ export default function Reports() {
             <input style={S.input} value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search roll number" />
             <div style={S.pillRow}>
               <ActiveButton active={viewMode === 'all'} onClick={() => setViewMode('all')}>All</ActiveButton>
-              <ActiveButton active={viewMode === 'review'} onClick={() => setViewMode('review')}>Need review</ActiveButton>
+              <ActiveButton active={viewMode === 'review'} onClick={() => setViewMode('review')}>Unresolved</ActiveButton>
               <ActiveButton active={viewMode === 'present'} onClick={() => setViewMode('present')}>Present</ActiveButton>
+              <ActiveButton active={viewMode === 'needs_review'} onClick={() => setViewMode('needs_review')}>Needs review</ActiveButton>
+              <ActiveButton active={viewMode === 'unconfirmed'} onClick={() => setViewMode('unconfirmed')}>Unconfirmed</ActiveButton>
+              <ActiveButton active={viewMode === 'missing'} onClick={() => setViewMode('missing')}>Missing enrollment</ActiveButton>
               <ActiveButton active={viewMode === 'absent'} onClick={() => setViewMode('absent')}>Absent</ActiveButton>
             </div>
             <div style={S.pillRow}>
@@ -679,11 +1048,29 @@ export default function Reports() {
               </thead>
               <tbody>
                 {filteredRows.map((row) => (
-                  <tr key={getRoll(row)} style={isReviewCase(row) ? { background: '#fffbeb' } : null}>
+                  <tr key={getRoll(row)} style={rowMatchesReviewMode(row, 'review', {}, {
+                    statusOf: (item) => getStatus(item),
+                    isPresent: (status) => /present|yes/i.test(String(status || '')),
+                    isEvidenceReview: isReviewCase,
+                  }) ? { background: '#fffbeb' } : null}>
                     <td style={S.td}><strong style={{ color: '#0f172a' }}>{getRoll(row)}</strong></td>
                     <td style={S.td}><StatusBadge status={getStatus(row)} /></td>
-                    <td style={S.td}>{row.Recognized_Checkpoints || 0}/{row.Total_Checkpoints || cleanSlot?.checkpoints || '—'}</td>
-                    <td style={S.td}>{getDetectionCount(row)} detections · avg {getAvgScore(row) || '—'} · best {getBestScore(row) || '—'}</td>
+                    <td style={S.td}>
+                      <strong>{row.Reviewed_Tracklet_Checkpoint_Count ?? row.Recognized_Checkpoints ?? 0}/{row.Total_Checkpoints || cleanSlot?.checkpoints || 5}</strong>
+                      {row.Strict_Recognized_Checkpoints !== undefined && row.Strict_Recognized_Checkpoints !== '' && (
+                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>Strict: {row.Strict_Recognized_Checkpoints}/{row.Total_Checkpoints || cleanSlot?.checkpoints || 5}</div>
+                      )}
+                    </td>
+                    <td style={S.td}>
+                      {row.Reviewed_Tracklet_Checkpoints ? <strong style={{ color: '#0f766e' }}>Reviewed: {row.Reviewed_Tracklet_Checkpoints}</strong> : `${getDetectionCount(row)} observations`}
+                      {row.Guarded_Recovery_Candidate_Checkpoints && !row.Reviewed_Tracklet_Checkpoints && (
+                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Recovery candidate: {row.Guarded_Recovery_Candidate_Checkpoints}</div>
+                      )}
+                      {row.Mixed_Track_Checkpoints_Rejected && (
+                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Mixed track rejected: {row.Mixed_Track_Checkpoints_Rejected}</div>
+                      )}
+                      <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>{row.Evidence_Interpretation || `avg ${getAvgScore(row) || '—'} · best ${getBestScore(row) || '—'}`}</div>
+                    </td>
                     <td style={S.td}>{row.Cameras_Seen || row.Videos_Seen || '—'}</td>
                     <td style={S.td}><button type="button" style={S.smallBtn} onClick={() => setSelectedStudent(row)}>View Evidence</button></td>
                   </tr>
@@ -707,11 +1094,15 @@ export default function Reports() {
               <button type="button" style={S.secondaryBtn} onClick={() => setSelectedStudent(null)}>Close</button>
             </div>
             <div style={S.metricGrid}>
-              <MetricCard label="Checkpoints" value={`${selectedStudent.Recognized_Checkpoints || 0}/${selectedStudent.Total_Checkpoints || '—'}`} />
-              <MetricCard label="Accepted detections" value={getDetectionCount(selectedStudent)} />
+              <MetricCard label="Checkpoints" value={`${selectedStudent.Reviewed_Tracklet_Checkpoint_Count ?? selectedStudent.Recognized_Checkpoints ?? 0}/${selectedStudent.Total_Checkpoints || 5}`} />
+              <MetricCard label="Accepted observations" value={getDetectionCount(selectedStudent)} />
               <MetricCard label="Average score" value={getAvgScore(selectedStudent) || '—'} />
               <MetricCard label="Best score" value={getBestScore(selectedStudent) || '—'} />
             </div>
+            {selectedStudent.Strict_Recognized_Checkpoints !== undefined && selectedStudent.Strict_Recognized_Checkpoints !== '' && <p style={S.muted}>Strict accepted checkpoints: {selectedStudent.Strict_Recognized_Checkpoints}/{selectedStudent.Total_Checkpoints || 5}</p>}
+            {selectedStudent.Reviewed_Tracklet_Checkpoints && <p style={{ ...S.muted, color: '#0f766e', fontWeight: 850 }}>Reviewed multi-frame checkpoints: {selectedStudent.Reviewed_Tracklet_Checkpoints}</p>}
+            {selectedStudent.Mixed_Track_Checkpoints_Rejected && <p style={{ ...S.muted, color: '#b45309', fontWeight: 850 }}>Mixed track rejected: {selectedStudent.Mixed_Track_Checkpoints_Rejected}</p>}
+            <p style={S.muted}>{selectedStudent.Evidence_Interpretation || 'No additional interpretation was recorded.'}</p>
             <p style={S.muted}>Cameras: {selectedStudent.Cameras_Seen || '—'} · Flags: {selectedStudent.Flags || '—'}</p>
           </div>
         </div>

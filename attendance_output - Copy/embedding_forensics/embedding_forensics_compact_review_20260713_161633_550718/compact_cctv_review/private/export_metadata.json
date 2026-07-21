@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "compact-verified-cctv-8785d6b28789ae6f",
+  "package_kind": "compact_verified_cctv",
+  "item_count": 36,
+  "actions": [
+    "approve_for_candidate_embedding_version",
+    "reject_wrong_or_unclear_identity",
+    "reject_quality",
+    "reject_duplicate",
+    "reject_mixed_person",
+    "uncertain"
+  ],
+  "source_mapping_sha256": "997714eea0df8f94f89aa38f56d265addac5c54f472af9bd17da4a8b5ddfe2f6",
+  "source_files_unchanged": true,
+  "production_embeddings_changed": false,
+  "browser_private_mapping_loaded": false,
+  "compact_review_schema_version": 1,
+  "package_revision": "compact-priority-review-v1",
+  "source_broad_package_id": "verified-cctv-77507b2f5d348aad",
+  "source_reviewfix_run": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110",
+  "source_reviewfix_manifest_sha256": "19a5605567a47dc383c97df0b43532a737531448502486c4068553a920434a63",
+  "compact_selection_csv_sha256": "2623cef42b8a5c5f978b7dfba95c1a10ada99fe1d5895b419f34ed7de251de6b",
+  "identity_source": "human_review_actual_roll",
+  "model_prediction_used_as_identity": false,
+  "automatic_approvals": 0
+}

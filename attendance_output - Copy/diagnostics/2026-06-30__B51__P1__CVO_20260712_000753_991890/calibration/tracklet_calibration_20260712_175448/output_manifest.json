@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-12T17:56:16",
+  "output_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\calibration\\tracklet_calibration_20260712_175448",
+  "candidate_id": "cal-5cd35b60dd83",
+  "decision": "promote_to_multisession_shadow_validation",
+  "files_sha256": {
+    "baseline_vs_candidate.csv": "b2b2030dbdbe6cc1e2552670c0f5a188d864014c4e117bf41e2cec89b38a2422",
+    "calibration_report.md": "119b13cf670e43b7dfbb31708395e91feb282bee81435c4de524758396935a20",
+    "calibration_summary.json": "f739ec8b26bae981b25c60b458b52cd6d282fb66f6e9d0df0318d7914cacef9b",
+    "camera_checkpoint_breakdown.csv": "755a8fe2c59264cc67f64011e83d54545872c3ddaed125d263be5d6dd8ff7f83",
+    "candidate_config.json": "60b065788d9a12c900c4259685d6c66d97bb1e731b715e9e96bb91b7afe9afa4",
+    "candidate_search.csv": "1c34012d782dd47d78ba876fe0cd4e6feaf39c9b235f1286b9c2ef924496151b",
+    "false_accept_audit.csv": "be8982d57dc139f430970dc40d0c728be8f0d7707d570ed42ff40ac72566a923",
+    "fold_configurations.csv": "ae5d073d022bbda5bf208e9a52043fb9ba6dbe1d57b0b31d29f179ad02ad57e7",
+    "ground_truth_manifest.json": "555bfdb4030643119876f6d70febb15396e1eca421ba24ed8951cea78e800585",
+    "out_of_fold_predictions.csv": "4ae9b0286ce6da83f0ebfe079b65af5579ab9a92921910d1de2ff6eb6f1e20e2",
+    "recovered_tracks.csv": "12dd9b6b3eaaf81495f1b591e431323a10001fba00f7668d2c18f91fc58303b9",
+    "tracklet_calibration_ground_truth.csv": "31f2cbe161a1a94a223ee231e7481634260c7c633ad462033f52b94ed792148f"
+  },
+  "production_changes": false
+}

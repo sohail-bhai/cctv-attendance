@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "candidate_id": "cal-5cd35b60dd83",
+  "enabled": false,
+  "mode": "shadow_only",
+  "production_approved": false,
+  "requires_multisession_validation": true,
+  "applies_only_to_baseline_rejected_tracklets": true,
+  "subject_abbr": "CVO",
+  "thresholds": {
+    "min_best_score": 0.38,
+    "min_margin": 0.03,
+    "min_vote_ratio_pct": 50.0,
+    "min_observation_count": 3,
+    "min_consistency_ratio": 0.5,
+    "min_pairwise_similarity_median": 0.45,
+    "min_selected_observations": 3,
+    "min_consistent_embeddings": 3,
+    "require_dominant_agreement": true,
+    "require_subject_roster_candidate": true
+  },
+  "fixed_safety_guards": {
+    "candidate_must_be_in_authoritative_subject_roster": true,
+    "aggregate_candidate_must_equal_dominant_frame_candidate": true,
+    "minimum_selected_observations": 3,
+    "minimum_consistent_embeddings": 3
+  },
+  "official_match_threshold_unchanged": 0.48,
+  "official_margin_threshold_unchanged": 0.08,
+  "attendance_checkpoint_rule_unchanged": 3
+}

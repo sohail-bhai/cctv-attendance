@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-12T12:37:51",
+  "session_id": "2026-06-30__B51__P1__CVO",
+  "diagnostic_run": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890",
+  "recognition_rerun_required": false,
+  "official_attendance_changed": false,
+  "match_threshold": 0.48,
+  "margin_threshold": 0.08,
+  "present_checkpoint_rule": 3,
+  "embedding_roster_coverage": {
+    "roster_students": 26,
+    "embedding_available": 23,
+    "missing_count": 3,
+    "missing_rolls": [
+      "2401100CSE0268",
+      "24011CSEAI0061",
+      "24011CSEAI0110"
+    ],
+    "annotated_key_count": 4,
+    "collision_count": 0
+  },
+  "false_negative_categories": {
+    "correct_candidate_score_below_threshold": 10,
+    "embedding_missing": 3,
+    "insufficient_checkpoint_coverage": 9,
+    "no_usable_crop": 1,
+    "present_confirmed": 3
+  },
+  "actual_present_students": 26,
+  "present_confirmed": 3,
+  "false_negatives": 23,
+  "unresolved_selection": {
+    "selected_tracks": 63,
+    "by_camera": {
+      "cam10": 21,
+      "cam5": 42
+    },
+    "by_checkpoint": {
+      "CP1": 15,
+      "CP2": 10,
+      "CP3": 13,
+      "CP4": 14,
+      "CP5": 11
+    },
+    "by_rejection_reason": {
+      "margin_below_threshold": 1,
+      "score_and_margin_below_threshold": 51,
+      "score_below_threshold": 11
+    },
+    "by_candidate": {
+      "2401100CSE0016": 1,
+      "2401100CSE0019": 1,
+      "2401100CSE0028": 1,
+      "2401100CSE0044": 4,
+      "2401100CSE0050": 6,
+      "2401100CSE0052": 2,
+      "2401100CSE0060": 4,
+      "2401100CSE0073": 3,
+      "2401100CSE0074": 2,
+      "2401100CSE0093": 1,
+      "2401100CSE0097": 1,
+      "2401100CSE0110": 1,
+      "2401100CSE0121": 5,
+      "2401100CSE0124": 6,
+      "2401100CSE0140": 3,
+      "2401100CSE0209": 4,
+      "2401100CSE0237": 3,
+      "24011CSEAI0007": 6,
+      "24011CSEAI0051": 3,
+      "24011CSEAI0103": 6
+    },
+    "by_zone": {
+      "back_front_left_center": 2,
+      "back_middle_center": 16,
+      "back_middle_left": 18,
+      "back_rear_band": 2,
+      "back_right_seating": 4,
+      "front_middle_center": 1,
+      "front_near_left_center": 1,
+      "front_rear_band": 11,
+      "front_right_seating": 8
+    },
+    "by_quality_band": {
+      "high": 4,
+      "medium": 59
+    }
+  },
+  "unresolved_review_package": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_123645_135312\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712123645-a19e68",
+  "next_recommendation": "pending_unresolved_human_labels"
+}

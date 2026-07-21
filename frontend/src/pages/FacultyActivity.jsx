@@ -18,8 +18,11 @@ function safeRows(data, day) {
   return FALLBACK_TIMETABLE.filter((row) => row.day === day);
 }
 
-function latestJobForSlot(jobs, day, period) {
-  return jobs.find((job) => job.day === day && normalizePeriod(job.period) === normalizePeriod(period));
+function latestJobForSlot(jobs, row) {
+  return jobs.find((job) => {
+    if (row.session_id && job.session_id) return job.session_id === row.session_id;
+    return job.day === row.day && normalizePeriod(job.period) === normalizePeriod(row.period) && (!job.subject_abbr || job.subject_abbr === (row.subject_track || row.subject));
+  });
 }
 
 export default function FacultyActivity() {
@@ -42,7 +45,7 @@ export default function FacultyActivity() {
       .filter((row) => canAccessRow(faculty, row))
       .map((row) => {
         const subject = displaySubjectForUser(row, faculty);
-        const job = latestJobForSlot(jobs, row.day, row.period);
+        const job = latestJobForSlot(jobs, row);
         const state = job?.status || row.att_status?.status || 'Pending';
         return { ...row, visibleSubject: subject, job, state };
       });
@@ -76,7 +79,7 @@ export default function FacultyActivity() {
   if (!isAdmin(currentUser)) {
     return (
       <div className="page-stack">
-        <PageHeader eyebrow="Restricted" title="Faculty Activity" subtitle="Only Main Admin can view all faculty activity." />
+        <PageHeader eyebrow="Restricted" title="Faculty Activity" subtitle="Only the HOD can view all faculty activity." />
         <div className="notice error">You do not have access to this page.</div>
       </div>
     );
@@ -85,9 +88,9 @@ export default function FacultyActivity() {
   return (
     <div className="page-stack">
       <PageHeader
-        eyebrow="Main Admin Monitoring"
+        eyebrow="HOD Monitoring"
         title="Faculty Activity"
-        subtitle="Track which faculty slots are pending, processing, completed, or failed. This page is for admin visibility only."
+        subtitle="Track which faculty slots are pending, processing, completed, or failed. This page is for HOD visibility only."
         actions={<NiceSelect compact value={day} onChange={setDay} options={DAYS} />}
       />
 
@@ -126,7 +129,7 @@ export default function FacultyActivity() {
                 {item.visibleSlots.slice(0, 6).map((slot) => {
                   const info = subjectInfo(slot.visibleSubject);
                   return (
-                    <div className="compact-item" key={`${item.faculty.id}-${slot.day}-${slot.period}-${slot.visibleSubject}`}>
+                    <div className="compact-item" key={`${item.faculty.id}-${slot.session_id || `${slot.day}-${slot.period}-${slot.visibleSubject}`}`}>
                       <div>
                         <strong>{slot.period} · {slot.visibleSubject}</strong>
                         <span>{info?.courseName || slot.course_name} · {slot.start_time}–{slot.end_time}</span>

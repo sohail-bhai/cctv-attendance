@@ -7,5 +7,14 @@
       "edited_by": "Dr. Keerthi G",
       "edited_at": "30-06-2026 06:51:09 PM"
     }
+  },
+  "2026-06-30__B51__P1__CVO": {
+    "2401100CSE0016": {
+      "original_status": "Absent",
+      "manual_status": "Present",
+      "reason": "test",
+      "edited_by": "Mr. Vikas B",
+      "edited_at": "19-07-2026 11:45:10 AM"
+    }
   }
 }

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "mode": "before",
+  "repo_root": "F:\\sohail\\Class_Attendance_YuNet_SFace",
+  "policy_version": "phase-1.2j-mon-p3-shadow-v1.1",
+  "run_id": "mon-p3-shadow-8136f24575f6d319fb96",
+  "planned_output": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\shadow_validation\\phase_1_2j\\mon-p3-shadow-8136f24575f6d319fb96",
+  "output_complete_before_resume": false,
+  "code_hashes": {
+    "src/face_attendance/mon_p3_shadow_validation.py": "68d3b693bff05f71493ad277d5e59c38e660010aaad93b357452b290c6ba9f6c",
+    "tests/test_mon_p3_shadow_validation.py": "c0e2be83dbaf738c6c38708a4d75afa30f6fe144cb8873eb37f3a6e273a3a4d9",
+    "scripts/mark_attendance_checkpoints.py": "e07ff2c5cc9461a97c5256dd80a9240b8d35b4bb104c726c3dbd26d06b257113",
+    "tests/test_checkpoint_clip_folder_discovery.py": "577d6d10b716b8a758e5515c4c23bd811cf5086ca0b8c7909259fa9428f86c86"
+  },
+  "production_embeddings_sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+  "production_summary_sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+  "diagnostics": {
+    "production": {
+      "run_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6",
+      "summary_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6\\diagnostic_summary_2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6.json",
+      "summary_sha256": "f520879a683eb5f30954209fa38d303ac89873bedcab8e64cea433791a42a455",
+      "face_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6\\face_diagnostics_2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6.csv",
+      "face_sha256": "ff363d8cff7b8683af0b3c1c9e72e66946484409aeed30a750e8e6a408fe5e21",
+      "tracklet_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6\\tracklet_diagnostics_2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6.csv",
+      "tracklet_sha256": "a1c93c97eb08449c0a82999220658a323b58d0579a204429dca44a21c96fdf31",
+      "tracklet_rows": 386,
+      "observation_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6\\tracklet_observations_2026-06-22__B51__P3__CVO_PHASE_12J_PRODUCTION_8136f24575f6.csv",
+      "observation_sha256": "fa9d1caa877f796a690e39b639db869e5e6b949bc6d176a04c5d3595c9fc489d",
+      "observation_rows": 2911,
+      "source_video_rows": 10,
+      "timing_rows": 10
+    },
+    "candidate": {
+      "run_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6",
+      "summary_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6\\diagnostic_summary_2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6.json",
+      "summary_sha256": "fb804e3f349600cac6aff868f76784b537ba1e309d6861ae4f3701883787a025",
+      "face_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6\\face_diagnostics_2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6.csv",
+      "face_sha256": "00b9867da5806bb0f57781639af307fb2dedd565249345b2d4c480547ea4f8a3",
+      "tracklet_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6\\tracklet_diagnostics_2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6.csv",
+      "tracklet_sha256": "1bafd0029b17281f7647d90bf41bc9f686ea9578e3a708a581728528922fc1a8",
+      "tracklet_rows": 386,
+      "observation_path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6\\tracklet_observations_2026-06-22__B51__P3__CVO_PHASE_12J_CANDIDATE_8136f24575f6.csv",
+      "observation_sha256": "306e97611f9a05f2580d821996391ebfc0f44c8b06a6358f3cc9934b7781cea8",
+      "observation_rows": 2911,
+      "source_video_rows": 10,
+      "timing_rows": 10
+    }
+  },
+  "recognition_will_be_reused": true,
+  "recognition_rerun_required": false
+}

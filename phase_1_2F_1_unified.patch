@@ -1,0 +1,1419 @@
+--- a/actual_present/TUE_P1_actual_present_template.txt
++++ b/actual_present/TUE_P1_actual_present_template.txt
+@@ -1,4 +1,8 @@
+-﻿2401100CSE0016
++# TUE_P1 CVO actual-present list
++# Session date: 2026-06-30
++# Ground truth: all 27 authoritative CVO students were present.
++# Keep one canonical roll number per line. Lines starting with # are ignored.
++2401100CSE0016
+ 2401100CSE0019
+ 2401100CSE0028
+ 2401100CSE0044
+@@ -11,7 +15,6 @@
+ 2401100CSE0093
+ 2401100CSE0097
+ 2401100CSE0109
+-2401100CSE0110
+ 2401100CSE0111
+ 2401100CSE0121
+ 2401100CSE0124
+@@ -21,6 +24,8 @@
+ 2401100CSE0209
+ 2401100CSE0237
+ 2401100CSE0254
++2401100CSE0268
+ 24011CSEAI0007
+ 24011CSEAI0051
+-24011CSEAI0103
++24011CSEAI0103
++24011CSEAI0110
+--- a/data/student_faculty_map.json
++++ b/data/student_faculty_map.json
+@@ -377,6 +377,10 @@
+         "name": "KASTHURI SHRUTHI"
+       },
+       {
++        "roll": "2401100CSE0184",
++        "name": "BIJJALA VENKATESH"
++      },
++      {
+         "roll": "2401100CSE0202",
+         "name": "MARU NANDINI REDDY"
+       },
+@@ -385,6 +389,10 @@
+         "name": "N N K V HANUMAN NARAYANA"
+       },
+       {
++        "roll": "2401100CSE0237",
++        "name": "AMUDALA SIRI"
++      },
++      {
+         "roll": "2401100CSE0254",
+         "name": "DINESH RATHOD"
+       },
+@@ -401,10 +409,6 @@
+         "name": "VALASAPALLI KARTHEEKA"
+       },
+       {
+-        "roll": "24011CSEAI0061",
+-        "name": "DESHETTI VIVEK"
+-      },
+-      {
+         "roll": "24011CSEAI0103",
+         "name": "V SIDDHARTH"
+       },
+@@ -440,6 +444,14 @@
+       ]
+     },
+     {
++      "roll": "2401100CSE0026",
++      "name": "KARTHIK MAROJI",
++      "subjects": [
++        "SWE",
++        "CCM"
++      ]
++    },
++    {
+       "roll": "2401100CSE0028",
+       "name": "MALLELA SRI VISHNU VARDHAN",
+       "subjects": [
+@@ -456,6 +468,14 @@
+       ]
+     },
+     {
++      "roll": "2401100CSE0044",
++      "name": "RANDENI SAI GANESH",
++      "subjects": [
++        "SWE",
++        "CVO"
++      ]
++    },
++    {
+       "roll": "2401100CSE0050",
+       "name": "SHAIK SOHAIL AHMED",
+       "subjects": [
+@@ -472,6 +492,22 @@
+       ]
+     },
+     {
++      "roll": "2401100CSE0053",
++      "name": "T SRISAI",
++      "subjects": [
++        "SWE",
++        "CCM"
++      ]
++    },
++    {
++      "roll": "2401100CSE0060",
++      "name": "ANNAMBHATLA VENKATA SAI ANURADHA",
++      "subjects": [
++        "SWE",
++        "CVO"
++      ]
++    },
++    {
+       "roll": "2401100CSE0067",
+       "name": "CHAKRAVARTHULA RAGHAVA",
+       "subjects": [
+@@ -576,184 +612,160 @@
+       ]
+     },
+     {
+-      "roll": "2401100CSE0184",
+-      "name": "BIJJALA VENKATESH",
+-      "subjects": [
+-        "SWE",
+-        "CCM"
+-      ]
+-    },
+-    {
+-      "roll": "2401100CSE0203",
+-      "name": "MOHAMMED IRFAN",
+-      "subjects": [
+-        "SWE",
+-        "CCM"
+-      ]
+-    },
+-    {
+-      "roll": "2401100CSE0212",
+-      "name": "NALLAPA REDDY DURGESH REDDY",
++      "roll": "2401100CSE0120",
++      "name": "BATTHINI VIGNESH",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0243",
+-      "name": "BOJJA SAHASRA",
++      "roll": "2401100CSE0121",
++      "name": "BENDI SAI KUSHWANTH",
+       "subjects": [
+         "SWE",
+-        "CCM"
++        "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0254",
+-      "name": "DINESH RATHOD",
++      "roll": "2401100CSE0124",
++      "name": "BUDHINENI NANDA BHARGAV",
+       "subjects": [
+         "SWE",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0257",
+-      "name": "KODIPYAKA SHANTHAN",
++      "roll": "2401100CSE0140",
++      "name": "KASTHURI SHRUTHI",
+       "subjects": [
+         "SWE",
+-        "CCM"
++        "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0264",
+-      "name": "MUDIGONDA LALITHA SREYA",
++      "roll": "2401100CSE0175",
++      "name": "ABIRAM REDDY DEPA",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0268",
+-      "name": "PAKALAPATI NITHIN",
++      "roll": "2401100CSE0184",
++      "name": "BIJJALA VENKATESH",
+       "subjects": [
+         "SWE",
++        "CCM",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0275",
+-      "name": "ROHAN JOSHUA FRANCIS",
+-      "subjects": [
+-        "SWE",
+-        "CCM"
+-      ]
+-    },
+-    {
+-      "roll": "2401100CSE0277",
+-      "name": "SHAIK MOHAMMED RIYAN",
++      "roll": "2401100CSE0202",
++      "name": "MARU NANDINI REDDY",
+       "subjects": [
+         "SWE",
+-        "CCM"
++        "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0026",
+-      "name": "KARTHIK MAROJI",
++      "roll": "2401100CSE0203",
++      "name": "MOHAMMED IRFAN",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0044",
+-      "name": "RANDENI SAI GANESH",
++      "roll": "2401100CSE0209",
++      "name": "N N K V HANUMAN NARAYANA",
+       "subjects": [
+         "SWE",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0053",
+-      "name": "T SRISAI",
++      "roll": "2401100CSE0212",
++      "name": "NALLAPA REDDY DURGESH REDDY",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0060",
+-      "name": "ANNAMBHATLA VENKATA SAI ANURADHA",
++      "roll": "2401100CSE0224",
++      "name": "SAREDDY BHARATH REDDY",
+       "subjects": [
+         "SWE",
+-        "CVO"
++        "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0120",
+-      "name": "BATTHINI VIGNESH",
++      "roll": "2401100CSE0230",
++      "name": "TUMMA SRISHANTH REDDY",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0121",
+-      "name": "BENDI SAI KUSHWANTH",
++      "roll": "2401100CSE0237",
++      "name": "AMUDALA SIRI",
+       "subjects": [
+-        "SWE",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0124",
+-      "name": "BUDHINENI NANDA BHARGAV",
++      "roll": "2401100CSE0243",
++      "name": "BOJJA SAHASRA",
+       "subjects": [
+         "SWE",
+-        "CVO"
++        "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0140",
+-      "name": "KASTHURI SHRUTHI",
++      "roll": "2401100CSE0254",
++      "name": "DINESH RATHOD",
+       "subjects": [
+         "SWE",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0175",
+-      "name": "ABIRAM REDDY DEPA",
++      "roll": "2401100CSE0257",
++      "name": "KODIPYAKA SHANTHAN",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0202",
+-      "name": "MARU NANDINI REDDY",
++      "roll": "2401100CSE0264",
++      "name": "MUDIGONDA LALITHA SREYA",
+       "subjects": [
+         "SWE",
+-        "CVO"
++        "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0209",
+-      "name": "N N K V HANUMAN NARAYANA",
++      "roll": "2401100CSE0268",
++      "name": "PAKALAPATI NITHIN",
+       "subjects": [
+         "SWE",
+         "CVO"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0224",
+-      "name": "SAREDDY BHARATH REDDY",
++      "roll": "2401100CSE0275",
++      "name": "ROHAN JOSHUA FRANCIS",
+       "subjects": [
+         "SWE",
+         "CCM"
+       ]
+     },
+     {
+-      "roll": "2401100CSE0230",
+-      "name": "TUMMA SRISHANTH REDDY",
++      "roll": "2401100CSE0277",
++      "name": "SHAIK MOHAMMED RIYAN",
+       "subjects": [
+         "SWE",
+         "CCM"
+@@ -779,8 +791,7 @@
+       "roll": "24011CSEAI0061",
+       "name": "DESHETTI VIVEK",
+       "subjects": [
+-        "SWE",
+-        "CVO"
++        "SWE"
+       ]
+     },
+     {
+@@ -800,4 +811,4 @@
+       ]
+     }
+   ]
+-}
+\ No newline at end of file
++}
+--- a/src/face_attendance/tracklet_review.py
++++ b/src/face_attendance/tracklet_review.py
+@@ -7,6 +7,7 @@
+ import math
+ import re
+ import secrets
++import shutil
+ from dataclasses import dataclass
+ from datetime import datetime
+ from pathlib import Path
+@@ -84,6 +85,14 @@
+     student_checkpoint_metrics: pd.DataFrame
+ 
+ 
++@dataclass(frozen=True)
++class CorrectionMergeResult:
++    output_path: Path
++    audit_path: Path
++    merged: pd.DataFrame
++    summary: dict[str, Any]
++
++
+ def normalize_roll(value: Any) -> str:
+     return str(value or "").strip().upper()
+ 
+@@ -359,6 +368,13 @@
+ 
+ def _reviewer_html(manifest: dict[str, Any], roster: list[dict[str, Any]]) -> str:
+     option_markup = _roster_options(roster)
++    review_title = html.escape(str(manifest.get("review_title") or "Blind tracklet review"))
++    review_subtitle = html.escape(
++        str(manifest.get("review_subtitle") or f"{manifest.get('session_id', '')} / {manifest.get('subject_abbr', '')}")
++    )
++    export_prefix_js = json.dumps(
++        _safe_component(str(manifest.get("export_filename_prefix") or "tracklet_review_labels"))
++    )
+     duplicate_option = (
+         '<option value="duplicate">Duplicate evidence</option>'
+         if manifest.get("allow_duplicate_status")
+@@ -410,14 +426,12 @@
+         </article>""")
+ 
+     package_id = html.escape(manifest["package_id"], quote=True)
+-    session_id = html.escape(manifest.get("session_id", ""))
+-    subject = html.escape(manifest.get("subject_abbr", ""))
+     return f"""<!doctype html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+-  <title>Blind tracklet review</title>
++  <title>{review_title}</title>
+   <style>
+     :root {{ color-scheme: light; --ink:#18222d; --muted:#617080; --line:#d8dee5; --paper:#f4f6f8; --white:#fff; --teal:#087f78; --teal-dark:#05655f; --amber:#a85d00; }}
+     * {{ box-sizing:border-box; }}
+@@ -467,7 +481,7 @@
+ <body data-package-id="{package_id}">
+   <header>
+     <div class="header-inner">
+-      <div><h1>Blind tracklet review</h1><div class="session">{session_id} / {subject}</div></div>
++      <div><h1>{review_title}</h1><div class="session">{review_subtitle}</div></div>
+       <div class="actions"><button id="reset" type="button">Clear labels</button><button id="download" class="primary" type="button">Export labels CSV</button></div>
+     </div>
+     <div class="summary-bar"><div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div><div class="progress-text" id="progress-text" aria-live="polite"></div></div>
+@@ -480,6 +494,7 @@
+   <script>
+     (() => {{
+       const packageId = document.body.dataset.packageId;
++      const exportPrefix = {export_prefix_js};
+       const storageKey = `tracklet-review:${{packageId}}`;
+       const cards = [...document.querySelectorAll('.review-card')];
+       let filter = 'all';
+@@ -590,7 +605,7 @@
+         }});
+         const csv = rows.map(row => row.map(csvCell).join(',')).join('\\r\\n');
+         const url = URL.createObjectURL(new Blob([csv], {{type:'text/csv;charset=utf-8'}}));
+-        const link = Object.assign(document.createElement('a'), {{href:url, download:`tracklet_review_labels_${{packageId}}.csv`}});
++        const link = Object.assign(document.createElement('a'), {{href:url, download:`${{exportPrefix}}_${{packageId}}.csv`}});
+         link.click(); URL.revokeObjectURL(url);
+       }});
+       document.getElementById('reset').addEventListener('click', () => {{
+@@ -1250,11 +1265,336 @@
+         raise LabelValidationError("Blind review manifest does not match the hidden prediction set")
+     for row in predictions.to_dict("records"):
+         evidence_path = package_dir / "reviewer" / "evidence" / f"{row['Review_ID']}.jpg"
+-        if not evidence_path.is_file() or _sha256_file(evidence_path) != str(row.get("Evidence_SHA256") or ""):
++        if not evidence_path.is_file():
++            raise LabelValidationError(f"Evidence file is missing for {row['Review_ID']}: {evidence_path}")
++        if _sha256_file(evidence_path) != str(row.get("Evidence_SHA256") or ""):
+             raise LabelValidationError(f"Evidence integrity check failed for {row['Review_ID']}")
+     return predictions, metadata, manifest
+ 
+ 
++def export_label_correction_package(
++    source_review_package: Path,
++    source_labels_path: Path,
++    student_map_path: Path,
++    subject_abbr: str,
++    *,
++    output_root: Path | None = None,
++    target_status: str = "not_in_mapping",
++    package_id: str | None = None,
++) -> ReviewPackageResult:
++    """Create a blind, correction-only package from already reviewed evidence.
++
++    The source package and labels remain untouched. Only rows with ``target_status``
++    are copied, their original Review_ID values are preserved, and the reviewer is
++    limited to the authoritative subject roster.
++    """
++    if target_status not in LABEL_STATUSES:
++        raise ReviewExportError(f"Unsupported correction target status: {target_status}")
++
++    source_review_package = Path(source_review_package)
++    source_labels_path = Path(source_labels_path)
++    predictions, source_metadata, source_manifest = load_review_package_data(source_review_package)
++    source_package_id = str(source_metadata.get("package_id") or "")
++    source_known_rolls = set(source_metadata.get("known_rolls", []))
++    source_labels_raw = pd.read_csv(source_labels_path, dtype=str, keep_default_na=False)
++    source_labels = validate_label_dataframe(
++        source_labels_raw,
++        set(predictions["Review_ID"].astype(str)),
++        source_package_id,
++        source_known_rolls,
++    )
++    missing_source_ids = sorted(set(predictions["Review_ID"].astype(str)).difference(source_labels["Review_ID"]))
++    if missing_source_ids:
++        raise LabelValidationError(
++            f"Source labels are incomplete; missing Review_ID values: {', '.join(missing_source_ids)}"
++        )
++
++    target_labels = source_labels[source_labels["Review_Status"].eq(target_status)].copy()
++    if target_labels.empty:
++        raise ReviewExportError(f"Source labels contain no rows with status {target_status}")
++
++    roster, _, subject_rolls = load_student_mapping(Path(student_map_path), subject_abbr)
++    subject_roster = [row for row in roster if row["in_subject_roster"]]
++    if not subject_roster:
++        raise ReviewExportError(f"No authoritative {str(subject_abbr).upper()} roster is available")
++
++    target_ids = target_labels["Review_ID"].astype(str).tolist()
++    target_id_set = set(target_ids)
++    manifest_by_id = {
++        str(item.get("review_id") or ""): item
++        for item in source_manifest.get("review_items", [])
++    }
++    missing_manifest_ids = sorted(target_id_set.difference(manifest_by_id))
++    if missing_manifest_ids:
++        raise ReviewExportError(
++            f"Source review manifest is missing target evidence: {', '.join(missing_manifest_ids)}"
++        )
++
++    package_id = package_id or (
++        f"{_safe_component(source_package_id)}-label-correction-"
++        f"{datetime.now().strftime('%Y%m%d%H%M%S')}-{secrets.token_hex(3)}"
++    )
++    if output_root is None:
++        output_root = source_review_package / "corrections"
++    package_dir = Path(output_root) / f"label_correction_review_{_safe_component(package_id)}"
++    reviewer_dir = package_dir / "reviewer"
++    private_dir = package_dir / "private"
++    evidence_dir = reviewer_dir / "evidence"
++    package_dir.mkdir(parents=True, exist_ok=False)
++    evidence_dir.mkdir(parents=True)
++    private_dir.mkdir(parents=True)
++
++    public_items: list[dict[str, Any]] = []
++    for review_id in target_ids:
++        item = dict(manifest_by_id[review_id])
++        relative_evidence = Path(str(item.get("evidence_file") or f"evidence/{review_id}.jpg"))
++        source_evidence = source_review_package / "reviewer" / relative_evidence
++        if not source_evidence.is_file():
++            raise ReviewExportError(f"Source evidence is missing for {review_id}: {source_evidence}")
++        destination = evidence_dir / f"{review_id}.jpg"
++        shutil.copy2(source_evidence, destination)
++        item["evidence_file"] = f"evidence/{review_id}.jpg"
++        public_items.append(item)
++
++    correction_manifest = {
++        "schema_version": 1,
++        "package_id": package_id,
++        "diagnostic_run_id": str(source_metadata.get("diagnostic_run_id") or ""),
++        "session_id": str(source_manifest.get("session_id") or source_metadata.get("session_id") or ""),
++        "subject_abbr": str(subject_abbr).upper(),
++        "review_kind": "label_correction",
++        "review_tracklets": len(public_items),
++        "accepted_tracklets": 0,
++        "blind_review": True,
++        "allow_duplicate_status": True,
++        "review_title": "Roster label correction review",
++        "review_subtitle": (
++            f"{str(source_manifest.get('session_id') or source_metadata.get('session_id') or '')} / "
++            f"{str(subject_abbr).upper()} / {len(public_items)} previously unmapped cards"
++        ),
++        "export_filename_prefix": "tracklet_label_corrections",
++        "source_package_id": source_package_id,
++        "target_status": target_status,
++        "review_items": public_items,
++    }
++    (reviewer_dir / "review_manifest.json").write_text(
++        json.dumps(correction_manifest, indent=2, ensure_ascii=True), encoding="utf-8"
++    )
++    _write_csv(
++        reviewer_dir / "labels_template.csv",
++        [
++            {
++                "Package_ID": package_id,
++                "Review_ID": review_id,
++                "Review_Status": "",
++                "Actual_Roll": "",
++                "Reviewer_Notes": "",
++            }
++            for review_id in target_ids
++        ],
++        LABEL_COLUMNS,
++    )
++    (reviewer_dir / "index.html").write_text(
++        _reviewer_html(correction_manifest, subject_roster), encoding="utf-8"
++    )
++    (reviewer_dir / "README.txt").write_text(
++        "Open index.html and review only these previously unmapped evidence cards.\n"
++        "The student dropdown contains only the authoritative subject roster.\n"
++        "Use Not in student mapping for faculty, outsiders, or anyone outside the course roster.\n"
++        "Export the completed corrections CSV; do not edit the original labels file.\n",
++        encoding="utf-8",
++    )
++
++    selected_predictions = predictions[predictions["Review_ID"].astype(str).isin(target_id_set)].copy()
++    selected_predictions["Source_Package_ID"] = selected_predictions["Package_ID"]
++    selected_predictions["Source_Review_ID"] = selected_predictions["Review_ID"]
++    selected_predictions["Package_ID"] = package_id
++    selected_predictions.to_csv(private_dir / "hidden_predictions.csv", index=False, encoding="utf-8-sig")
++    target_labels.to_csv(private_dir / "source_target_labels.csv", index=False, encoding="utf-8-sig")
++
++    metadata = {
++        "schema_version": 1,
++        "package_id": package_id,
++        "diagnostic_run_id": str(source_metadata.get("diagnostic_run_id") or ""),
++        "session_id": correction_manifest["session_id"],
++        "subject_abbr": str(subject_abbr).upper(),
++        "review_kind": "label_correction",
++        "exported_at": datetime.now().isoformat(timespec="seconds"),
++        "review_tracklets": len(public_items),
++        "accepted_tracklets": 0,
++        "known_rolls": sorted(subject_rolls),
++        "subject_rolls": sorted(subject_rolls),
++        "source_review_package": str(source_review_package.resolve()),
++        "source_package_id": source_package_id,
++        "source_known_rolls": sorted(source_known_rolls),
++        "source_review_ids": predictions["Review_ID"].astype(str).tolist(),
++        "target_status": target_status,
++        "target_review_ids": target_ids,
++        "source_sha256": {
++            "source_labels": _sha256_file(source_labels_path),
++            "source_manifest": _sha256_file(source_review_package / "reviewer" / "review_manifest.json"),
++            "source_hidden_predictions": _sha256_file(
++                source_review_package / "private" / "hidden_predictions.csv"
++            ),
++            "student_map": _sha256_file(Path(student_map_path)),
++        },
++        "blindness_boundary": {
++            "share_with_reviewer": "reviewer",
++            "withhold_until_labels_are_final": "private",
++            "reviewer_files_contain_predictions": False,
++        },
++    }
++    (private_dir / "export_metadata.json").write_text(
++        json.dumps(json_safe(metadata), indent=2, ensure_ascii=True), encoding="utf-8"
++    )
++    (package_dir / "README.txt").write_text(
++        "CORRECTION-ONLY BLIND REVIEW\n\n"
++        "Share only reviewer/ during manual review. Keep private/ withheld.\n"
++        "The original Review_ID values and evidence images are preserved.\n"
++        "After exporting all corrections, run the merge-corrections command.\n"
++        "That command creates a new labels file and refuses to overwrite the original.\n",
++        encoding="utf-8",
++    )
++    return ReviewPackageResult(
++        root=package_dir,
++        reviewer_dir=reviewer_dir,
++        private_dir=private_dir,
++        package_id=package_id,
++        accepted_tracklets=0,
++        evidence_images=len(public_items),
++    )
++
++
++def merge_label_corrections(
++    correction_package: Path,
++    corrections_path: Path,
++    source_labels_path: Path,
++    output_path: Path,
++) -> CorrectionMergeResult:
++    """Merge a completed correction package into a new copy of the source labels."""
++    correction_package = Path(correction_package)
++    corrections_path = Path(corrections_path)
++    source_labels_path = Path(source_labels_path)
++    output_path = Path(output_path)
++    if output_path.resolve() == source_labels_path.resolve():
++        raise LabelValidationError("Correction merge refuses to overwrite the original labels file")
++    if output_path.exists():
++        raise LabelValidationError(f"Correction merge output already exists: {output_path}")
++
++    predictions, metadata, manifest = load_review_package_data(correction_package)
++    if metadata.get("review_kind") != "label_correction" or manifest.get("review_kind") != "label_correction":
++        raise LabelValidationError("The supplied package is not a label-correction review package")
++
++    expected_source_hash = str(metadata.get("source_sha256", {}).get("source_labels") or "")
++    if not expected_source_hash or _sha256_file(source_labels_path) != expected_source_hash:
++        raise LabelValidationError(
++            "Source labels no longer match the file used to create this correction package"
++        )
++
++    source_package_id = str(metadata.get("source_package_id") or "")
++    source_review_ids = {str(value) for value in metadata.get("source_review_ids", [])}
++    target_ids = {str(value) for value in metadata.get("target_review_ids", [])}
++    target_status = str(metadata.get("target_status") or "not_in_mapping")
++    if not source_package_id or not source_review_ids or not target_ids:
++        raise LabelValidationError("Correction package provenance is incomplete")
++
++    source_raw = pd.read_csv(source_labels_path, dtype=str, keep_default_na=False)
++    source_labels = validate_label_dataframe(
++        source_raw,
++        source_review_ids,
++        source_package_id,
++        set(metadata.get("source_known_rolls", [])),
++    )
++    missing_source_ids = sorted(source_review_ids.difference(source_labels["Review_ID"]))
++    if missing_source_ids:
++        raise LabelValidationError(
++            f"Source labels are incomplete; missing Review_ID values: {', '.join(missing_source_ids)}"
++        )
++    current_target_statuses = source_labels.set_index("Review_ID").loc[sorted(target_ids), "Review_Status"]
++    changed_targets = current_target_statuses[current_target_statuses.ne(target_status)]
++    if not changed_targets.empty:
++        raise LabelValidationError(
++            "One or more correction targets no longer have their original status: "
++            + ", ".join(changed_targets.index.tolist())
++        )
++
++    corrections_raw = pd.read_csv(corrections_path, dtype=str, keep_default_na=False)
++    corrections = validate_label_dataframe(
++        corrections_raw,
++        target_ids,
++        str(metadata.get("package_id") or ""),
++        set(metadata.get("subject_rolls", [])),
++    )
++    correction_ids = set(corrections["Review_ID"])
++    missing_corrections = sorted(target_ids.difference(correction_ids))
++    if missing_corrections:
++        raise LabelValidationError(
++            f"Correction labels are incomplete; missing Review_ID values: {', '.join(missing_corrections)}"
++        )
++    incomplete = corrections[corrections["Review_Status"].eq("")]["Review_ID"].tolist()
++    if incomplete:
++        raise LabelValidationError(
++            f"Correction labels still contain unreviewed cards: {', '.join(incomplete)}"
++        )
++
++    correction_by_id = corrections.set_index("Review_ID")
++    merged = source_labels.copy()
++    before_status_counts = merged["Review_Status"].value_counts().sort_index().to_dict()
++    for index, row in merged.iterrows():
++        review_id = row["Review_ID"]
++        if review_id not in target_ids:
++            continue
++        correction = correction_by_id.loc[review_id]
++        merged.at[index, "Review_Status"] = correction["Review_Status"]
++        merged.at[index, "Actual_Roll"] = correction["Actual_Roll"]
++        correction_notes = str(correction["Reviewer_Notes"] or "").strip()
++        if correction_notes:
++            merged.at[index, "Reviewer_Notes"] = correction_notes
++
++    if len(merged) != len(source_labels) or set(merged["Review_ID"]) != source_review_ids:
++        raise LabelValidationError("Correction merge changed the source label row identity set")
++    unchanged_ids = source_review_ids.difference(target_ids)
++    source_by_id = source_labels.set_index("Review_ID")
++    merged_by_id = merged.set_index("Review_ID")
++    comparison_columns = [column for column in LABEL_COLUMNS if column != "Review_ID"]
++    for review_id in unchanged_ids:
++        if not source_by_id.loc[review_id, comparison_columns].equals(
++            merged_by_id.loc[review_id, comparison_columns]
++        ):
++            raise LabelValidationError(f"Correction merge modified a non-target row: {review_id}")
++
++    output_path.parent.mkdir(parents=True, exist_ok=True)
++    _write_csv(output_path, merged.to_dict("records"), LABEL_COLUMNS)
++    summary = {
++        "schema_version": 1,
++        "merged_at": datetime.now().isoformat(timespec="seconds"),
++        "source_labels": str(source_labels_path.resolve()),
++        "source_labels_sha256": _sha256_file(source_labels_path),
++        "correction_package": str(correction_package.resolve()),
++        "corrections": str(corrections_path.resolve()),
++        "corrections_sha256": _sha256_file(corrections_path),
++        "output": str(output_path.resolve()),
++        "output_sha256": _sha256_file(output_path),
++        "source_package_id": source_package_id,
++        "correction_package_id": str(metadata.get("package_id") or ""),
++        "source_rows": len(source_labels),
++        "target_rows": len(target_ids),
++        "unchanged_rows": len(unchanged_ids),
++        "target_review_ids": sorted(target_ids),
++        "status_counts_before": before_status_counts,
++        "status_counts_after": merged["Review_Status"].value_counts().sort_index().to_dict(),
++        "original_overwritten": False,
++    }
++    audit_path = output_path.with_suffix(output_path.suffix + ".merge_audit.json")
++    audit_path.write_text(json.dumps(json_safe(summary), indent=2, ensure_ascii=True), encoding="utf-8")
++    return CorrectionMergeResult(
++        output_path=output_path,
++        audit_path=audit_path,
++        merged=merged,
++        summary=summary,
++    )
++
++
+ def evaluate_review_package(
+     package_dir: Path,
+     labels_path: Path,
+--- a/scripts/validate_tracklet_ground_truth.py
++++ b/scripts/validate_tracklet_ground_truth.py
+@@ -2,6 +2,7 @@
+ 
+ import argparse
+ import sys
++from datetime import datetime
+ from pathlib import Path
+ 
+ 
+@@ -13,7 +14,9 @@
+     LabelValidationError,
+     ReviewExportError,
+     evaluate_review_package,
++    export_label_correction_package,
+     export_review_package_from_diagnostics,
++    merge_label_corrections,
+ )
+ from src.face_attendance.recall_analysis import (  # noqa: E402
+     RecallAnalysisError,
+@@ -21,6 +24,11 @@
+     evaluate_unresolved_review_package,
+     run_recall_gap_analysis,
+ )
++from src.face_attendance.roster_integrity import (  # noqa: E402
++    RosterIntegrityError,
++    audit_subject_roster,
++    write_roster_audit,
++)
+ 
+ 
+ def parse_args() -> argparse.Namespace:
+@@ -75,12 +83,101 @@
+     unresolved_parser.add_argument("--accepted-review-package", required=True)
+     unresolved_parser.add_argument("--accepted-labels", required=True)
+     unresolved_parser.add_argument("--output-dir", default="")
++
++    correction_export_parser = subparsers.add_parser(
++        "export-corrections",
++        help="Build a blind correction-only package from previously unmapped review cards",
++    )
++    correction_export_parser.add_argument("--review-package", required=True)
++    correction_export_parser.add_argument("--labels", required=True)
++    correction_export_parser.add_argument("--student-map", default=str(ROOT / "data" / "student_faculty_map.json"))
++    correction_export_parser.add_argument("--subject-abbr", default="CVO")
++    correction_export_parser.add_argument("--target-status", default="not_in_mapping")
++    correction_export_parser.add_argument("--output-dir", default="")
++
++    correction_merge_parser = subparsers.add_parser(
++        "merge-corrections",
++        help="Safely merge a completed correction package into a new labels CSV",
++    )
++    correction_merge_parser.add_argument("--correction-package", required=True)
++    correction_merge_parser.add_argument("--corrections", required=True)
++    correction_merge_parser.add_argument("--source-labels", required=True)
++    correction_merge_parser.add_argument("--output", required=True)
++
++    roster_audit_parser = subparsers.add_parser(
++        "audit-roster",
++        help="Validate subject-roster integrity and report embedding coverage without changing embeddings",
++    )
++    roster_audit_parser.add_argument("--student-map", default=str(ROOT / "data" / "student_faculty_map.json"))
++    roster_audit_parser.add_argument("--subject-abbr", default="CVO")
++    roster_audit_parser.add_argument("--actual-present", required=True)
++    roster_audit_parser.add_argument("--embedding-summary", default=str(ROOT / "models" / "embedding_summary.csv"))
++    roster_audit_parser.add_argument("--embeddings", default=str(ROOT / "models" / "student_embeddings.pkl"))
++    roster_audit_parser.add_argument("--output-dir", default="")
+     return parser.parse_args()
+ 
+ 
+ def main() -> None:
+     args = parse_args()
+     try:
++        if args.command == "export-corrections":
++            result = export_label_correction_package(
++                source_review_package=Path(args.review_package),
++                source_labels_path=Path(args.labels),
++                student_map_path=Path(args.student_map),
++                subject_abbr=args.subject_abbr,
++                output_root=Path(args.output_dir) if args.output_dir else None,
++                target_status=args.target_status,
++            )
++            print(f"Correction review package: {result.root}")
++            print(f"Blind reviewer directory: {result.reviewer_dir}")
++            print(f"Correction cards exported: {result.evidence_images}")
++            print("Original labels changed: no")
++            return
++
++        if args.command == "merge-corrections":
++            result = merge_label_corrections(
++                correction_package=Path(args.correction_package),
++                corrections_path=Path(args.corrections),
++                source_labels_path=Path(args.source_labels),
++                output_path=Path(args.output),
++            )
++            print(f"Merged labels: {result.output_path}")
++            print(f"Merge audit: {result.audit_path}")
++            print(f"Rows: {result.summary['source_rows']}")
++            print(f"Corrected target rows: {result.summary['target_rows']}")
++            print("Original labels changed: no")
++            return
++
++        if args.command == "audit-roster":
++            result = audit_subject_roster(
++                student_map_path=Path(args.student_map),
++                subject_abbr=args.subject_abbr,
++                actual_present_path=Path(args.actual_present),
++                embedding_summary_path=Path(args.embedding_summary),
++                embeddings_path=Path(args.embeddings),
++            )
++            output_dir = (
++                Path(args.output_dir)
++                if args.output_dir
++                else ROOT / "attendance_output" / "diagnostics" / datetime.now().strftime(
++                    f"roster_audit_{str(args.subject_abbr).upper()}_%Y%m%d_%H%M%S_%f"
++                )
++            )
++            paths = write_roster_audit(result, output_dir)
++            print(f"Roster audit: {output_dir}")
++            print(f"Integrity: {'PASS' if result.summary['integrity_passed'] else 'FAIL'}")
++            print(f"Roster students: {result.summary['roster_students']}")
++            print(
++                f"Embedding coverage: {result.summary['embedding_available']}/"
++                f"{result.summary['roster_students']}"
++            )
++            print(f"Missing embedding rolls: {', '.join(result.summary['missing_embedding_rolls']) or 'none'}")
++            print(f"Report: {paths['report']}")
++            if not result.summary["integrity_passed"]:
++                raise RosterIntegrityError("Roster audit failed; inspect the generated report")
++            return
++
+         if args.command == "export":
+             result = export_review_package_from_diagnostics(
+                 Path(args.diagnostic_run),
+@@ -155,7 +252,14 @@
+         print(f"Identified top-1 accuracy: {identity['identified_top1_accuracy']}")
+         print(f"Reviewable accepted precision: {identity['reviewable_accepted_precision']}")
+         print(f"Recommendation: {recommendation['next_step']} ({recommendation['production_decision']})")
+-    except (OSError, ValueError, ReviewExportError, LabelValidationError, RecallAnalysisError) as exc:
++    except (
++        OSError,
++        ValueError,
++        ReviewExportError,
++        LabelValidationError,
++        RecallAnalysisError,
++        RosterIntegrityError,
++    ) as exc:
+         raise SystemExit(f"Tracklet ground-truth validation failed: {exc}") from exc
+ 
+ 
+--- a/tests/test_tracklet_review.py
++++ b/tests/test_tracklet_review.py
+@@ -14,8 +14,10 @@
+     _OpenCVFrameLoader,
+     evaluate_review_package,
+     evaluate_predictions,
++    export_label_correction_package,
+     export_review_package,
+     load_student_mapping,
++    merge_label_corrections,
+     validate_label_dataframe,
+ )
+ 
+@@ -198,6 +200,131 @@
+             with self.assertRaisesRegex(ReviewExportError, "no students"):
+                 load_student_mapping(mapping_path, "CVO")
+ 
++    def test_correction_only_export_and_safe_merge_preserve_original_labels(self):
++        with tempfile.TemporaryDirectory() as temp_dir:
++            root = Path(temp_dir)
++            video_path = root / "videos" / "CP1_0910" / "back.mp4"
++            video_path.parent.mkdir(parents=True)
++            video_path.write_bytes(b"placeholder")
++            student_map = root / "student_map.json"
++            student_map.write_text(json.dumps({
++                "subject_students": {"CVO": [
++                    {"roll": "ROLL-A", "name": "Student A"},
++                    {"roll": "ROLL-SIRI", "name": "Student Siri"},
++                ]},
++                "all_students": [
++                    {"roll": "ROLL-A", "name": "Student A", "subjects": ["CVO"]},
++                    {"roll": "ROLL-SIRI", "name": "Student Siri", "subjects": ["CVO"]},
++                    {"roll": "ROLL-OTHER", "name": "Other Student", "subjects": ["SWE"]},
++                ],
++            }), encoding="utf-8")
++            tracklets = pd.DataFrame([
++                {
++                    "Tracklet_ID": "track-1", "Tracklet_Accepted": "Yes",
++                    "Tracklet_Best_Roll": "ROLL-A", "Tracklet_Best_Score": 0.4,
++                    "Tracklet_Second_Roll": "ROLL-OTHER", "Tracklet_Second_Score": 0.35,
++                    "Tracklet_Margin": 0.05, "Checkpoint_ID": "CP1", "Camera_ID": "cam5",
++                    "Video": "back.mp4", "Selected_Observation_IDs": "obs-1",
++                    "Observation_Count": 2, "Session_ID": "session-1", "Subject_Abbr": "CVO",
++                },
++                {
++                    "Tracklet_ID": "track-2", "Tracklet_Accepted": "Yes",
++                    "Tracklet_Best_Roll": "ROLL-A", "Tracklet_Best_Score": 0.55,
++                    "Tracklet_Second_Roll": "ROLL-OTHER", "Tracklet_Second_Score": 0.3,
++                    "Tracklet_Margin": 0.25, "Checkpoint_ID": "CP1", "Camera_ID": "cam5",
++                    "Video": "back.mp4", "Selected_Observation_IDs": "obs-2",
++                    "Observation_Count": 2, "Session_ID": "session-1", "Subject_Abbr": "CVO",
++                },
++            ])
++            observations = pd.DataFrame([
++                {
++                    "Tracklet_ID": "track-1", "Observation_ID": "obs-1", "Checkpoint_ID": "CP1",
++                    "Camera_ID": "cam5", "Video": "back.mp4", "Frame": 1,
++                    "BBox_Original_Coordinates": "10,10,30,30", "Quality_Weight": 0.8,
++                    "Selected_For_Aggregation": "Yes",
++                },
++                {
++                    "Tracklet_ID": "track-2", "Observation_ID": "obs-2", "Checkpoint_ID": "CP1",
++                    "Camera_ID": "cam5", "Video": "back.mp4", "Frame": 2,
++                    "BBox_Original_Coordinates": "12,12,30,30", "Quality_Weight": 0.8,
++                    "Selected_For_Aggregation": "Yes",
++                },
++            ])
++            frame = np.full((80, 100, 3), 180, dtype=np.uint8)
++            source_package = export_review_package(
++                tracklet_df=tracklets,
++                observation_df=observations,
++                video_root=root / "videos",
++                output_root=root / "source",
++                student_map_path=student_map,
++                subject_abbr="CVO",
++                diagnostic_run_id="diagnostic-1",
++                package_id="source-package",
++                frame_loader=lambda _path, _frame_index: frame.copy(),
++            )
++            source_labels = pd.read_csv(
++                source_package.reviewer_dir / "labels_template.csv", dtype=str, keep_default_na=False
++            )
++            source_labels.loc[0, "Review_Status"] = "not_in_mapping"
++            source_labels.loc[1, "Review_Status"] = "identified"
++            source_labels.loc[1, "Actual_Roll"] = "ROLL-A"
++            source_labels_path = root / "source_labels.csv"
++            source_labels.to_csv(source_labels_path, index=False)
++            original_bytes = source_labels_path.read_bytes()
++
++            correction_package = export_label_correction_package(
++                source_review_package=source_package.root,
++                source_labels_path=source_labels_path,
++                student_map_path=student_map,
++                subject_abbr="CVO",
++                output_root=root / "corrections",
++                package_id="correction-package",
++            )
++            correction_manifest = json.loads(
++                (correction_package.reviewer_dir / "review_manifest.json").read_text(encoding="utf-8")
++            )
++            self.assertEqual(correction_manifest["review_tracklets"], 1)
++            self.assertEqual(correction_manifest["review_items"][0]["review_id"], source_labels.loc[0, "Review_ID"])
++            reviewer_html = (correction_package.reviewer_dir / "index.html").read_text(encoding="utf-8")
++            self.assertIn("ROLL-SIRI", reviewer_html)
++            self.assertNotIn("ROLL-OTHER", reviewer_html)
++            self.assertNotIn("Tracklet_Best_Roll", reviewer_html)
++
++            corrections = pd.read_csv(
++                correction_package.reviewer_dir / "labels_template.csv", dtype=str, keep_default_na=False
++            )
++            corrections.loc[0, "Review_Status"] = "identified"
++            corrections.loc[0, "Actual_Roll"] = "ROLL-SIRI"
++            corrections_path = root / "corrections.csv"
++            corrections.to_csv(corrections_path, index=False)
++            output_path = root / "merged_labels.csv"
++            merged_result = merge_label_corrections(
++                correction_package.root,
++                corrections_path,
++                source_labels_path,
++                output_path,
++            )
++            merged = pd.read_csv(output_path, dtype=str, keep_default_na=False)
++            corrected_id = source_labels.loc[0, "Review_ID"]
++            untouched_id = source_labels.loc[1, "Review_ID"]
++            self.assertEqual(
++                merged.loc[merged["Review_ID"].eq(corrected_id), "Actual_Roll"].iloc[0],
++                "ROLL-SIRI",
++            )
++            self.assertEqual(
++                merged.loc[merged["Review_ID"].eq(untouched_id), "Actual_Roll"].iloc[0],
++                "ROLL-A",
++            )
++            self.assertEqual(source_labels_path.read_bytes(), original_bytes)
++            self.assertTrue(merged_result.audit_path.is_file())
++            with self.assertRaisesRegex(LabelValidationError, "overwrite"):
++                merge_label_corrections(
++                    correction_package.root,
++                    corrections_path,
++                    source_labels_path,
++                    source_labels_path,
++                )
++
+ 
+ class TrackletReviewEvaluationTests(unittest.TestCase):
+     def setUp(self):
+--- /dev/null
++++ b/src/face_attendance/roster_integrity.py
+@@ -0,0 +1,269 @@
++from __future__ import annotations
++
++import json
++from dataclasses import dataclass
++from datetime import datetime
++from pathlib import Path
++from typing import Any
++
++import pandas as pd
++
++from .diagnostics import json_safe
++from .recall_analysis import build_embedding_roster_coverage, load_embedding_counts
++from .tracklet_review import load_actual_present, normalize_roll
++
++
++class RosterIntegrityError(ValueError):
++    pass
++
++
++@dataclass(frozen=True)
++class RosterAuditResult:
++    roster: pd.DataFrame
++    embedding_coverage: pd.DataFrame
++    summary: dict[str, Any]
++
++
++def _clean_name(value: Any) -> str:
++    return " ".join(str(value or "").strip().split())
++
++
++def _normalized_subjects(value: Any) -> list[str]:
++    if not isinstance(value, list):
++        return []
++    return sorted({str(subject or "").strip().upper() for subject in value if str(subject or "").strip()})
++
++
++def _duplicate_rolls(rows: list[dict[str, Any]]) -> list[str]:
++    seen: set[str] = set()
++    duplicates: set[str] = set()
++    for row in rows:
++        roll = normalize_roll(row.get("roll"))
++        if not roll:
++            continue
++        if roll in seen:
++            duplicates.add(roll)
++        seen.add(roll)
++    return sorted(duplicates)
++
++
++def audit_subject_roster(
++    student_map_path: Path,
++    subject_abbr: str,
++    *,
++    actual_present_path: Path | None = None,
++    embedding_summary_path: Path | None = None,
++    embeddings_path: Path | None = None,
++) -> RosterAuditResult:
++    student_map_path = Path(student_map_path)
++    try:
++        payload = json.loads(student_map_path.read_text(encoding="utf-8-sig"))
++    except (OSError, json.JSONDecodeError) as exc:
++        raise RosterIntegrityError(f"Could not load student mapping: {student_map_path}") from exc
++
++    subject = str(subject_abbr or "").strip().upper()
++    if not subject:
++        raise RosterIntegrityError("subject_abbr is required")
++    subject_students = payload.get("subject_students", {})
++    if not isinstance(subject_students, dict) or subject not in subject_students:
++        raise RosterIntegrityError(f"Student mapping has no subject roster for {subject}")
++    subject_rows = subject_students.get(subject, [])
++    all_rows = payload.get("all_students", [])
++    if not isinstance(subject_rows, list) or not isinstance(all_rows, list):
++        raise RosterIntegrityError("Student mapping roster collections must be lists")
++
++    errors: list[str] = []
++    warnings: list[str] = []
++    subject_duplicates = _duplicate_rolls(subject_rows)
++    all_duplicates = _duplicate_rolls(all_rows)
++    if subject_duplicates:
++        errors.append(f"Duplicate {subject} roster rolls: {', '.join(subject_duplicates)}")
++    if all_duplicates:
++        errors.append(f"Duplicate all_students rolls: {', '.join(all_duplicates)}")
++
++    all_by_roll = {
++        normalize_roll(row.get("roll")): row
++        for row in all_rows
++        if normalize_roll(row.get("roll"))
++    }
++    subject_by_roll = {
++        normalize_roll(row.get("roll")): row
++        for row in subject_rows
++        if normalize_roll(row.get("roll"))
++    }
++    if any(not normalize_roll(row.get("roll")) for row in subject_rows):
++        errors.append(f"{subject} roster contains a blank roll number")
++
++    missing_from_all: list[str] = []
++    membership_missing: list[str] = []
++    name_mismatches: list[str] = []
++    for roll, subject_row in subject_by_roll.items():
++        master_row = all_by_roll.get(roll)
++        if master_row is None:
++            missing_from_all.append(roll)
++            continue
++        if subject not in _normalized_subjects(master_row.get("subjects")):
++            membership_missing.append(roll)
++        subject_name = _clean_name(subject_row.get("name"))
++        master_name = _clean_name(master_row.get("name"))
++        if subject_name.casefold() != master_name.casefold():
++            name_mismatches.append(roll)
++
++    stale_membership = sorted(
++        roll
++        for roll, row in all_by_roll.items()
++        if subject in _normalized_subjects(row.get("subjects")) and roll not in subject_by_roll
++    )
++    if missing_from_all:
++        errors.append(f"{subject} students missing from all_students: {', '.join(sorted(missing_from_all))}")
++    if membership_missing:
++        errors.append(
++            f"all_students subjects missing {subject} membership: {', '.join(sorted(membership_missing))}"
++        )
++    if stale_membership:
++        errors.append(
++            f"all_students has stale {subject} membership: {', '.join(stale_membership)}"
++        )
++    if name_mismatches:
++        errors.append(f"Student-name mismatch between rosters: {', '.join(sorted(name_mismatches))}")
++
++    actual_present: set[str] | None = None
++    missing_from_actual: list[str] = []
++    actual_not_in_roster: list[str] = []
++    if actual_present_path is not None:
++        actual_present = load_actual_present(Path(actual_present_path))
++        roster_rolls = set(subject_by_roll)
++        missing_from_actual = sorted(roster_rolls.difference(actual_present))
++        actual_not_in_roster = sorted(actual_present.difference(roster_rolls))
++        if missing_from_actual:
++            errors.append(
++                f"Actual-present file is missing {subject} roster students: {', '.join(missing_from_actual)}"
++            )
++        if actual_not_in_roster:
++            errors.append(
++                f"Actual-present file contains non-{subject} rolls: {', '.join(actual_not_in_roster)}"
++            )
++
++    roster_records: list[dict[str, Any]] = []
++    for row in subject_rows:
++        roll = normalize_roll(row.get("roll"))
++        master = all_by_roll.get(roll, {})
++        roster_records.append({
++            "Canonical_Roll": roll,
++            "Student_Name": _clean_name(row.get("name")),
++            "In_All_Students": "Yes" if roll in all_by_roll else "No",
++            "All_Students_Subjects": "; ".join(_normalized_subjects(master.get("subjects"))),
++            "Subject_Membership_Consistent": (
++                "Yes" if roll in all_by_roll and subject in _normalized_subjects(master.get("subjects")) else "No"
++            ),
++            "Actual_Present": (
++                "Yes" if actual_present is not None and roll in actual_present
++                else "No" if actual_present is not None
++                else "Not_Checked"
++            ),
++        })
++    roster_frame = pd.DataFrame(roster_records)
++
++    coverage = pd.DataFrame()
++    if embedding_summary_path is not None or embeddings_path is not None:
++        if embedding_summary_path is None or embeddings_path is None:
++            raise RosterIntegrityError(
++                "Both embedding_summary_path and embeddings_path are required for embedding coverage"
++            )
++        summary_path = Path(embedding_summary_path)
++        database_path = Path(embeddings_path)
++        if not summary_path.is_file() or not database_path.is_file():
++            raise RosterIntegrityError("Embedding summary or embedding database was not found")
++        embedding_summary = pd.read_csv(summary_path, dtype=str, keep_default_na=False)
++        coverage = build_embedding_roster_coverage(
++            subject_rows,
++            embedding_summary,
++            embedding_counts=load_embedding_counts(database_path),
++        )
++        if not coverage.empty:
++            coverage_by_roll = coverage.set_index("Canonical_Roster_Roll")
++            roster_frame["Embedding_Available"] = roster_frame["Canonical_Roll"].map(
++                coverage_by_roll["Embedding_Available"]
++            ).fillna("No")
++            roster_frame["Embedding_Record_Count"] = roster_frame["Canonical_Roll"].map(
++                coverage_by_roll["Embedding_Record_Count"]
++            ).fillna(0).astype(int)
++            roster_frame["Embedding_Mapping_Status"] = roster_frame["Canonical_Roll"].map(
++                coverage_by_roll["Canonical_Mapping_Status"]
++            ).fillna("missing")
++    else:
++        warnings.append("Embedding coverage was not checked")
++
++    missing_embeddings = (
++        sorted(coverage.loc[coverage["Embedding_Available"].eq("No"), "Canonical_Roster_Roll"].astype(str))
++        if not coverage.empty
++        else []
++    )
++    summary = {
++        "schema_version": 1,
++        "generated_at": datetime.now().isoformat(timespec="seconds"),
++        "subject_abbr": subject,
++        "student_map": str(student_map_path.resolve()),
++        "actual_present": str(Path(actual_present_path).resolve()) if actual_present_path is not None else None,
++        "roster_students": len(subject_rows),
++        "unique_roster_rolls": len(subject_by_roll),
++        "all_students": len(all_rows),
++        "actual_present_students": len(actual_present) if actual_present is not None else None,
++        "embedding_available": (
++            int(coverage["Embedding_Available"].eq("Yes").sum()) if not coverage.empty else None
++        ),
++        "embedding_missing": len(missing_embeddings) if not coverage.empty else None,
++        "missing_embedding_rolls": missing_embeddings,
++        "subject_duplicate_rolls": subject_duplicates,
++        "all_students_duplicate_rolls": all_duplicates,
++        "missing_from_all_students": sorted(missing_from_all),
++        "missing_subject_membership": sorted(membership_missing),
++        "stale_subject_membership": stale_membership,
++        "name_mismatches": sorted(name_mismatches),
++        "missing_from_actual_present": missing_from_actual,
++        "actual_present_not_in_roster": actual_not_in_roster,
++        "errors": errors,
++        "warnings": warnings,
++        "integrity_passed": not errors,
++    }
++    return RosterAuditResult(roster=roster_frame, embedding_coverage=coverage, summary=summary)
++
++
++def write_roster_audit(result: RosterAuditResult, output_dir: Path) -> dict[str, Path]:
++    output_dir = Path(output_dir)
++    output_dir.mkdir(parents=True, exist_ok=False)
++    subject = str(result.summary.get("subject_abbr") or "subject").lower()
++    roster_path = output_dir / f"{subject}_roster_audit.csv"
++    coverage_path = output_dir / f"{subject}_embedding_coverage.csv"
++    summary_path = output_dir / f"{subject}_roster_audit_summary.json"
++    report_path = output_dir / f"{subject}_roster_audit_report.md"
++    result.roster.to_csv(roster_path, index=False, encoding="utf-8-sig")
++    result.embedding_coverage.to_csv(coverage_path, index=False, encoding="utf-8-sig")
++    summary_path.write_text(
++        json.dumps(json_safe(result.summary), indent=2, ensure_ascii=True), encoding="utf-8"
++    )
++    status = "PASS" if result.summary["integrity_passed"] else "FAIL"
++    errors = result.summary.get("errors", [])
++    warnings = result.summary.get("warnings", [])
++    report_path.write_text(
++        "# Subject Roster and Embedding Audit\n\n"
++        f"- Subject: {result.summary['subject_abbr']}\n"
++        f"- Integrity: {status}\n"
++        f"- Roster students: {result.summary['roster_students']}\n"
++        f"- Actual-present students: {result.summary['actual_present_students']}\n"
++        f"- Embedding available: {result.summary['embedding_available']}\n"
++        f"- Missing embeddings: {result.summary['embedding_missing']}\n"
++        f"- Missing embedding rolls: {', '.join(result.summary['missing_embedding_rolls']) or 'none'}\n\n"
++        "## Errors\n\n"
++        + ("\n".join(f"- {value}" for value in errors) if errors else "- None")
++        + "\n\n## Warnings\n\n"
++        + ("\n".join(f"- {value}" for value in warnings) if warnings else "- None")
++        + "\n",
++        encoding="utf-8",
++    )
++    return {
++        "roster": roster_path,
++        "embedding_coverage": coverage_path,
++        "summary": summary_path,
++        "report": report_path,
++    }
+--- /dev/null
++++ b/tests/test_roster_integrity.py
+@@ -0,0 +1,63 @@
++import json
++import tempfile
++import unittest
++from pathlib import Path
++
++from src.face_attendance.roster_integrity import audit_subject_roster
++
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++class RosterIntegrityTests(unittest.TestCase):
++    def test_repository_cvo_roster_is_locked_to_confirmed_27_students(self):
++        result = audit_subject_roster(
++            ROOT / "data" / "student_faculty_map.json",
++            "CVO",
++            actual_present_path=ROOT / "actual_present" / "TUE_P1_actual_present_template.txt",
++            embedding_summary_path=ROOT / "models" / "embedding_summary.csv",
++            embeddings_path=ROOT / "models" / "student_embeddings.pkl",
++        )
++        summary = result.summary
++        rolls = set(result.roster["Canonical_Roll"])
++        self.assertTrue(summary["integrity_passed"], summary["errors"])
++        self.assertEqual(summary["roster_students"], 27)
++        self.assertEqual(summary["actual_present_students"], 27)
++        self.assertEqual(summary["embedding_available"], 25)
++        self.assertEqual(
++            summary["missing_embedding_rolls"],
++            ["2401100CSE0268", "24011CSEAI0110"],
++        )
++        self.assertIn("2401100CSE0184", rolls)
++        self.assertIn("2401100CSE0237", rolls)
++        self.assertIn("2401100CSE0268", rolls)
++        self.assertIn("24011CSEAI0110", rolls)
++        self.assertNotIn("2401100CSE0110", rolls)
++        self.assertNotIn("24011CSEAI0061", rolls)
++
++    def test_audit_reports_stale_membership_and_actual_present_drift(self):
++        with tempfile.TemporaryDirectory() as temp_dir:
++            root = Path(temp_dir)
++            mapping = root / "mapping.json"
++            mapping.write_text(json.dumps({
++                "subject_students": {
++                    "CVO": [{"roll": "A1", "name": "Student One"}],
++                },
++                "all_students": [
++                    {"roll": "A1", "name": "Student One", "subjects": []},
++                    {"roll": "A2", "name": "Student Two", "subjects": ["CVO"]},
++                ],
++            }), encoding="utf-8")
++            actual = root / "actual.txt"
++            actual.write_text("A2\n", encoding="utf-8")
++
++            result = audit_subject_roster(mapping, "CVO", actual_present_path=actual)
++            self.assertFalse(result.summary["integrity_passed"])
++            self.assertEqual(result.summary["missing_subject_membership"], ["A1"])
++            self.assertEqual(result.summary["stale_subject_membership"], ["A2"])
++            self.assertEqual(result.summary["missing_from_actual_present"], ["A1"])
++            self.assertEqual(result.summary["actual_present_not_in_roster"], ["A2"])
++
++
++if __name__ == "__main__":
++    unittest.main()

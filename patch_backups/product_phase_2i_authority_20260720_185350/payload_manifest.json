@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "phase": "product-phase-2i-authority",
+  "policy_version": "product-phase-2i-reviewed-multiframe-authority-v1",
+  "automatic_policy_version": "product-phase-2i-strict-tracklet-authority-v1",
+  "session_id": "2026-06-22__B51__P4__CVO",
+  "authority_revision_id": "phase-2i-mon-p4-reviewed-multiframe-7d9d3a539c0b32e33048",
+  "replaced_files": {
+    "app.py": "e00aae8137735c2dfaa2f2e5908f5cb97a9dbef70fbf08517cff04f3fbd7ef29",
+    "src/face_attendance/processing_integration.py": "843b926eed4278ba58567e3c9d1cb4caceaafe175e942105eb619d052eb8eda4",
+    "frontend/src/styles.css": "3b32cd18a9777c3cae8bbcad7778d3dcc62d3e1a9f3ffc932e1a27ff24486b3a",
+    "frontend/src/components/StatusBadge.jsx": "0225d772b45acdd9a22392c7af1cbdd846cb9fdc0de5d83c42bf598f3461e770",
+    "frontend/src/pages/ManualReview.jsx": "22f96df9fe5271ef115efc0d884441e25f3831169c5079ec16f8f78b158bf763",
+    "frontend/src/pages/Reports.jsx": "fe1d734085c6cc2fd1f98e66d6aa2bf7d9c0584c6324d4a9c1993f072117efae",
+    "frontend/src/pages/Timetable.jsx": "8f9dd2583d314329a8fe17e4b3b1b7c2033fdb7d8e001a57914d76642deb369c",
+    "frontend/src/utils/consistency.js": "fe0f33ce922b9c3777b0277444608f80476638065526c87506dbb9c43fce40cd",
+    "tests/test_product_phase_2g_processing_integration.py": "fecff94ae64a518d2268714c25187dff7d87e342cd5ef8e3c116d8000cfb4f5a"
+  },
+  "added_files": [
+    "src/face_attendance/product_phase_2i_authority.py",
+    "scripts/run_product_phase_2i_authority.py",
+    "scripts/run_product_phase_2i_authority.ps1",
+    "tests/test_product_phase_2i_authority.py",
+    "tests/test_product_phase_2i_frontend_contract.py"
+  ],
+  "payload": {
+    "app.py": {
+      "sha256": "bcbdeb86b9099e3ea430d7ca3ca957b7e8a6c1476afd59c151f57b5b475fac30",
+      "size_bytes": 151692
+    },
+    "src/face_attendance/processing_integration.py": {
+      "sha256": "669e9adb92edf58d303eda5bd8a87f8949ab38b19e0a6faa1ff180bca6c99146",
+      "size_bytes": 16935
+    },
+    "frontend/src/styles.css": {
+      "sha256": "0e38a12382b4497003b2ff555df4d4dc9291d00abd01eac9bbb4286a4723a28a",
+      "size_bytes": 42401
+    },
+    "frontend/src/components/StatusBadge.jsx": {
+      "sha256": "a0485dfc8d4790e5c2a3e0410b93ebebdf55d08c113c5859e7e1b5d2cc89f656",
+      "size_bytes": 874
+    },
+    "frontend/src/pages/ManualReview.jsx": {
+      "sha256": "1183e2b5ebfbfab772f116ad17131b63eceedf94a349bca673e90cb30a9627aa",
+      "size_bytes": 37580
+    },
+    "frontend/src/pages/Reports.jsx": {
+      "sha256": "b3607df98534d20b38b32d86cdcbe3093e721bc1837a81c39be2d63a669b3352",
+      "size_bytes": 44748
+    },
+    "frontend/src/pages/Timetable.jsx": {
+      "sha256": "83375b9d0ff8dac3086b47d472c7fe10c5683c73c54bb353ecabf072ce198340",
+      "size_bytes": 16756
+    },
+    "frontend/src/utils/consistency.js": {
+      "sha256": "cfd29a02c6f0a1f8a8a35d8683801f03b76adfbedc0d3cb418e098cc2dfa8b5e",
+      "size_bytes": 4637
+    },
+    "tests/test_product_phase_2g_processing_integration.py": {
+      "sha256": "534adb0571b714a67edbca5874c41069bc890fbc1446f4ce7ea63e4265c0a09d",
+      "size_bytes": 10725
+    },
+    "src/face_attendance/product_phase_2i_authority.py": {
+      "sha256": "b592011e5d76b860b28cb4da774b023a8d4dec15cb076eee66316cd42ce8309a",
+      "size_bytes": 40343
+    },
+    "scripts/run_product_phase_2i_authority.py": {
+      "sha256": "98a17eff52ead5f4c41563531ba49f7950437691ea343d18b380320ce11817bb",
+      "size_bytes": 5002
+    },
+    "scripts/run_product_phase_2i_authority.ps1": {
+      "sha256": "2c7d796e472ecfa89b027d3545afec46b33348a13462354023abe55e2a1a66b7",
+      "size_bytes": 1173
+    },
+    "tests/test_product_phase_2i_authority.py": {
+      "sha256": "3e191b07f1cda6d2528727b881351c26613a0b0cf534efb3447097083bb649c0",
+      "size_bytes": 8167
+    },
+    "tests/test_product_phase_2i_frontend_contract.py": {
+      "sha256": "4b8b069ac1b16b5baa87118ce6f2138eb43a1f2aa53e77abda183d0af5916f76",
+      "size_bytes": 2287
+    }
+  },
+  "required_evidence_files": {
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/evaluation_summary.json": "bf5bc857b8c35f0e6e0acb0da354d8a64be48b7d6dcb05bf37836e1860b587cb",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/identity_checkpoint_validation.csv": "838a2d2bfac7d51798e9f6e303c017b647cc5a1c26cf97418c029676ced011fa",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/joined_multiframe_recovery_review.csv": "2b2a2119d3eb44ea4aa9a3c9256f6a3173303944143684d59abd7097a32f2f46",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/multiframe_shadow_roster_report.csv": "a2e25dc646c691d7c8627974c823d5f7dfef51510c1524e26bd61a732a8c881a"
+  },
+  "expected_source_entry_sha256": "30de92eabfb3eb6e49748147d06d6caa3e8b2db788ac524f5de2a87b4bbce8d9",
+  "expected_counts": {
+    "present": 6,
+    "needs_review": 4,
+    "unconfirmed": 16,
+    "missing_enrollment": 1,
+    "absent": 0,
+    "total": 27
+  },
+  "safety": {
+    "installer_runs_recognition": false,
+    "installer_changes_attendance": false,
+    "explicit_apply_required": true,
+    "guarded_recovery_automatic": false,
+    "global_thresholds_changed": false
+  }
+}

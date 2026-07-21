@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Critical Enrollment Identity Review</title>
+  <style>
+    :root { color-scheme: light; --ink:#17202b; --muted:#566274; --line:#cfd6df; --surface:#fff; --subtle:#f4f6f8; --accent:#0a5f8f; --accent-strong:#08496e; --focus:#c05621; --danger:#9b2c2c; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none!important; }
+    body { margin:0; background:#e9edf1; color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; line-height:1.45; }
+    button,input,select,textarea { font:inherit; }
+    .topbar { position:sticky; top:0; z-index:20; border-bottom:1px solid #aeb8c5; background:rgba(255,255,255,.97); }
+    .topbar-inner { max-width:1480px; margin:auto; padding:14px 22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    h1 { margin:0; font-size:1.18rem; letter-spacing:0; }
+    .progress { color:var(--muted); font-variant-numeric:tabular-nums; }
+    .toolbar { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+    button { min-height:40px; border:0; border-radius:6px; padding:8px 14px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; }
+    button:hover { background:var(--accent-strong); }
+    button.secondary { border:1px solid #9ca8b7; background:#fff; color:var(--ink); }
+    button.secondary:hover { background:var(--subtle); }
+    :focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+    main { max-width:1480px; margin:auto; padding:22px; }
+    .intro { max-width:78ch; margin:0 0 18px; color:#384657; }
+    .filter-row { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+    .filter-row input { flex:1 1 360px; max-width:620px; min-height:42px; border:1px solid #8794a5; border-radius:6px; padding:9px 11px; color:var(--ink); background:#fff; }
+    .filter-row select { flex:0 1 220px; min-height:42px; }
+    .filter-row button { min-height:42px; }
+    .review-list { display:grid; gap:16px; }
+    .review-card { display:grid; grid-template-columns:minmax(360px,1.15fr) minmax(340px,.85fr); min-height:380px; border:1px solid #b8c2ce; border-radius:8px; overflow:hidden; background:var(--surface); }
+    .review-card.complete { border-color:#2f855a; }
+    .evidence-pane { min-width:0; padding:14px; background:#202731; display:flex; flex-direction:column; gap:10px; }
+    .item-index { color:#e5e9ee; font-size:.88rem; font-weight:700; }
+    .evidence-pane img { display:block; width:100%; height:100%; min-height:320px; max-height:680px; object-fit:contain; background:#11161d; }
+    .decision-pane { min-width:0; padding:20px; overflow-wrap:anywhere; }
+    .facts { margin:0 0 18px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; }
+    .fact { min-width:0; padding-bottom:8px; border-bottom:1px solid #e3e7ec; }
+    .fact.hint { grid-column:1/-1; padding:10px; border:1px solid #c78a2a; border-radius:6px; background:#fff8e8; }
+    .fact.priority { padding:10px; border:0; border-radius:6px; background:#eaf3f8; }
+    .fact.warning { padding:10px; border:0; border-radius:6px; background:#fff4d8; }
+    dt { color:var(--muted); font-size:.78rem; font-weight:700; }
+    dd { margin:2px 0 0; font-weight:650; }
+    .field { display:block; margin-top:13px; }
+    .field > span { display:block; margin-bottom:5px; font-weight:700; }
+    .field small { color:var(--muted); font-weight:500; }
+    select,input,textarea { width:100%; border:1px solid #8794a5; border-radius:6px; padding:9px 10px; background:#fff; color:var(--ink); }
+    select:disabled,input:disabled,textarea:disabled { color:#6f7885; background:#e9edf1; cursor:not-allowed; }
+    textarea { resize:vertical; }
+    .empty { padding:30px; border:1px solid var(--line); background:#fff; text-align:center; }
+    .notice { position:fixed; right:18px; bottom:18px; z-index:40; max-width:420px; padding:11px 14px; border-radius:6px; background:#17202b; color:#fff; opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .18s ease-out,transform .18s ease-out; }
+    .notice.show { opacity:1; transform:none; }
+    @media (max-width:850px) {
+      .topbar-inner,main { padding-left:12px; padding-right:12px; }
+      .toolbar { width:100%; margin-left:0; }
+      .review-card { grid-template-columns:1fr; }
+      .evidence-pane img { min-height:240px; max-height:520px; }
+      .facts { grid-template-columns:1fr; }
+      .fact.hint { grid-column:auto; }
+    }
+    @media (prefers-reduced-motion:reduce) { .notice { transition:none; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>Critical Enrollment Identity Review</h1>
+      <div class="progress" id="progress" aria-live="polite">0 of 50 reviewed</div>
+      <div class="toolbar">
+        <button class="secondary" id="show-pending" type="button">Show pending</button>
+        <button id="export" type="button">Export approvals CSV</button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <p class="intro">Review only the person and enrollment usefulness shown in each source image. Ranking signals identify risk for human inspection; model similarity is diagnostic, not ground truth. No action changes a dataset or embedding file.</p>
+    <div class="filter-row">
+      <input id="search" type="search" placeholder="Filter by roll, filename, warning, session, or item ID" aria-label="Filter review items">
+      <select id="status-filter" aria-label="Filter by review status">
+        <option value="all">All review statuses</option>
+        <option value="pending">Pending only</option>
+        <option value="reviewed">Reviewed only</option>
+      </select>
+      <button class="secondary" id="clear-filters" type="button">Clear filters</button>
+    </div>
+    <section class="review-list" id="review-list">
+            <article class="review-card" data-item-id="CEA-21cc8966217d8c51b8">
+              <div class="evidence-pane">
+                <div class="item-index">Item 1 of 50</div>
+                <img src="evidence/CEA-21cc8966217d8c51b8.jpg" alt="Review evidence for item 1" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>1</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Source Filename</dt><dd>PXL_20260623_051250327.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>folder or authoritative-identity ownership mismatch</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>embedding is closer to another student than its own medoid; multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; source image produced one of the strongest stored embedding outliers; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>folder_identity_absent_from_authoritative_registry; multiple_faces; severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0202 at cosine 0.4658; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 1" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-bf597b5645a060a457">
+              <div class="evidence-pane">
+                <div class="item-index">Item 2 of 50</div>
+                <img src="evidence/CEA-bf597b5645a060a457.jpg" alt="Review evidence for item 2" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>2</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>19_flip.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 4 false accepts, 0 distinct known identities, 4 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0060 at cosine 0.2753; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 2" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-040b421712c6c3bc47">
+              <div class="evidence-pane">
+                <div class="item-index">Item 3 of 50</div>
+                <img src="evidence/CEA-040b421712c6c3bc47.jpg" alt="Review evidence for item 3" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>3</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Source Filename</dt><dd>IMG20251002203420.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>folder or authoritative-identity ownership mismatch</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; source image produced one of the strongest stored embedding outliers; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>folder_identity_absent_from_authoritative_registry; multiple_faces; severe_blur; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.4173; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 3" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-bba9d1d452c5796d9d">
+              <div class="evidence-pane">
+                <div class="item-index">Item 4 of 50</div>
+                <img src="evidence/CEA-bba9d1d452c5796d9d.jpg" alt="Review evidence for item 4" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>4</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source image produced one of the strongest stored embedding outliers; owning identity is missed in the reviewed benchmark; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 5 false accepts, 3 distinct known identities, 0 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0073 at cosine 0.4550; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 4" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-8acd123274db681a0e">
+              <div class="evidence-pane">
+                <div class="item-index">Item 5 of 50</div>
+                <img src="evidence/CEA-8acd123274db681a0e.jpg" alt="Review evidence for item 5" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>5</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_dark.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 2 false accepts, 1 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 2</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0074 at cosine 0.2610; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 5" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-183b6fcfc171280f0a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 6 of 50</div>
+                <img src="evidence/CEA-183b6fcfc171280f0a.jpg" alt="Review evidence for item 6" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>6</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_zoom.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 2 false accepts, 1 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 2</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0074 at cosine 0.2808; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 6" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-1869a88f2aecc035ac">
+              <div class="evidence-pane">
+                <div class="item-index">Item 7 of 50</div>
+                <img src="evidence/CEA-1869a88f2aecc035ac.jpg" alt="Review evidence for item 7" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>7</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 2 false accepts, 1 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 2</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0074 at cosine 0.3252; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 7" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-f74fe674772ee7f675">
+              <div class="evidence-pane">
+                <div class="item-index">Item 8 of 50</div>
+                <img src="evidence/CEA-f74fe674772ee7f675.jpg" alt="Review evidence for item 8" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>8</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_original.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 2 false accepts, 1 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 2</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0074 at cosine 0.2437; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 8" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-a063872051a976bc34">
+              <div class="evidence-pane">
+                <div class="item-index">Item 9 of 50</div>
+                <img src="evidence/CEA-a063872051a976bc34.jpg" alt="Review evidence for item 9" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>9</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.2791; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 9" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-d6e641408e0b162f9a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 10 of 50</div>
+                <img src="evidence/CEA-d6e641408e0b162f9a.jpg" alt="Review evidence for item 10" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>10</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_dark.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 5 false accepts, 3 distinct known identities, 0 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0051 at cosine 0.4633; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 10" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-1ff2974516c6484038">
+              <div class="evidence-pane">
+                <div class="item-index">Item 11 of 50</div>
+                <img src="evidence/CEA-1ff2974516c6484038.jpg" alt="Review evidence for item 11" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>11</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_zoom.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 5 false accepts, 3 distinct known identities, 0 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0073 at cosine 0.4269; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 11" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-97af1b682f962e502f">
+              <div class="evidence-pane">
+                <div class="item-index">Item 12 of 50</div>
+                <img src="evidence/CEA-97af1b682f962e502f.jpg" alt="Review evidence for item 12" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>12</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 5 false accepts, 3 distinct known identities, 0 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0073 at cosine 0.4048; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 12" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-b2abc3d4578c229bbe">
+              <div class="evidence-pane">
+                <div class="item-index">Item 13 of 50</div>
+                <img src="evidence/CEA-b2abc3d4578c229bbe.jpg" alt="Review evidence for item 13" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>13</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 5 false accepts, 3 distinct known identities, 0 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0028 at cosine 0.4092; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 13" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-bf70f4ba6fe9d5bce8">
+              <div class="evidence-pane">
+                <div class="item-index">Item 14 of 50</div>
+                <img src="evidence/CEA-bf70f4ba6fe9d5bce8.jpg" alt="Review evidence for item 14" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>14</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Source Filename</dt><dd>15.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source image produced one of the strongest stored embedding outliers; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 2 false accepts, 1 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 2</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0254 at cosine 0.2925; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 14" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-fb7aa1a9a386cdca86">
+              <div class="evidence-pane">
+                <div class="item-index">Item 15 of 50</div>
+                <img src="evidence/CEA-fb7aa1a9a386cdca86.jpg" alt="Review evidence for item 15" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>15</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_zoom.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 4 false accepts, 0 distinct known identities, 4 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0254 at cosine 0.2765; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 15" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-414ed7068f294ee44a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 16 of 50</div>
+                <img src="evidence/CEA-414ed7068f294ee44a.jpg" alt="Review evidence for item 16" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>16</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Source Filename</dt><dd>17.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>multiple faces detected in one enrollment image</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source image produced one of the strongest stored embedding outliers; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; severe_blur; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 6 false accepts, 3 distinct known identities, 3 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0103 at cosine 0.4875; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 16" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-7972dc94838d1cd365">
+              <div class="evidence-pane">
+                <div class="item-index">Item 17 of 50</div>
+                <img src="evidence/CEA-7972dc94838d1cd365.jpg" alt="Review evidence for item 17" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>17</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Source Filename</dt><dd>6.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>multiple faces detected in one enrollment image</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source image produced one of the strongest stored embedding outliers; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; severe_blur; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 6 false accepts, 3 distinct known identities, 3 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0184 at cosine 0.4480; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 17" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-c2aae87e9bc944e867">
+              <div class="evidence-pane">
+                <div class="item-index">Item 18 of 50</div>
+                <img src="evidence/CEA-c2aae87e9bc944e867.jpg" alt="Review evidence for item 18" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>18</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>CHAKRAVARTHULA RAGHAVA</dd></div><div class="fact"><dt>Source Filename</dt><dd>17_dark.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0121 at cosine 0.4261; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 18" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-89f6de2340e0cd8410">
+              <div class="evidence-pane">
+                <div class="item-index">Item 19 of 50</div>
+                <img src="evidence/CEA-89f6de2340e0cd8410.jpg" alt="Review evidence for item 19" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>19</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Source Filename</dt><dd>13.PNG</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source image produced one of the strongest stored embedding outliers; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.1023; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 19" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-6e3caf02f6ca4f5d8d">
+              <div class="evidence-pane">
+                <div class="item-index">Item 20 of 50</div>
+                <img src="evidence/CEA-6e3caf02f6ca4f5d8d.jpg" alt="Review evidence for item 20" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>20</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>6_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 4 false accepts, 0 distinct known identities, 4 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0254 at cosine 0.3200; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 20" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-188ef58209ed657be2">
+              <div class="evidence-pane">
+                <div class="item-index">Item 21 of 50</div>
+                <img src="evidence/CEA-188ef58209ed657be2.jpg" alt="Review evidence for item 21" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>21</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>19.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 4 false accepts, 0 distinct known identities, 4 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0097 at cosine 0.3984; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 21" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-9ec4e6872b310f391a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 22 of 50</div>
+                <img src="evidence/CEA-9ec4e6872b310f391a.jpg" alt="Review evidence for item 22" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>22</dd></div><div class="fact"><dt>Expected Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>19_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 4 false accepts, 0 distinct known identities, 4 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0097 at cosine 0.3324; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 22" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-4ce6fb64e0dca60dfb">
+              <div class="evidence-pane">
+                <div class="item-index">Item 23 of 50</div>
+                <img src="evidence/CEA-4ce6fb64e0dca60dfb.jpg" alt="Review evidence for item 23" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>23</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Source Filename</dt><dd>22_zoom.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 6 false accepts, 3 distinct known identities, 3 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0124 at cosine 0.3969; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 23" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-43dfef7666fe7596fa">
+              <div class="evidence-pane">
+                <div class="item-index">Item 24 of 50</div>
+                <img src="evidence/CEA-43dfef7666fe7596fa.jpg" alt="Review evidence for item 24" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>24</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>KASTHURI SHRUTHI</dd></div><div class="fact"><dt>Source Filename</dt><dd>WhatsApp Image 2026-06-23 at 18.58.21.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 0 distinct known identities, 1 outsiders; actual identity in reviewed confusion evidence; reviewed top-1 misses: 4</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0051 at cosine 0.3982; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 24" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-61cbcd84bda6902cb1">
+              <div class="evidence-pane">
+                <div class="item-index">Item 25 of 50</div>
+                <img src="evidence/CEA-61cbcd84bda6902cb1.jpg" alt="Review evidence for item 25" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>25</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Source Filename</dt><dd>7.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source image produced one of the strongest stored embedding outliers; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.3529; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 25" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-11e0cb5e48ad7c34fc">
+              <div class="evidence-pane">
+                <div class="item-index">Item 26 of 50</div>
+                <img src="evidence/CEA-11e0cb5e48ad7c34fc.jpg" alt="Review evidence for item 26" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>26</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0074</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>DODDAPANENI JASHWANTH</dd></div><div class="fact"><dt>Source Filename</dt><dd>aaf3b9e2-cdc8-4de7-adb3-006772c4dbbc.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0074</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 3 false accepts, 3 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.3934; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 26" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-6365fd0aa90b36b357">
+              <div class="evidence-pane">
+                <div class="item-index">Item 27 of 50</div>
+                <img src="evidence/CEA-6365fd0aa90b36b357.jpg" alt="Review evidence for item 27" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>27</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Source Filename</dt><dd>PXL_20250906_135914264~2.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0110</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>folder or authoritative-identity ownership mismatch</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>folder_identity_absent_from_authoritative_registry; multiple_faces</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.4885; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 27" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-9c92031d3221588131">
+              <div class="evidence-pane">
+                <div class="item-index">Item 28 of 50</div>
+                <img src="evidence/CEA-9c92031d3221588131.jpg" alt="Review evidence for item 28" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>28</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0111</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>THALLA KARTHIK</dd></div><div class="fact"><dt>Source Filename</dt><dd>2_dark.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0111</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>none confirmed</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0121 at cosine 0.4513; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 28" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-19392022473795bd62">
+              <div class="evidence-pane">
+                <div class="item-index">Item 29 of 50</div>
+                <img src="evidence/CEA-19392022473795bd62.jpg" alt="Review evidence for item 29" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>29</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Source Filename</dt><dd>22_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>multiple faces detected in one enrollment image</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 6 false accepts, 3 distinct known identities, 3 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0184 at cosine 0.4043; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 29" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-258c6f34e9356c560d">
+              <div class="evidence-pane">
+                <div class="item-index">Item 30 of 50</div>
+                <img src="evidence/CEA-258c6f34e9356c560d.jpg" alt="Review evidence for item 30" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>30</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 3 false accepts, 3 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0103 at cosine 0.4297; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 30" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-b3a0a827506e1341f5">
+              <div class="evidence-pane">
+                <div class="item-index">Item 31 of 50</div>
+                <img src="evidence/CEA-b3a0a827506e1341f5.jpg" alt="Review evidence for item 31" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>31</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_zoom.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 3 false accepts, 3 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0121 at cosine 0.5067; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 31" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-9c2a1be1daef51d3db">
+              <div class="evidence-pane">
+                <div class="item-index">Item 32 of 50</div>
+                <img src="evidence/CEA-9c2a1be1daef51d3db.jpg" alt="Review evidence for item 32" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>32</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 3 false accepts, 3 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0121 at cosine 0.4794; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 32" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-b395d43d42c902b3fe">
+              <div class="evidence-pane">
+                <div class="item-index">Item 33 of 50</div>
+                <img src="evidence/CEA-b395d43d42c902b3fe.jpg" alt="Review evidence for item 33" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>33</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_rot_left.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 3 false accepts, 3 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0121 at cosine 0.5372; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 33" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-89ea0b72fd7ffb3ea5">
+              <div class="evidence-pane">
+                <div class="item-index">Item 34 of 50</div>
+                <img src="evidence/CEA-89ea0b72fd7ffb3ea5.jpg" alt="Review evidence for item 34" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>34</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.1145; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 34" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-e3d71ef0ca03f56f2a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 35 of 50</div>
+                <img src="evidence/CEA-e3d71ef0ca03f56f2a.jpg" alt="Review evidence for item 35" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>35</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_original.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.3463; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 35" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-dfcbcd4361fca41f51">
+              <div class="evidence-pane">
+                <div class="item-index">Item 36 of 50</div>
+                <img src="evidence/CEA-dfcbcd4361fca41f51.jpg" alt="Review evidence for item 36" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>36</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_rot_left.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.3572; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 36" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-059a66d97379db993a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 37 of 50</div>
+                <img src="evidence/CEA-059a66d97379db993a.jpg" alt="Review evidence for item 37" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>37</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_rot_left.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.2816; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 37" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-f5d37d74e13f02b834">
+              <div class="evidence-pane">
+                <div class="item-index">Item 38 of 50</div>
+                <img src="evidence/CEA-f5d37d74e13f02b834.jpg" alt="Review evidence for item 38" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>38</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.2798; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 38" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-ba46e1715f2879329f">
+              <div class="evidence-pane">
+                <div class="item-index">Item 39 of 50</div>
+                <img src="evidence/CEA-ba46e1715f2879329f.jpg" alt="Review evidence for item 39" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>39</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Source Filename</dt><dd>7_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.4189; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 39" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-da8fdea75a5d2840ae">
+              <div class="evidence-pane">
+                <div class="item-index">Item 40 of 50</div>
+                <img src="evidence/CEA-da8fdea75a5d2840ae.jpg" alt="Review evidence for item 40" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>40</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>CHAKRAVARTHULA RAGHAVA</dd></div><div class="fact"><dt>Source Filename</dt><dd>10_rot_right.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity appears in reviewed confusion pairs; source embedding is an own-class outlier; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 3</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0109 at cosine 0.3212; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 40" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-4f2929cf2db9e1fd19">
+              <div class="evidence-pane">
+                <div class="item-index">Item 41 of 50</div>
+                <img src="evidence/CEA-4f2929cf2db9e1fd19.jpg" alt="Review evidence for item 41" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>41</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Source Filename</dt><dd>15_original.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>owning identity is a confirmed reviewed false-accept attractor; source embedding is an own-class outlier</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 1 false accepts, 1 distinct known identities, 0 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0140 at cosine 0.0804; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 41" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-4f86ecc676c766dc0d">
+              <div class="evidence-pane">
+                <div class="item-index">Item 42 of 50</div>
+                <img src="evidence/CEA-4f86ecc676c766dc0d.jpg" alt="Review evidence for item 42" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>42</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>4_bright.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0103 at cosine 0.4755; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 42" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-6e3da2215679d7b4b2">
+              <div class="evidence-pane">
+                <div class="item-index">Item 43 of 50</div>
+                <img src="evidence/CEA-6e3da2215679d7b4b2.jpg" alt="Review evidence for item 43" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>43</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>4_dark.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0103 at cosine 0.5386; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 43" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-1bc84a33fa4cf004fb">
+              <div class="evidence-pane">
+                <div class="item-index">Item 44 of 50</div>
+                <img src="evidence/CEA-1bc84a33fa4cf004fb.jpg" alt="Review evidence for item 44" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>44</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>4.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0044 at cosine 0.4927; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 44" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-55b051093f3457e772">
+              <div class="evidence-pane">
+                <div class="item-index">Item 45 of 50</div>
+                <img src="evidence/CEA-55b051093f3457e772.jpg" alt="Review evidence for item 45" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>45</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>8.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; severe_blur; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces; severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0050 at cosine 0.3363; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 45" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-fcecb114c60745ffdc">
+              <div class="evidence-pane">
+                <div class="item-index">Item 46 of 50</div>
+                <img src="evidence/CEA-fcecb114c60745ffdc.jpg" alt="Review evidence for item 46" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>46</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Source Filename</dt><dd>4_original.jpg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Dataset Role</dt><dd>configured_augmented_dataset_nonproduction</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>embedding is closer to another student than its own medoid</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>multiple faces detected in one enrollment image; owning identity appears in reviewed confusion pairs; owning identity is missed in the reviewed benchmark</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>multiple_faces; closer_to_another_student_than_own_medoid</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>multiple_faces</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0044 at cosine 0.4929; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 46" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-2c54274bd7bcf449e3">
+              <div class="evidence-pane">
+                <div class="item-index">Item 47 of 50</div>
+                <img src="evidence/CEA-2c54274bd7bcf449e3.jpg" alt="Review evidence for item 47" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>47</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Source Filename</dt><dd>22.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>owning identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>source image produced one of the strongest stored embedding outliers</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>attractor: 6 false accepts, 3 distinct known identities, 3 outsiders</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0124 at cosine 0.4247; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 47" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-bc515540730f64aee1">
+              <div class="evidence-pane">
+                <div class="item-index">Item 48 of 50</div>
+                <img src="evidence/CEA-bc515540730f64aee1.jpg" alt="Review evidence for item 48" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>48</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0209</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>N N K V HANUMAN NARAYANA</dd></div><div class="fact"><dt>Source Filename</dt><dd>4.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0209</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 1</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>owning identity appears in reviewed confusion pairs</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>source image produced one of the strongest stored embedding outliers; owning identity is missed in the reviewed benchmark; severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>actual identity in reviewed confusion evidence; reviewed top-1 misses: 1</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>2401100CSE0074 at cosine 0.4117; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 48" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-efcb96d1b78857207b">
+              <div class="evidence-pane">
+                <div class="item-index">Item 49 of 50</div>
+                <img src="evidence/CEA-efcb96d1b78857207b.jpg" alt="Review evidence for item 49" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>49</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0097</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>NARUKULLA PAVAN</dd></div><div class="fact"><dt>Source Filename</dt><dd>12.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0097</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 2</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>source image produced one of the strongest stored embedding outliers</dd></div><div class="fact"><dt>Secondary Reasons</dt><dd>severe quality issue affects a contributing high-risk image</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>severe_blur; own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>severe_blur</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>none confirmed</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0051 at cosine 0.3951; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 49" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CEA-91aa2b00f7a441058c">
+              <div class="evidence-pane">
+                <div class="item-index">Item 50 of 50</div>
+                <img src="evidence/CEA-91aa2b00f7a441058c.jpg" alt="Review evidence for item 50" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>50</dd></div><div class="fact"><dt>Expected Roll</dt><dd>2401100CSE0111</dd></div><div class="fact"><dt>Expected Student Name</dt><dd>THALLA KARTHIK</dd></div><div class="fact"><dt>Source Filename</dt><dd>2.jpeg</dd></div><div class="fact"><dt>Dataset Folder</dt><dd>2401100CSE0111</dd></div><div class="fact"><dt>Dataset Role</dt><dd>production_recorded_dataset</dd></div><div class="fact priority"><dt>Priority Tier</dt><dd>Tier 2</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>source image produced one of the strongest stored embedding outliers</dd></div><div class="fact priority"><dt>Selected Issue Reasons</dt><dd>own_class_outlier</dd></div><div class="fact warning"><dt>Quality Warnings</dt><dd>none</dd></div><div class="fact"><dt>Duplicate Group Context</dt><dd>No exact duplicate group</dd></div><div class="fact priority"><dt>Confusion Involvement</dt><dd>none confirmed</dd></div><div class="fact hint"><dt>Model Similarity Hint Not Ground Truth</dt><dd>24011CSEAI0103 at cosine 0.4037; model similarity hint - not ground truth</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 50" required>
+                    <option value="">Choose an action</option>
+                    <option value="keep">Keep for the next embedding candidate</option><option value="exclude_from_next_embedding_version">Exclude from the next embedding candidate</option><option value="wrong_person_or_mislabeled">Wrong person or mislabeled</option><option value="multiple_people">Multiple people</option><option value="unusable_quality">Unusable quality</option><option value="uncertain">Uncertain</option><option value="duplicate_of_another_image">Duplicate of another image</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            </section>
+  </main>
+  <div class="notice" id="notice" role="status"></div>
+  <script type="application/json" id="package-data">{"package_id": "compact-enrollment-audit-df0b986b716a2cd5", "package_kind": "compact_enrollment_audit", "item_ids": ["CEA-21cc8966217d8c51b8", "CEA-bf597b5645a060a457", "CEA-040b421712c6c3bc47", "CEA-bba9d1d452c5796d9d", "CEA-8acd123274db681a0e", "CEA-183b6fcfc171280f0a", "CEA-1869a88f2aecc035ac", "CEA-f74fe674772ee7f675", "CEA-a063872051a976bc34", "CEA-d6e641408e0b162f9a", "CEA-1ff2974516c6484038", "CEA-97af1b682f962e502f", "CEA-b2abc3d4578c229bbe", "CEA-bf70f4ba6fe9d5bce8", "CEA-fb7aa1a9a386cdca86", "CEA-414ed7068f294ee44a", "CEA-7972dc94838d1cd365", "CEA-c2aae87e9bc944e867", "CEA-89f6de2340e0cd8410", "CEA-6e3caf02f6ca4f5d8d", "CEA-188ef58209ed657be2", "CEA-9ec4e6872b310f391a", "CEA-4ce6fb64e0dca60dfb", "CEA-43dfef7666fe7596fa", "CEA-61cbcd84bda6902cb1", "CEA-11e0cb5e48ad7c34fc", "CEA-6365fd0aa90b36b357", "CEA-9c92031d3221588131", "CEA-19392022473795bd62", "CEA-258c6f34e9356c560d", "CEA-b3a0a827506e1341f5", "CEA-9c2a1be1daef51d3db", "CEA-b395d43d42c902b3fe", "CEA-89ea0b72fd7ffb3ea5", "CEA-e3d71ef0ca03f56f2a", "CEA-dfcbcd4361fca41f51", "CEA-059a66d97379db993a", "CEA-f5d37d74e13f02b834", "CEA-ba46e1715f2879329f", "CEA-da8fdea75a5d2840ae", "CEA-4f2929cf2db9e1fd19", "CEA-4f86ecc676c766dc0d", "CEA-6e3da2215679d7b4b2", "CEA-1bc84a33fa4cf004fb", "CEA-55b051093f3457e772", "CEA-fcecb114c60745ffdc", "CEA-2c54274bd7bcf449e3", "CEA-bc515540730f64aee1", "CEA-efcb96d1b78857207b", "CEA-91aa2b00f7a441058c"], "duplicate_action": "duplicate_of_another_image"}</script>
+  <script>
+  (() => {
+    'use strict';
+    const config = JSON.parse(document.getElementById('package-data').textContent);
+    const storageKey = `forensic-review:${config.package_id}`;
+    const cards = Array.from(document.querySelectorAll('.review-card'));
+    const notice = document.getElementById('notice');
+    const search = document.getElementById('search');
+    const statusFilter = document.getElementById('status-filter');
+    const state = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    const csv = value => `"${String(value ?? '').replaceAll('"','""')}"`;
+    const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+    const flash = message => { notice.textContent = message; notice.classList.add('show'); setTimeout(() => notice.classList.remove('show'), 1600); };
+    const applyFilters = () => {
+      const query = search.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      cards.forEach(card => {
+        const reviewed = Boolean((state[card.dataset.itemId] || {}).action);
+        const statusMatches = status === 'all' || (status === 'pending' && !reviewed) || (status === 'reviewed' && reviewed);
+        const haystack = `${card.dataset.itemId} ${card.textContent}`.toLowerCase();
+        card.hidden = !statusMatches || (Boolean(query) && !haystack.includes(query));
+      });
+    };
+    const updateProgress = () => {
+      const complete = cards.filter(card => (state[card.dataset.itemId] || {}).action).length;
+      const percentage = cards.length
+        ? (complete === 0 ? 0 : Math.max(1, Math.round(complete/cards.length*100)))
+        : 100;
+      document.getElementById('progress').textContent = `${complete} of ${cards.length} reviewed (${percentage}%)`;
+      cards.forEach(card => card.classList.toggle('complete', Boolean((state[card.dataset.itemId] || {}).action)));
+      applyFilters();
+    };
+    cards.forEach(card => {
+      const id = card.dataset.itemId;
+      const action = card.querySelector('.action');
+      const duplicate = card.querySelector('.duplicate');
+      const duplicateField = card.querySelector('.duplicate-field');
+      const notes = card.querySelector('.notes');
+      const saved = state[id] || {};
+      action.value = saved.action || '';
+      duplicate.value = saved.duplicate || '';
+      notes.value = saved.notes || '';
+      const syncDuplicate = () => {
+        const enabled = Boolean(config.duplicate_action) && action.value === config.duplicate_action;
+        duplicateField.hidden = !enabled;
+        duplicate.disabled = !enabled;
+        if (!enabled) duplicate.value = '';
+      };
+      const persist = () => {
+        syncDuplicate();
+        state[id] = { action: action.value, duplicate: duplicate.value.trim(), notes: notes.value.trim() };
+        save(); updateProgress();
+      };
+      action.addEventListener('change', persist);
+      duplicate.addEventListener('input', persist);
+      notes.addEventListener('input', persist);
+      syncDuplicate();
+    });
+    search.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    document.getElementById('clear-filters').addEventListener('click', () => {
+      search.value = '';
+      statusFilter.value = 'all';
+      applyFilters();
+      search.focus();
+    });
+    document.getElementById('show-pending').addEventListener('click', () => {
+      statusFilter.value = 'pending';
+      applyFilters();
+      const first = cards.find(card => !card.hidden);
+      if (first) first.scrollIntoView({behavior:'smooth',block:'start'}); else flash('Every item has a review action.');
+    });
+    document.getElementById('export').addEventListener('click', () => {
+      const pending = cards.filter(card => !(state[card.dataset.itemId] || {}).action);
+      if (pending.length) { flash(`${pending.length} item(s) still need a review action.`); pending[0].scrollIntoView({behavior:'smooth',block:'center'}); return; }
+      const rows = [['Package_ID','Item_ID','Review_Action','Duplicate_Of_Item_ID','Reviewer_Notes']];
+      config.item_ids.forEach(id => { const value = state[id] || {}; rows.push([config.package_id,id,value.action || '',value.duplicate || '',value.notes || '']); });
+      const body = '﻿' + rows.map(row => row.map(csv).join(',')).join('\r\n');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([body],{type:'text/csv;charset=utf-8'}));
+      link.download = `forensic_review_approvals_${config.package_id}.csv`;
+      document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      flash('Approval CSV exported. No source files were changed.');
+    });
+    updateProgress();
+  })();
+  </script>
+</body>
+</html>

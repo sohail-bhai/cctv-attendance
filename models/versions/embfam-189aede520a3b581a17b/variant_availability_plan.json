@@ -1,0 +1,83 @@
+{
+  "A": {
+    "available": true,
+    "status": "built_unapproved",
+    "required_source_sessions": [],
+    "source_sessions_included": [],
+    "missing_usable_source_sessions": [],
+    "evaluation_sessions_allowed": [
+      "2026-06-30__B51__P1__CVO",
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "evaluation_sessions_contaminated": [],
+    "unavailable_reason": ""
+  },
+  "B": {
+    "available": false,
+    "status": "unavailable_no_usable_source_evidence",
+    "required_source_sessions": [
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "source_sessions_included": [],
+    "missing_usable_source_sessions": [
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "evaluation_sessions_allowed": [],
+    "evaluation_sessions_contaminated": [],
+    "unavailable_reason": "no_technically_usable_tue_p2_cctv_embedding_source"
+  },
+  "C": {
+    "available": true,
+    "status": "built_unapproved",
+    "required_source_sessions": [
+      "2026-06-30__B51__P1__CVO"
+    ],
+    "source_sessions_included": [
+      "2026-06-30__B51__P1__CVO"
+    ],
+    "missing_usable_source_sessions": [],
+    "evaluation_sessions_allowed": [
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "evaluation_sessions_contaminated": [
+      "2026-06-30__B51__P1__CVO"
+    ],
+    "unavailable_reason": ""
+  },
+  "D": {
+    "available": true,
+    "status": "built_unapproved",
+    "required_source_sessions": [
+      "2026-06-30__B51__P1__CVO",
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "source_sessions_included": [
+      "2026-06-30__B51__P1__CVO"
+    ],
+    "missing_usable_source_sessions": [
+      "2026-06-30__B51__P2__CVO"
+    ],
+    "evaluation_sessions_allowed": [],
+    "evaluation_sessions_contaminated": [
+      "2026-06-30__B51__P1__CVO"
+    ],
+    "unavailable_reason": ""
+  },
+  "summary": {
+    "usable_session_counts": {
+      "2026-06-30__B51__P1__CVO": 6
+    },
+    "available_variants": [
+      "A",
+      "C",
+      "D"
+    ],
+    "unavailable_variants": [
+      "B"
+    ],
+    "cross_session_pair_complete": false,
+    "partial_family_allowed": true,
+    "quality_gate_relaxed": false,
+    "manual_rereview_required": false
+  }
+}

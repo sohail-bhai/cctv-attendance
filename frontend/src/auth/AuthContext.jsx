@@ -1,5 +1,5 @@
-import { createContext, useContext, useMemo, useState } from 'react';
-import { findLogin, isAdmin } from '../data/users.js';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { apiGetResult, apiPost } from '../api/client.js';
 
 const STORAGE_KEY = 'sreenidhi_attendance_user';
 const AuthContext = createContext(null);
@@ -12,30 +12,82 @@ function readStoredUser() {
   }
 }
 
+function persistUser(user) {
+  if (user) localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+  else localStorage.removeItem(STORAGE_KEY);
+}
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(readStoredUser);
+  const [authReady, setAuthReady] = useState(false);
 
-  const login = (username, password) => {
-    const user = findLogin(username, password);
-    if (!user) return { ok: false, error: 'Invalid username or password.' };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    setCurrentUser(user);
-    return { ok: true, user };
+  useEffect(() => {
+    let cancelled = false;
+    const stored = readStoredUser();
+    if (!stored?.id || !stored?.sessionToken) {
+      persistUser(null);
+      setCurrentUser(null);
+      setAuthReady(true);
+      return () => { cancelled = true; };
+    }
+
+    apiGetResult('/api/auth/me', { cache: 'no-store' }).then((result) => {
+      if (cancelled) return;
+      if (result.ok && result.data?.user) {
+        const verified = {
+          ...result.data.user,
+          sessionToken: stored.sessionToken,
+          sessionExpiresAt: stored.sessionExpiresAt,
+        };
+        persistUser(verified);
+        setCurrentUser(verified);
+      } else if (!result.networkError) {
+        // A definite 401/invalid identity clears stale access. Offline mode may
+        // retain the last verified role, while all mutations remain disabled.
+        persistUser(null);
+        setCurrentUser(null);
+      }
+      setAuthReady(true);
+    });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  const login = async (username, password) => {
+    try {
+      const result = await apiPost('/api/auth/login', { username, password });
+      const user = result?.user;
+      const sessionToken = result?.session_token;
+      if (!user || !sessionToken) return { ok: false, error: 'The backend returned an invalid login session.' };
+      const verified = {
+        ...user,
+        sessionToken,
+        sessionExpiresAt: result?.session_expires_at || null,
+      };
+      persistUser(verified);
+      setCurrentUser(verified);
+      return { ok: true, user: verified };
+    } catch (error) {
+      return { ok: false, error: error.message || 'Login failed.' };
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem(STORAGE_KEY);
+    apiPost('/api/auth/logout', {}).catch(() => {});
+    persistUser(null);
     setCurrentUser(null);
   };
 
+  const isAdmin = currentUser?.role === 'admin' || Boolean(currentUser?.canSeeAll);
   const value = useMemo(() => ({
     currentUser,
     user: currentUser,
     isLoggedIn: Boolean(currentUser),
-    isAdmin: isAdmin(currentUser),
+    isAdmin,
+    authReady,
     login,
     logout,
-  }), [currentUser]);
+  }), [authReady, currentUser, isAdmin]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

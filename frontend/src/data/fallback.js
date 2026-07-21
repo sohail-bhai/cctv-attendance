@@ -1,6 +1,6 @@
 export const ADMIN_PROFILE = {
-  name: 'Main Admin',
-  role: 'Attendance Controller',
+  name: 'HOD',
+  role: 'Head of Department',
   organization: 'Sreenidhi University',
   department: 'Smart Attendance Cell',
   email: 'admin@sreenidhi.edu.in',
@@ -63,7 +63,7 @@ export const FALLBACK_TIMETABLE = [
 }));
 
 export const PIPELINE_STAGES = [
-  { title: 'Timetable Slot', text: 'Admin selects day + period, then subject and room are locked from timetable.' },
+  { title: 'Timetable Slot', text: 'HOD selects day + period, then subject and room are locked from timetable.' },
   { title: 'Camera Angles', text: 'All videos inside the selected slot folder are treated as camera angles for the same class.' },
   { title: 'YuNet Detection', text: 'Faces are detected and rejected if too weak, tiny, blurred, or low-score.' },
   { title: 'SFace Recognition', text: 'Face embeddings are matched against student_embeddings.pkl using cosine similarity.' },

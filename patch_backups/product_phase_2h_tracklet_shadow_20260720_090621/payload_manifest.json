@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "patch_id": "product-phase-2h-tracklet-attendance-shadow-v1",
+  "payload": {
+    "scripts/run_product_phase_2h_tracklet_shadow.ps1": {
+      "sha256": "beb8610505bf6919661b0f2c140c0b45290f2f4c2f8d07279b3ce8f06911208e",
+      "size_bytes": 1912
+    },
+    "scripts/run_product_phase_2h_tracklet_shadow.py": {
+      "sha256": "9ed5a43b218c1cb7c51ada660fe031565f73e4c7779c5f762c4cac297b150f3a",
+      "size_bytes": 4579
+    },
+    "src/face_attendance/product_phase_2h_tracklet_shadow.py": {
+      "sha256": "8332368812822c02ce9e677f1efe505fbe65220e1a94f910cb9bdb21a0f4fe46",
+      "size_bytes": 32255
+    },
+    "tests/test_product_phase_2h_tracklet_shadow.py": {
+      "sha256": "31cc3804027d3cb4c4387bc37d2f19ecd7e6f91fc38e3cc247fb7314197686f5",
+      "size_bytes": 7188
+    }
+  },
+  "required_files": {
+    "app.py": "e00aae8137735c2dfaa2f2e5908f5cb97a9dbef70fbf08517cff04f3fbd7ef29",
+    "src/face_attendance/processing_integration.py": "843b926eed4278ba58567e3c9d1cb4caceaafe175e942105eb619d052eb8eda4",
+    "src/face_attendance/tracklet_review.py": "a232000a7e64b1a951e1570e5f1aa4f600006950d135c5ca9948d1ca6d94521c",
+    "src/face_attendance/mon_p4_shadow_validation.py": "6f602e457a56df775ed56879cacdcabce84607c7dcce56e616a2790336aa4225",
+    "scripts/mark_attendance_checkpoints.py": "56d0d675ce41f380e60fb7e7291027be3719feb325f7f5bbb160d65b15e04b45"
+  },
+  "added_files": [
+    "scripts/run_product_phase_2h_tracklet_shadow.ps1",
+    "scripts/run_product_phase_2h_tracklet_shadow.py",
+    "src/face_attendance/product_phase_2h_tracklet_shadow.py",
+    "tests/test_product_phase_2h_tracklet_shadow.py"
+  ]
+}

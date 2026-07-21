@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "patch_id": "product-phase-2j-report-revision-stabilization-v2",
+  "replaced_files": {
+    "app.py": "bcbdeb86b9099e3ea430d7ca3ca957b7e8a6c1476afd59c151f57b5b475fac30",
+    "frontend/src/pages/Reports.jsx": "b3607df98534d20b38b32d86cdcbe3093e721bc1837a81c39be2d63a669b3352",
+    "frontend/src/pages/ManualReview.jsx": "1183e2b5ebfbfab772f116ad17131b63eceedf94a349bca673e90cb30a9627aa"
+  },
+  "added_files": [
+    "src/face_attendance/report_revision_control.py",
+    "src/face_attendance/review_carry_forward.py",
+    "scripts/run_product_phase_2j_stabilization.py",
+    "scripts/run_product_phase_2j_stabilization.ps1",
+    "tests/test_product_phase_2j_revision_control.py",
+    "tests/test_product_phase_2j_review_carry_forward.py",
+    "tests/test_product_phase_2j_frontend_contract.py"
+  ],
+  "payload": {
+    "app.py": {
+      "sha256": "a56c874061c8386af1a725c35841b139314ab0e37ab03daedcfc36d4d8fbfb2e",
+      "size_bytes": 155820
+    },
+    "frontend/src/pages/ManualReview.jsx": {
+      "sha256": "e6d00c5ebf24a020282d74dd90c186d5928f9104e99c4f6f699855c5cb2b6ba1",
+      "size_bytes": 39858
+    },
+    "frontend/src/pages/Reports.jsx": {
+      "sha256": "710417734016226cabfaf01ec79c9dea13f647b45ab42e682ec574116724a0d5",
+      "size_bytes": 49431
+    },
+    "scripts/run_product_phase_2j_stabilization.ps1": {
+      "sha256": "cd74d8fdcc2c5deb786cbb822cf4993e81a66510382dbeb02fd7cfad16b51ec9",
+      "size_bytes": 1090
+    },
+    "scripts/run_product_phase_2j_stabilization.py": {
+      "sha256": "3eb3d4c84b7f76751909702009224ad9589adf72db5c0a3b74a09f70658ecaa5",
+      "size_bytes": 8740
+    },
+    "src/face_attendance/report_revision_control.py": {
+      "sha256": "12521af7cdd691552aea0b8a1496d485a73d881596b30a3a2c5df1a287a24507",
+      "size_bytes": 33421
+    },
+    "src/face_attendance/review_carry_forward.py": {
+      "sha256": "89023149a5bc0936449d32c240865d937fbdba72ab23e494ae3ebd95400077d7",
+      "size_bytes": 16854
+    },
+    "tests/test_product_phase_2j_frontend_contract.py": {
+      "sha256": "65c06afe4983b5f6499e1e5069cf2a94a677b65035c43c325496ff336b676ab4",
+      "size_bytes": 1785
+    },
+    "tests/test_product_phase_2j_review_carry_forward.py": {
+      "sha256": "fd50e52c65bd732133f606c2364466cee1b6a3c5934b758a970b5a8a3165c2d4",
+      "size_bytes": 7828
+    },
+    "tests/test_product_phase_2j_revision_control.py": {
+      "sha256": "fdd8a8e92965884475ac7eb1db710917714be8f000efe79fe174271e5a141d36",
+      "size_bytes": 12159
+    }
+  },
+  "required_evidence_files": {
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/evaluation_manifest.json": "9f1fdeaa4449d053009f1c6a24683089f85ac18d39180201dcf396a0c7a1f8ad",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/evaluation_summary.json": "bf5bc857b8c35f0e6e0acb0da354d8a64be48b7d6dcb05bf37836e1860b587cb",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/identity_checkpoint_validation.csv": "838a2d2bfac7d51798e9f6e303c017b647cc5a1c26cf97418c029676ced011fa",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/joined_multiframe_recovery_review.csv": "2b2a2119d3eb44ea4aa9a3c9256f6a3173303944143684d59abd7097a32f2f46",
+    "attendance_output/product_workflow/phase_2h_multiframe_recovery/multiframe-recovery-7d9d3a539c0b32e33048/evaluation/multiframe_shadow_roster_report.csv": "a2e25dc646c691d7c8627974c823d5f7dfef51510c1524e26bd61a732a8c881a"
+  },
+  "expected_current_candidate": {
+    "session_id": "2026-06-22__B51__P4__CVO",
+    "csv_sha256": "e28dc0278abfad034bd78bb576620a50f90100461f23b5e0b920e1e65e39c57f",
+    "present": 2,
+    "needs_review": 8,
+    "unconfirmed": 16,
+    "missing_enrollment": 1,
+    "absent": 0,
+    "total": 27
+  },
+  "expected_reviewed_official": {
+    "present": 6,
+    "needs_review": 4,
+    "unconfirmed": 16,
+    "missing_enrollment": 1,
+    "absent": 0,
+    "total": 27
+  }
+}

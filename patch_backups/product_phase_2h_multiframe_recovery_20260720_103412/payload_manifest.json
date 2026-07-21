@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "patch_id": "product-phase-2h-multiframe-recall-recovery-v2",
+  "payload": {
+    "scripts/run_product_phase_2h_multiframe_recovery.ps1": {
+      "sha256": "365f05d975b49c103f38efb4425b4b22eda6750d6215e5d0ec8d86806ebefbb2",
+      "size_bytes": 1916
+    },
+    "scripts/run_product_phase_2h_multiframe_recovery.py": {
+      "sha256": "e6fc98720d4ad94fa26529bb131dc56c9fb8cd1b5a457c61f686ca67428a2bec",
+      "size_bytes": 5564
+    },
+    "src/face_attendance/product_phase_2h_multiframe_recovery.py": {
+      "sha256": "7ec5d6ab565a319ca94ebdf74e501f1a5f523f5efeda1dadbd5f7dc02e27d4ad",
+      "size_bytes": 46878
+    },
+    "tests/test_product_phase_2h_multiframe_recovery.py": {
+      "sha256": "697219928c958d72a87425d596632be861d9840dbcf8dedb639a9ffa3fcb5ad5",
+      "size_bytes": 10268
+    }
+  },
+  "required_files": {
+    "app.py": "e00aae8137735c2dfaa2f2e5908f5cb97a9dbef70fbf08517cff04f3fbd7ef29",
+    "src/face_attendance/processing_integration.py": "843b926eed4278ba58567e3c9d1cb4caceaafe175e942105eb619d052eb8eda4",
+    "src/face_attendance/tracklet_review.py": "a232000a7e64b1a951e1570e5f1aa4f600006950d135c5ca9948d1ca6d94521c",
+    "src/face_attendance/mon_p4_shadow_validation.py": "6f602e457a56df775ed56879cacdcabce84607c7dcce56e616a2790336aa4225",
+    "scripts/mark_attendance_checkpoints.py": "56d0d675ce41f380e60fb7e7291027be3719feb325f7f5bbb160d65b15e04b45"
+  },
+  "added_files": [
+    "scripts/run_product_phase_2h_multiframe_recovery.ps1",
+    "scripts/run_product_phase_2h_multiframe_recovery.py",
+    "src/face_attendance/product_phase_2h_multiframe_recovery.py",
+    "tests/test_product_phase_2h_multiframe_recovery.py"
+  ],
+  "conflicting_files": [
+    "src/face_attendance/product_phase_2h_tracklet_shadow.py",
+    "scripts/run_product_phase_2h_tracklet_shadow.py",
+    "scripts/run_product_phase_2h_tracklet_shadow.ps1",
+    "tests/test_product_phase_2h_tracklet_shadow.py"
+  ],
+  "safety": {
+    "recognition_rerun": false,
+    "official_attendance_change": false,
+    "production_embeddings_change": false,
+    "global_threshold_change": false,
+    "tracklet_authority_activation": false,
+    "low_evidence_status": "Unconfirmed - insufficient evidence"
+  }
+}

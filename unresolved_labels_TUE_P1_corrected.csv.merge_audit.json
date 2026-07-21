@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "merged_at": "2026-07-12T15:39:58",
+  "source_labels": "F:\\sohail\\Class_Attendance_YuNet_SFace\\unresolved_labels_TUE_P1.csv",
+  "source_labels_sha256": "7bf5acf922e188aa2d4b256553378f288f8e27767225203d978449f9d8326b71",
+  "correction_package": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_124500_128763\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271\\corrections\\label_correction_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271-label-correction-20260712152814-0d4593",
+  "corrections": "D:\\Downloads\\tracklet_label_corrections_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271-label-correction-20260712152814-0d4593.csv",
+  "corrections_sha256": "e8a202877f558e77906f53441fe66f54dd909ccfb6450661d9957c2edc9ed85c",
+  "output": "F:\\sohail\\Class_Attendance_YuNet_SFace\\unresolved_labels_TUE_P1_corrected.csv",
+  "output_sha256": "ce850c74550e9f8cc82a9468ce553b35c2a5f401e940b6073e03f412779fbb03",
+  "source_package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271",
+  "correction_package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271-label-correction-20260712152814-0d4593",
+  "source_rows": 63,
+  "target_rows": 14,
+  "unchanged_rows": 49,
+  "target_review_ids": [
+    "R0011",
+    "R0013",
+    "R0015",
+    "R0016",
+    "R0017",
+    "R0028",
+    "R0029",
+    "R0033",
+    "R0036",
+    "R0037",
+    "R0039",
+    "R0044",
+    "R0058",
+    "R0059"
+  ],
+  "status_counts_before": {
+    "identified": 46,
+    "mixed_track": 1,
+    "not_in_mapping": 14,
+    "unidentifiable": 2
+  },
+  "status_counts_after": {
+    "identified": 50,
+    "mixed_track": 1,
+    "not_in_mapping": 10,
+    "unidentifiable": 2
+  },
+  "original_overwritten": false
+}

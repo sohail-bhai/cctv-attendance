@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-13T16:16:41",
+  "compact_review_run_id": "embedding_forensics_compact_review_20260713_161633_550718",
+  "source_validation": {
+    "source_primary_verified_files": 1093,
+    "source_reviewfix_verified_files": 1093,
+    "source_broad_enrollment_count": 855,
+    "source_broad_cctv_count": 98,
+    "source_broad_enrollment_package_id": "enrollment-audit-5430747113d0daeb",
+    "source_broad_cctv_package_id": "verified-cctv-77507b2f5d348aad",
+    "candidate_id": "cal-5cd35b60dd83",
+    "candidate_status": "rejected_multisession_false_accepts",
+    "candidate_embedding_built": false,
+    "candidate_embedding_promoted": false,
+    "protected_sources_match": true,
+    "source_primary_output_manifest_sha256": "bd259cbe7383f04984b82ef85cad07733b1050fa947c5aba5a56d8e0ce38b354",
+    "source_reviewfix_output_manifest_sha256": "19a5605567a47dc383c97df0b43532a737531448502486c4068553a920434a63",
+    "ranking_artifact_sha256": {
+      "dataset_suspect_images.csv": "8f73712b7b431894ffa04f5d98ca6b0f3d1a5a0090843d00bfea0c0b86e9af6e",
+      "dataset_duplicate_files.csv": "3df62c3a5663e88f956b14d0e04b0e4c97a217cbb785084608b86d9f29749491",
+      "embedding_outliers.csv": "f7e014579f67a27a5fd2c1a0a0826304f49f026d3f2dfb3e2af668935718b22e",
+      "predicted_identity_attractors.csv": "1d75451a266b5b290470be9bd0b20913fe2abb99eba7672f5dd96fdd6fa27770",
+      "actual_identity_miss_patterns.csv": "105fe2c301b5b8ea78a0fa807a1d3a2ee63624549033066dc8178f7611465b9f",
+      "student_embedding_health.csv": "87d517351ebaf8735c5087459b43741a285cde37350565d1451710dbc225abcf",
+      "verified_cctv_candidate_inventory.csv": "d321c1d65f31443859defd75c19a944ac08e3cdd2eb904b269bae89ecf44b724",
+      "forensic_summary.json": "4c5c7c6d94ea0aef8a09f7e658bc087c5a445258010b3fafc25830ffe89064b4",
+      "forensic_run_manifest.json": "e5d2e08d29d0618eefed0a338cbd7a20078393cf04e964392ed82ee7e111fa9d",
+      "suspicious_enrollment_image_review/package_manifest.json": "b426e35b78e83eaa08e6738b5b2252d22b43637644f23ccef5c1201c7275ad35",
+      "verified_cctv_enrollment_review/package_manifest.json": "202ebc621bbc611a9055e273d81487e55376a32d826ceab387a3760627d5386c"
+    },
+    "production_embeddings_sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+    "production_summary_sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+    "rejected_candidate_registry_sha256": "ab630c018af4fc53b89bb6d81c6780ed87a1cb105bcc46dd0c7eddc2e1374ba1",
+    "broad_enrollment_manifest_sha256": "b426e35b78e83eaa08e6738b5b2252d22b43637644f23ccef5c1201c7275ad35",
+    "broad_cctv_manifest_sha256": "202ebc621bbc611a9055e273d81487e55376a32d826ceab387a3760627d5386c",
+    "broad_enrollment_tree_before": {
+      "file_count": 862,
+      "total_bytes": 177548382,
+      "aggregate_sha256": "1a9703d69c228f6acb6d29946eaad90b62bb0f33f4765e7e729ee3ea00b7ab94"
+    },
+    "broad_enrollment_tree_after": {
+      "file_count": 862,
+      "total_bytes": 177548382,
+      "aggregate_sha256": "1a9703d69c228f6acb6d29946eaad90b62bb0f33f4765e7e729ee3ea00b7ab94"
+    },
+    "broad_cctv_tree_before": {
+      "file_count": 105,
+      "total_bytes": 1919645,
+      "aggregate_sha256": "024eabde7140c122037e48ae2b1ac5b51bbe4f433c57d46a1f3926ffcaa94563"
+    },
+    "broad_cctv_tree_after": {
+      "file_count": 105,
+      "total_bytes": 1919645,
+      "aggregate_sha256": "024eabde7140c122037e48ae2b1ac5b51bbe4f433c57d46a1f3926ffcaa94563"
+    }
+  },
+  "protected_state_before": {
+    "dataset": {
+      "file_count": 389,
+      "total_bytes": 305557462,
+      "aggregate_sha256": "fffb6d5c6f94f1eff7fc87723791de4eae3d3340b1b6da8f47322ae662708be9"
+    },
+    "augmented_dataset": {
+      "file_count": 1783,
+      "total_bytes": 776820060,
+      "aggregate_sha256": "652a672e12d92f9dabbc44ed3643ada6cb302bedcf8824f2a5afb09326c72058"
+    },
+    "production_model_and_roster": {
+      "file_count": 3,
+      "total_bytes": 234348,
+      "aggregate_sha256": "846923b0a1f0e5f8e38b70b4f3c4f05c04971a65a0e7d2d738680b1af8fd49e4"
+    },
+    "official_attendance_outside_diagnostics": {
+      "file_count": 250,
+      "total_bytes": 10139666,
+      "aggregate_sha256": "c3b4d58421239d6a541c1a6cf61cf4b9987eec98adb2e2c5e766aac093ca54b1"
+    },
+    "frozen_candidate_config": {
+      "file_count": 1,
+      "total_bytes": 1049,
+      "aggregate_sha256": "fbab2bcd239a445c04a276c7b7cf1f364f890ffc3ae99c9d9ca311ac880b7b53"
+    }
+  },
+  "protected_state_after": {
+    "dataset": {
+      "file_count": 389,
+      "total_bytes": 305557462,
+      "aggregate_sha256": "fffb6d5c6f94f1eff7fc87723791de4eae3d3340b1b6da8f47322ae662708be9"
+    },
+    "augmented_dataset": {
+      "file_count": 1783,
+      "total_bytes": 776820060,
+      "aggregate_sha256": "652a672e12d92f9dabbc44ed3643ada6cb302bedcf8824f2a5afb09326c72058"
+    },
+    "production_model_and_roster": {
+      "file_count": 3,
+      "total_bytes": 234348,
+      "aggregate_sha256": "846923b0a1f0e5f8e38b70b4f3c4f05c04971a65a0e7d2d738680b1af8fd49e4"
+    },
+    "official_attendance_outside_diagnostics": {
+      "file_count": 250,
+      "total_bytes": 10139666,
+      "aggregate_sha256": "c3b4d58421239d6a541c1a6cf61cf4b9987eec98adb2e2c5e766aac093ca54b1"
+    },
+    "frozen_candidate_config": {
+      "file_count": 1,
+      "total_bytes": 1049,
+      "aggregate_sha256": "fbab2bcd239a445c04a276c7b7cf1f364f890ffc3ae99c9d9ca311ac880b7b53"
+    }
+  },
+  "selection_artifacts": {
+    "compact_enrollment_selection.csv": "e40459c1c3dca1c6ad991909fa96ab17b8a9e8d89815d8d3035baa2a820e1a07",
+    "compact_enrollment_deferred.csv": "7ebfe0c7c5e1f3e919a419c9cf7d603aff66e6386467908d158d945fbc7603a9",
+    "compact_cctv_selection.csv": "2623cef42b8a5c5f978b7dfba95c1a10ada99fe1d5895b419f34ed7de251de6b",
+    "compact_cctv_deferred.csv": "5cb207dcf9a5ace8d101402665c04f0d5d3c87cb47874a41125a1fa91e85828e"
+  },
+  "review_package_ids": {
+    "compact_enrollment": "compact-enrollment-audit-df0b986b716a2cd5",
+    "compact_cctv": "compact-verified-cctv-8785d6b28789ae6f"
+  },
+  "safety": {
+    "production_embeddings_changed": false,
+    "datasets_changed": false,
+    "broad_review_packages_changed": false,
+    "recognition_rerun": false,
+    "candidate_embedding_built": false,
+    "candidate_embedding_promoted": false,
+    "mon_p3_processed": false,
+    "official_thresholds_changed": false,
+    "attendance_rule_changed": false,
+    "official_attendance_changed": false
+  }
+}

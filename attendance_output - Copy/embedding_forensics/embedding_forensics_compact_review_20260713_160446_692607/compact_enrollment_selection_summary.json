@@ -1,0 +1,72 @@
+{
+  "source_broad_items": 855,
+  "selected_items": 50,
+  "deferred_items": 805,
+  "preferred_items": 50,
+  "hard_maximum": 60,
+  "selected_students": [
+    "2401100CSE0019",
+    "2401100CSE0044",
+    "2401100CSE0050",
+    "2401100CSE0067",
+    "2401100CSE0074",
+    "2401100CSE0097",
+    "2401100CSE0109",
+    "2401100CSE0110",
+    "2401100CSE0111",
+    "2401100CSE0124",
+    "2401100CSE0140",
+    "2401100CSE0184",
+    "2401100CSE0209",
+    "24011CSEAI0007",
+    "24011CSEAI0103"
+  ],
+  "per_student_counts": {
+    "2401100CSE0019": 5,
+    "2401100CSE0044": 4,
+    "2401100CSE0050": 5,
+    "2401100CSE0067": 2,
+    "2401100CSE0074": 1,
+    "2401100CSE0097": 1,
+    "2401100CSE0109": 5,
+    "2401100CSE0110": 3,
+    "2401100CSE0111": 2,
+    "2401100CSE0124": 5,
+    "2401100CSE0140": 1,
+    "2401100CSE0184": 5,
+    "2401100CSE0209": 1,
+    "24011CSEAI0007": 5,
+    "24011CSEAI0103": 5
+  },
+  "embedding_outliers_considered": 13,
+  "embedding_outliers_available_in_broad": 12,
+  "embedding_outliers_selected": 12,
+  "embedding_outliers_unavailable_from_broad": [
+    {
+      "canonical_roll": "2401100CSE0140",
+      "image_path": "dataset\\2401100CSE0140 (C) Shruthi\\WhatsApp Image 2026-06-23 at 18.58.21.jpeg",
+      "robust_outlier_score": 4.798318,
+      "reason": "not_present_in_validated_broad_enrollment_package"
+    }
+  ],
+  "duplicate_source_hashes_selected": 0,
+  "low_priority_padding_used": false,
+  "model_similarity_used_as_ground_truth": false,
+  "selected_issue_categories": {
+    "closer_to_another_student_than_own_medoid": 41,
+    "own_class_outlier": 41,
+    "multiple_faces": 22,
+    "severe_blur": 18,
+    "folder_identity_absent_from_authoritative_registry": 3
+  },
+  "primary_selection_reasons": {
+    "embedding is closer to another student than its own medoid": 40,
+    "folder or authoritative-identity ownership mismatch": 3,
+    "multiple faces detected in one enrollment image": 3,
+    "owning identity appears in reviewed confusion pairs": 1,
+    "owning identity is a confirmed reviewed false-accept attractor": 1,
+    "source image produced one of the strongest stored embedding outliers": 2
+  },
+  "source_broad_package_id": "enrollment-audit-5430747113d0daeb",
+  "source_broad_package_manifest_sha256": "b426e35b78e83eaa08e6738b5b2252d22b43637644f23ccef5c1201c7275ad35"
+}

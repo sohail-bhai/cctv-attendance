@@ -12,6 +12,8 @@ from datetime import datetime, date, time, timedelta
 from pathlib import Path
 from typing import Iterable
 
+from src.face_attendance.session_identity import build_attendance_session_id
+
 VIDEO_EXTS = {'.mp4', '.avi', '.mov', '.mkv'}
 TIMESTAMP_RE = re.compile(r'(20\d{12})')
 DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -578,6 +580,10 @@ def process_command(args) -> None:
         present_rule = max(1, min(3, (available // 2) + 1)) if available >= 3 else max(1, available)
         review_rule = max(1, present_rule - 1)
         strong_rule = max(present_rule, available)
+        subject_track = str(getattr(args, 'subject_track', '') or '').strip().upper()
+        session_id = ''
+        if subject_track:
+            session_id = build_attendance_session_id(args.date, period.section, period.period, subject_track)
         command = [
             sys.executable,
             str(ROOT_DIR / 'scripts' / 'mark_attendance_checkpoints.py'),
@@ -598,7 +604,13 @@ def process_command(args) -> None:
             '--checkpoint-every-minutes', str(args.checkpoint_every_minutes),
             '--checkpoint-clip-seconds', str(args.checkpoint_clip_seconds),
             '--aggregate', str(args.aggregate),
+            '--session-date', str(args.date),
+            '--input-slot', period.slot_id,
+            '--input-source-type', 'prepared_slot',
+            '--input-source-path', str(video_dir),
         ]
+        if subject_track:
+            command.extend(['--session-id', session_id, '--subject-abbr', subject_track])
         safe_print(f'Running attendance for {period.slot_id} using {available}/{summary["planned_checkpoints"]} available checkpoints...')
         env = dict(**{k: v for k, v in __import__('os').environ.items()}, PYTHONIOENCODING='utf-8', PYTHONUTF8='1')
         proc = subprocess.run(command, cwd=str(ROOT_DIR), text=True, encoding='utf-8', errors='replace', env=env)
@@ -657,6 +669,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument('--margin-threshold', type=float, default=0.08)
     p.add_argument('--checkpoint-min-detections', type=int, default=2)
     p.add_argument('--aggregate', default='top3')
+    p.add_argument('--subject-track', default='', help='Optional logical subject track, e.g. CVO or CCM')
     p.add_argument('--reencode', action='store_true')
     p.add_argument('--continue-on-error', action='store_true')
     p.set_defaults(func=process_command)

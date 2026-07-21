@@ -1,0 +1,21 @@
+{
+  "files_sha256": {
+    "production_before_promotion/embedding_summary.csv": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+    "production_before_promotion/student_embeddings.pkl": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+    "promotion_evidence/candidate_version_manifest.json": "341e0211e4d5ae669b2f991825a1d7ff724b93dba8031f1c8a621d88a687fcd5",
+    "promotion_evidence/family_manifest.json": "66c67c433847d171dfa7ed0ee829b156f9c502e069450e5edc7aa7ddc6ad91e0",
+    "promotion_evidence/phase_1_2n_evaluation_output_manifest.json": "5fc93d3e60f190aaf02bda4842124a9663011cf2612d7ef3ef81c1fa663ba111",
+    "promotion_evidence/phase_1_2n_evaluation_summary.json": "07f5725b55e3f54925ca7717b19297de4bd59c06883fa396b1381e23f432c738",
+    "promotion_evidence/phase_1_2n_output_manifest.json": "b00db94aa2f90d777619f5c3991bf12f81d3e37049c29f0b2e134ce043b3c08d",
+    "promotion_evidence/phase_1_2n_reviewed_exception_tracks.csv": "4996bb47ad39da5ba8a908e3af4ada89eda07609fb425aa3db3fb4caa91c10dc",
+    "promotion_evidence/phase_1_2n_shadow_summary.json": "e96d341cb2b68de54e3b6dbf06af85c0f52a5fd0c702f35313ffac4cc60daa18",
+    "promotion_evidence/phase_1_2n_source_freeze.json": "6d60252b7e70941a2466bf7a43996418939a5853d8a8123ccc8b549583396e07",
+    "promotion_evidence/submitted_blind_review_labels.csv": "a256a30f1c27934be9dda896e3451db608d0dcc60270ccd4efbec9cf313906fe",
+    "promotion_plan.json": "e3225f5bee199b3d5f3f0d97ac27ac7c735080c6ce8dbe826b9db7fb9d392c3b",
+    "promotion_record.json": "99ff588e0992e207b94dfeaf287c4a0c6c73be93f0fc2c2a7d126121232a4957"
+  },
+  "phase": "1.2O",
+  "policy_version": "phase-1.2o-explicit-promotion-rollback-v1",
+  "promotion_id": "promotion-7cc01070e9bc644380c5",
+  "schema_version": 1
+}

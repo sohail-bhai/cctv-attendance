@@ -1,0 +1,32 @@
+﻿{
+    "Phase":  "1.2J",
+    "Patch":  "guarded_mon_p3_production_vs_candidate_shadow_validation",
+    "InstalledAt":  "2026-07-14T15:02:05.5954674+05:30",
+    "Repository":  "F:\\sohail\\Class_Attendance_YuNet_SFace",
+    "FamilyId":  "embfam-7bc431a3ad762398d4e9",
+    "FreezeJson":  "D:\\Downloads\\phase_1_2j_mon_p3_source_freeze.json",
+    "FreezeCsv":  "D:\\Downloads\\phase_1_2j_mon_p3_source_freeze.csv",
+    "AddOnly":  true,
+    "RecognitionStarted":  false,
+    "OfficialAttendanceChanged":  false,
+    "CandidatePromoted":  false,
+    "MonP3Processed":  false,
+    "Targets":  [
+                    {
+                        "Relative":  "src\\face_attendance\\mon_p3_shadow_validation.py",
+                        "Sha256":  "1c434359638c6d134d0a9cf39a482e156a9a576c26d69e6e0e2cf5ca7c9853f3"
+                    },
+                    {
+                        "Relative":  "scripts\\run_phase_1_2j_mon_p3_shadow.py",
+                        "Sha256":  "0e5b14f220f71247eca151c2237c4fcbfbc3258aabecbad99a15e7d50c0b27c6"
+                    },
+                    {
+                        "Relative":  "scripts\\run_phase_1_2j_mon_p3_shadow.ps1",
+                        "Sha256":  "eb7b221ce3b032645d24b20cfdb3315ae78153672d145d4eea6502311eb0f113"
+                    },
+                    {
+                        "Relative":  "tests\\test_mon_p3_shadow_validation.py",
+                        "Sha256":  "fbee5962513c76eb4d8202bb0a3d0fe3c33b9715044faffa332e08bd6aeca42f"
+                    }
+                ]
+}

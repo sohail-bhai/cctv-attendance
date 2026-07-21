@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "package_id": "compact-enrollment-audit-df0b986b716a2cd5",
+  "package_kind": "compact_enrollment_audit",
+  "item_count": 50,
+  "actions": [
+    "keep",
+    "exclude_from_next_embedding_version",
+    "wrong_person_or_mislabeled",
+    "multiple_people",
+    "unusable_quality",
+    "uncertain",
+    "duplicate_of_another_image"
+  ],
+  "source_mapping_sha256": "cef8959e2b1c6b6b8b0b8dc9d34fc6cf87a9a5de7c06c7f8c5a89861e0052aec",
+  "source_files_unchanged": true,
+  "production_embeddings_changed": false,
+  "browser_private_mapping_loaded": false,
+  "compact_review_schema_version": 1,
+  "package_revision": "compact-priority-review-v1",
+  "source_broad_package_id": "enrollment-audit-5430747113d0daeb",
+  "source_reviewfix_run": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110",
+  "source_reviewfix_manifest_sha256": "19a5605567a47dc383c97df0b43532a737531448502486c4068553a920434a63",
+  "compact_selection_csv_sha256": "e40459c1c3dca1c6ad991909fa96ab17b8a9e8d89815d8d3035baa2a820e1a07",
+  "model_similarity_used_as_ground_truth": false,
+  "automatic_approvals": 0
+}

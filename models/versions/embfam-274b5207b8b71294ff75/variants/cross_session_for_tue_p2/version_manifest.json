@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "version_id": "embfam-274b5207b8b71294ff75-c",
+  "family_id": "embfam-274b5207b8b71294ff75",
+  "variant_key": "C",
+  "variant_role": "tue_p2_cross_session_evaluation",
+  "status": "built_unapproved",
+  "availability": true,
+  "unavailable_reason": "",
+  "production_promoted": false,
+  "build_timestamp": "2026-07-16T13:11:28+05:30",
+  "deterministic_content_fingerprint": "d836d6f99bb3de85566a45bb7690a182a5006f2bbcce3f7a468d81f64513d344",
+  "parent_production_embedding_sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49",
+  "production_summary_sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee",
+  "model_hashes": {
+    "yunet_sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+    "sface_sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79"
+  },
+  "build_configuration": {
+    "detection_score": 0.6,
+    "det_max_width": 1280,
+    "min_face_size": 50,
+    "min_area_ratio": 0.003,
+    "pad_percent": 0.25,
+    "min_landmarks_inside": 4,
+    "min_eye_distance": 8.0,
+    "validation_mode": "padded_photo_landmark_validation"
+  },
+  "official_recognition_configuration": {
+    "match_threshold": 0.48,
+    "margin_threshold": 0.08,
+    "aggregate": "top3",
+    "attendance_checkpoints": 3
+  },
+  "source_manifest_sha256": "3a471f421d593e322c7a6ad22030f3e2cd27ba999a348bb3fc1c88768b524ed6",
+  "approval_csv_hashes": {
+    "enrollment": "e78fea2de9f169aa179b53b4291993060988af7a6266412ab166fe4293f1c2a3",
+    "cctv": "15ed3f5dceceacf95fe9c26b87ca8e265002ad12dfe0ee0a691393252a90d5bf"
+  },
+  "identity_correction_manifest_sha256": "55591551133fa0b472a7b2b1d7c6f911946aaab48445f9d0d8d8b16dedb5514b",
+  "augmentation_policy_sha256": "ab92a92732c7250de0ddb00d230a4f21609acfcf578df16905b5993c5ff4b473",
+  "per_student_image_counts": {
+    "2401100CSE0016": 9,
+    "2401100CSE0019": 21,
+    "2401100CSE0028": 11,
+    "2401100CSE0044": 13,
+    "2401100CSE0050": 24,
+    "2401100CSE0052": 16,
+    "2401100CSE0060": 19,
+    "2401100CSE0067": 18,
+    "2401100CSE0073": 20,
+    "2401100CSE0074": 10,
+    "2401100CSE0093": 19,
+    "2401100CSE0097": 13,
+    "2401100CSE0109": 8,
+    "2401100CSE0111": 9,
+    "2401100CSE0121": 9,
+    "2401100CSE0124": 12,
+    "2401100CSE0140": 5,
+    "2401100CSE0184": 9,
+    "2401100CSE0202": 12,
+    "2401100CSE0209": 12,
+    "2401100CSE0237": 8,
+    "2401100CSE0254": 8,
+    "2401100CSE0268": 0,
+    "24011CSEAI0007": 15,
+    "24011CSEAI0051": 18,
+    "24011CSEAI0103": 19,
+    "24011CSEAI0110": 13
+  },
+  "per_student_embedding_counts": {
+    "2401100CSE0016": 9,
+    "2401100CSE0019": 21,
+    "2401100CSE0028": 11,
+    "2401100CSE0044": 13,
+    "2401100CSE0050": 24,
+    "2401100CSE0052": 16,
+    "2401100CSE0060": 19,
+    "2401100CSE0067": 18,
+    "2401100CSE0073": 20,
+    "2401100CSE0074": 10,
+    "2401100CSE0093": 19,
+    "2401100CSE0097": 13,
+    "2401100CSE0109": 8,
+    "2401100CSE0111": 9,
+    "2401100CSE0121": 9,
+    "2401100CSE0124": 12,
+    "2401100CSE0140": 5,
+    "2401100CSE0184": 9,
+    "2401100CSE0202": 12,
+    "2401100CSE0209": 12,
+    "2401100CSE0237": 8,
+    "2401100CSE0254": 8,
+    "2401100CSE0268": 0,
+    "24011CSEAI0007": 15,
+    "24011CSEAI0051": 18,
+    "24011CSEAI0103": 19,
+    "24011CSEAI0110": 13
+  },
+  "embedding_records": 350,
+  "embedding_dimension": 128,
+  "source_sessions_included": [
+    "2026-06-30__B51__P1__CVO"
+  ],
+  "required_source_sessions": [
+    "2026-06-30__B51__P1__CVO"
+  ],
+  "missing_usable_source_sessions": [],
+  "adaptation_completeness": "complete",
+  "source_sessions_excluded": [
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "evaluation_sessions_allowed": [
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "evaluation_sessions_contaminated": [
+    "2026-06-30__B51__P1__CVO"
+  ],
+  "training_contaminated_descriptive_only": false,
+  "missing_students": [
+    "2401100CSE0268"
+  ],
+  "canonical_identity_coverage": {
+    "covered": 26,
+    "roster": 27,
+    "rolls": [
+      "2401100CSE0016",
+      "2401100CSE0019",
+      "2401100CSE0028",
+      "2401100CSE0044",
+      "2401100CSE0050",
+      "2401100CSE0052",
+      "2401100CSE0060",
+      "2401100CSE0067",
+      "2401100CSE0073",
+      "2401100CSE0074",
+      "2401100CSE0093",
+      "2401100CSE0097",
+      "2401100CSE0109",
+      "2401100CSE0111",
+      "2401100CSE0121",
+      "2401100CSE0124",
+      "2401100CSE0140",
+      "2401100CSE0184",
+      "2401100CSE0202",
+      "2401100CSE0209",
+      "2401100CSE0237",
+      "2401100CSE0254",
+      "24011CSEAI0007",
+      "24011CSEAI0051",
+      "24011CSEAI0103",
+      "24011CSEAI0110"
+    ]
+  },
+  "artifact_sha256": {
+    "build_report.md": "5a07ff21e4fed8160c47e38d18fad1365c74746f79ef9f177dca141024732e67",
+    "embedding_summary.csv": "8f6cafbd68b17c9a0421686e78e7f1d6928e7d8b4d3cf7941d7f4ffeaa25b05b",
+    "source_records.csv": "5df6b010472cd630114ee8ec9a00a08e5a1779966c0bf1f130919cc190a4ef77",
+    "student_coverage.csv": "33da831dea55bedd97c1630b21c31fc3d5b9f3d31d740b2df36b7d624b83cace",
+    "student_embeddings.pkl": "1a05782b5e93a9ec893399cb94a931e54ef7694065168447b28e6ca985a397dd"
+  },
+  "promotion_allowed_in_phase_1_2i_b": false
+}

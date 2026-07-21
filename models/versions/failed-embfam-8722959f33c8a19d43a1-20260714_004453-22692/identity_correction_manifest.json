@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "correction_id": "idcorr-0120f712eeb7ba1b",
+  "created_at": "2026-07-14T00:43:57+05:30",
+  "status": "validated_narrow_candidate_only_correction",
+  "source_roll": "2401100CSE0110",
+  "target_roll": "24011CSEAI0110",
+  "human_confirmation_basis": {
+    "folder_manually_renamed_by_user_before_this_phase": true,
+    "explicit_wrong_person_note": "This image belongs to 24011CSEAI0110, not 2401100CSE0110.",
+    "explicit_enrollment_item_ids": [
+      "CEA-21cc8966217d8c51b8",
+      "CEA-6365fd0aa90b36b357"
+    ]
+  },
+  "affected_source_folders": {
+    "historical": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\2401100CSE0110",
+    "current": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\24011CSEAI0110"
+  },
+  "affected_image_count": 16,
+  "affected_image_hashes": [
+    "058de0d418dba3d8094fb35702d03d96c0219ff750703c5679f722b648da958a",
+    "24118db1baec767be030167beddb2a3890e265b19ea45aeb21a6495182e5d80e",
+    "3bd77bc40ea903fd1eeaf7d0447cd63eae5599d99b5bd3a6bbcd49cf5d48fc04",
+    "4b6eb76d66cd3477b801190e9d2e187b38b006be531ea547eda7c57f4eab7ae6",
+    "51827322635200014439826a943660ecb6e41b3d4179ea5394b451cf44d73dfb",
+    "60a5fcf8c271cc4d0b7d9d1526381d0b73afb97814c6f446b4a5b1a6c78bbdc5",
+    "86bfd21e6a3cfe2c5bf30b234ea3b8ccfa40fc0d9658a070b77979243ae28796",
+    "b56dadb03e9f069653da116effb136d1d123090740f669e8e8fa1235b444be09",
+    "bac14861470b1d96d0fb20bf51e1a08b5bc7d9eeb1ca885e34c6c4de50014500",
+    "cc9ba901b03d06ceeaf981c12ec6ac6a330a8612daf91654718e633be8cba2ed",
+    "d0dd3f3f264c70f0fec9143fd830cdcd47a469676a32d366d5f82b9e755584a1",
+    "d66246d2a7af021ebf75586715b6010257e4f222e511635743339f5157faa47f",
+    "d66f8056715b886928f190b219f0f15fa4ac5b2a2af110538bb6dc95ecbd8204",
+    "e0d04d6bc52a33a93ab080a1c58b354e9605c184b0494c7008853117bba05548",
+    "ed085ddcf8ed7f5c32b4b61b7581fe322d65ecc40df3662557f73291fb740757",
+    "f427f80fe59ff53863b93084dc1eaf88745b2b0e9a0758ce689873a98a5cb8bf"
+  ],
+  "affected_enrollment_review_item_ids": [
+    "CEA-21cc8966217d8c51b8",
+    "CEA-6365fd0aa90b36b357"
+  ],
+  "review_rows_with_historical_source_folder": [
+    "CEA-040b421712c6c3bc47",
+    "CEA-21cc8966217d8c51b8",
+    "CEA-6365fd0aa90b36b357"
+  ],
+  "affected_cctv_review_item_ids": [],
+  "old_provenance": {
+    "historical_inventory": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\dataset_image_inventory.csv",
+    "historical_source_rows": 16,
+    "historical_target_rows": 0,
+    "production_source_embedding_records": 16,
+    "production_target_embedding_records": 0
+  },
+  "new_candidate_provenance": {
+    "candidate_owner": "24011CSEAI0110",
+    "physical_source_folder": "F:\\sohail\\Class_Attendance_YuNet_SFace\\dataset\\24011CSEAI0110",
+    "source_hash_set_exact_historical_match": true,
+    "production_database_rewritten": false
+  },
+  "registry_checks": {
+    "subject_abbr": "CVO",
+    "authoritative_roster_count": 27,
+    "source_in_authoritative_roster": false,
+    "target_in_authoritative_roster": true,
+    "registry_rows_loaded": 49,
+    "student_map_sha256": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91"
+  },
+  "collision_checks": {
+    "source_folder_images": 0,
+    "target_folder_images": 16,
+    "historical_independent_target_images": 0,
+    "production_independent_target_records": 0,
+    "duplicate_current_hashes": 0,
+    "passed": true
+  },
+  "scope_limitations": [
+    "Only the hash-proven dataset folder contents are corrected in candidate artifacts.",
+    "Unrelated records for the source roll are not reassigned.",
+    "No model prediction was used as identity evidence.",
+    "The production embedding database and global registry remain unchanged."
+  ],
+  "global_alias_created": false,
+  "production_embeddings_changed": false
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "forensic_run_id": "embedding_forensics_reviewfix_20260713_140159_455110",
+  "output_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110",
+  "candidate_id": "cal-5cd35b60dd83",
+  "candidate_status": "rejected_multisession_false_accepts",
+  "candidate_final_decision": "reject_candidate",
+  "production_candidate_enabled": false,
+  "production_candidate_approved": false,
+  "candidate_rejection_registry": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\candidate_registry\\rejected\\cal-5cd35b60dd83.json",
+  "candidate_rejection_registry_created": true,
+  "benchmark_id": "multisession-gt-34581599118b530c",
+  "benchmark_reviewed_tracks": 120,
+  "benchmark_status_counts": {
+    "identified": 105,
+    "mixed_track": 1,
+    "not_in_mapping": 12,
+    "unidentifiable": 2
+  },
+  "source_sessions": [
+    "2026-06-30__B51__P1__CVO",
+    "2026-06-30__B51__P2__CVO"
+  ],
+  "session_use_policy": {
+    "2026-06-30__B51__P1__CVO": "reviewed_regression_and_possible_adaptation",
+    "2026-06-30__B51__P2__CVO": "reviewed_regression_and_possible_adaptation",
+    "MON_P3": "reserved_intended_untouched_validation_not_processed"
+  },
+  "identity_confusion": {
+    "reviewed_tracks": 120,
+    "correct_top1": 83,
+    "incorrect_top1_identified": 22,
+    "outsider_not_in_mapping": 12,
+    "second_candidate_correct": 4,
+    "attractor_identities_flagged": 15,
+    "automatic_blacklists_created": 0,
+    "prediction_used_as_ground_truth": false
+  },
+  "embedding_counts": {
+    "records": 355,
+    "canonical_students": 26,
+    "valid": 355,
+    "invalid_nan": 0,
+    "robust_outliers": 13,
+    "cross_student_exact_or_near_duplicates": 0
+  },
+  "dataset_image_counts": {
+    "audited": 2170,
+    "decoded": 2170,
+    "valid_face_embeddings": 2068,
+    "duplicate_hash_groups": 17
+  },
+  "missing_embedding_status": [
+    {
+      "roll": "2401100CSE0268",
+      "root_cause": "dataset_missing",
+      "dataset_folder_exists": "No",
+      "valid_face_images": 0
+    },
+    {
+      "roll": "24011CSEAI0110",
+      "root_cause": "dataset_missing",
+      "dataset_folder_exists": "No",
+      "valid_face_images": 0
+    }
+  ],
+  "suspect_enrollment_images": 855,
+  "candidate_cctv_crops": 98,
+  "eligible_human_identified_tracks_for_cctv": 105,
+  "review_packages": {
+    "enrollment_audit": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\suspicious_enrollment_image_review",
+    "verified_cctv": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\verified_cctv_enrollment_review"
+  },
+  "reviewer_launchers": {
+    "enrollment_audit": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\open_enrollment_audit_review.ps1",
+    "verified_cctv": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_reviewfix_20260713_140159_455110\\open_cctv_enrollment_review.ps1"
+  },
+  "required_approval_csv_filenames": {
+    "enrollment_audit": "forensic_review_approvals_enrollment-audit-5430747113d0daeb.csv",
+    "verified_cctv": "forensic_review_approvals_verified-cctv-77507b2f5d348aad.csv"
+  },
+  "exact_next_human_actions": [
+    "Complete and export every enrollment-audit review action.",
+    "Complete and export every verified-CCTV review action.",
+    "Return both exported approval CSVs for validation before any versioned build.",
+    "Keep MON_P3 untouched for future pre-promotion validation."
+  ],
+  "protected_state_unchanged": true,
+  "current_embeddings_modified": false,
+  "current_datasets_modified": false,
+  "official_thresholds_modified": false,
+  "official_match_threshold": 0.48,
+  "official_margin_threshold": 0.08,
+  "attendance_rule_modified": false,
+  "official_attendance_checkpoints": 3,
+  "official_attendance_modified": false,
+  "candidate_embedding_version_built": false,
+  "candidate_embedding_version_promoted": false,
+  "mon_p3_processed": false,
+  "elapsed_seconds": 480.7,
+  "analysis_reused_without_model_rerun": true,
+  "source_forensic_run": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_20260713_132605_989269",
+  "source_forensic_output_manifest_sha256": "bd259cbe7383f04984b82ef85cad07733b1050fa947c5aba5a56d8e0ce38b354",
+  "superseded_review_packages": {
+    "enrollment_audit": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_20260713_132605_989269\\suspicious_enrollment_image_review",
+    "verified_cctv": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\embedding_forensics\\embedding_forensics_20260713_132605_989269\\verified_cctv_enrollment_review"
+  },
+  "reviewer_bundle_revision": "reviewer-v5-final-runtime-fix",
+  "review_package_regeneration_elapsed_seconds": 39.48
+}

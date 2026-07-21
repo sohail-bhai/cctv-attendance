@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "family_id": "embfam-8722959f33c8a19d43a1",
+  "status": "build_failed_preserved",
+  "failed_at": "2026-07-14T00:44:53+05:30",
+  "failed_after_final_directory_move": false,
+  "error_type": "EmbeddingFamilyError",
+  "error": "Approved CCTV usability audit completed, but at least one required cross-session adaptation source has no technically usable crop: 2026-06-30__B51__P2__CVO",
+  "production_promoted": false,
+  "production_approved": false,
+  "mon_p3_processed": false
+}

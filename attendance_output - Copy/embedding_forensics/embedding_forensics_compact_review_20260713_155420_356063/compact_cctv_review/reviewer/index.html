@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Priority Human-Confirmed CCTV Crop Review</title>
+  <style>
+    :root { color-scheme: light; --ink:#17202b; --muted:#566274; --line:#cfd6df; --surface:#fff; --subtle:#f4f6f8; --accent:#0a5f8f; --accent-strong:#08496e; --focus:#c05621; --danger:#9b2c2c; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#e9edf1; color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; line-height:1.45; }
+    button,input,select,textarea { font:inherit; }
+    .topbar { position:sticky; top:0; z-index:20; border-bottom:1px solid #aeb8c5; background:rgba(255,255,255,.97); }
+    .topbar-inner { max-width:1480px; margin:auto; padding:14px 22px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    h1 { margin:0; font-size:1.18rem; letter-spacing:0; }
+    .progress { color:var(--muted); font-variant-numeric:tabular-nums; }
+    .toolbar { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+    button { min-height:40px; border:0; border-radius:6px; padding:8px 14px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; }
+    button:hover { background:var(--accent-strong); }
+    button.secondary { border:1px solid #9ca8b7; background:#fff; color:var(--ink); }
+    button.secondary:hover { background:var(--subtle); }
+    :focus-visible { outline:3px solid var(--focus); outline-offset:2px; }
+    main { max-width:1480px; margin:auto; padding:22px; }
+    .intro { max-width:78ch; margin:0 0 18px; color:#384657; }
+    .filter-row { display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+    .filter-row input { flex:1 1 360px; max-width:620px; min-height:42px; border:1px solid #8794a5; border-radius:6px; padding:9px 11px; color:var(--ink); background:#fff; }
+    .filter-row select { flex:0 1 220px; min-height:42px; }
+    .filter-row button { min-height:42px; }
+    .review-list { display:grid; gap:16px; }
+    .review-card { display:grid; grid-template-columns:minmax(360px,1.15fr) minmax(340px,.85fr); min-height:380px; border:1px solid #b8c2ce; border-radius:8px; overflow:hidden; background:var(--surface); }
+    .review-card.complete { border-color:#2f855a; }
+    .evidence-pane { min-width:0; padding:14px; background:#202731; display:flex; flex-direction:column; gap:10px; }
+    .item-index { color:#e5e9ee; font-size:.88rem; font-weight:700; }
+    .evidence-pane img { display:block; width:100%; height:100%; min-height:320px; max-height:680px; object-fit:contain; background:#11161d; }
+    .decision-pane { min-width:0; padding:20px; overflow-wrap:anywhere; }
+    .facts { margin:0 0 18px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; }
+    .fact { min-width:0; padding-bottom:8px; border-bottom:1px solid #e3e7ec; }
+    .fact.hint { grid-column:1/-1; padding:10px; border:1px solid #c78a2a; border-radius:6px; background:#fff8e8; }
+    .fact.priority { padding:10px; border:0; border-radius:6px; background:#eaf3f8; }
+    .fact.warning { padding:10px; border:0; border-radius:6px; background:#fff4d8; }
+    dt { color:var(--muted); font-size:.78rem; font-weight:700; }
+    dd { margin:2px 0 0; font-weight:650; }
+    .field { display:block; margin-top:13px; }
+    .field > span { display:block; margin-bottom:5px; font-weight:700; }
+    .field small { color:var(--muted); font-weight:500; }
+    select,input,textarea { width:100%; border:1px solid #8794a5; border-radius:6px; padding:9px 10px; background:#fff; color:var(--ink); }
+    select:disabled,input:disabled,textarea:disabled { color:#6f7885; background:#e9edf1; cursor:not-allowed; }
+    textarea { resize:vertical; }
+    .empty { padding:30px; border:1px solid var(--line); background:#fff; text-align:center; }
+    .notice { position:fixed; right:18px; bottom:18px; z-index:40; max-width:420px; padding:11px 14px; border-radius:6px; background:#17202b; color:#fff; opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .18s ease-out,transform .18s ease-out; }
+    .notice.show { opacity:1; transform:none; }
+    @media (max-width:850px) {
+      .topbar-inner,main { padding-left:12px; padding-right:12px; }
+      .toolbar { width:100%; margin-left:0; }
+      .review-card { grid-template-columns:1fr; }
+      .evidence-pane img { min-height:240px; max-height:520px; }
+      .facts { grid-template-columns:1fr; }
+      .fact.hint { grid-column:auto; }
+    }
+    @media (prefers-reduced-motion:reduce) { .notice { transition:none; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>Priority Human-Confirmed CCTV Crop Review</h1>
+      <div class="progress" id="progress" aria-live="polite">0 of 36 reviewed</div>
+      <div class="toolbar">
+        <button class="secondary" id="show-pending" type="button">Show pending</button>
+        <button id="export" type="button">Export approvals CSV</button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <p class="intro">Confirm whether each original-resolution crop is safe and useful for a future candidate embedding version. Actual_Roll comes only from completed human review. No crop is copied into a dataset and no approval is automatic.</p>
+    <div class="filter-row">
+      <input id="search" type="search" placeholder="Filter by roll, filename, warning, session, or item ID" aria-label="Filter review items">
+      <select id="status-filter" aria-label="Filter by review status">
+        <option value="all">All review statuses</option>
+        <option value="pending">Pending only</option>
+        <option value="reviewed">Reviewed only</option>
+      </select>
+      <button class="secondary" id="clear-filters" type="button">Clear filters</button>
+    </div>
+    <section class="review-list" id="review-list">
+            <article class="review-card" data-item-id="CCC-1f9790c0cf58b6c180">
+              <div class="evidence-pane">
+                <div class="item-index">Item 1 of 36</div>
+                <img src="evidence/CCC-1f9790c0cf58b6c180.png" alt="Review evidence for item 1" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>1</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>73 x 87 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9006</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1850.5421</dd></div><div class="fact"><dt>Brightness</dt><dd>63.7089</dd></div><div class="fact"><dt>Pose Roll</dt><dd>1.4728</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.0699</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 3 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 1" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-3048caf6a556e99204">
+              <div class="evidence-pane">
+                <div class="item-index">Item 2 of 36</div>
+                <img src="evidence/CCC-3048caf6a556e99204.png" alt="Review evidence for item 2" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>2</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>65 x 81 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9084</dd></div><div class="fact"><dt>Blur Metric</dt><dd>3050.3177</dd></div><div class="fact"><dt>Brightness</dt><dd>77.1155</dd></div><div class="fact"><dt>Pose Roll</dt><dd>2.6371</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.0635</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 2" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-5f856606b57d811184">
+              <div class="evidence-pane">
+                <div class="item-index">Item 3 of 36</div>
+                <img src="evidence/CCC-5f856606b57d811184.png" alt="Review evidence for item 3" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>3</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>74 x 92 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8992</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1541.9745</dd></div><div class="fact"><dt>Brightness</dt><dd>56.6854</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.1827</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.282</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.450898</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 3 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 3" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-debcd075bb2e58209a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 4 of 36</div>
+                <img src="evidence/CCC-debcd075bb2e58209a.png" alt="Review evidence for item 4" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>4</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Student Name</dt><dd>KASTHURI SHRUTHI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P2__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>69 x 83 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9083</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1415.7515</dd></div><div class="fact"><dt>Brightness</dt><dd>64.5031</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-3.0475</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.2919</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 4 reviewed top-1 miss(es); current enrollment has only 5 valid stored embeddings; current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 4" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-7e46ad49251721372e">
+              <div class="evidence-pane">
+                <div class="item-index">Item 5 of 36</div>
+                <img src="evidence/CCC-7e46ad49251721372e.png" alt="Review evidence for item 5" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>5</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>83 x 97 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8551</dd></div><div class="fact"><dt>Blur Metric</dt><dd>543.2314</dd></div><div class="fact"><dt>Brightness</dt><dd>69.3155</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-2.5698</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3894</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.085605</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 5" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-b0d1409e587209b1bc">
+              <div class="evidence-pane">
+                <div class="item-index">Item 6 of 36</div>
+                <img src="evidence/CCC-b0d1409e587209b1bc.png" alt="Review evidence for item 6" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>6</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>66 x 86 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8874</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2186.9881</dd></div><div class="fact"><dt>Brightness</dt><dd>81.4442</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.3847</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.1644</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.474242</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 3 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 6" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-030231adc264508c4c">
+              <div class="evidence-pane">
+                <div class="item-index">Item 7 of 36</div>
+                <img src="evidence/CCC-030231adc264508c4c.png" alt="Review evidence for item 7" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>7</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>68 x 82 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8744</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1095.2926</dd></div><div class="fact"><dt>Brightness</dt><dd>77.7895</dd></div><div class="fact"><dt>Pose Roll</dt><dd>0.5139</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.536</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 7" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-65097d7cbcda1d8d54">
+              <div class="evidence-pane">
+                <div class="item-index">Item 8 of 36</div>
+                <img src="evidence/CCC-65097d7cbcda1d8d54.png" alt="Review evidence for item 8" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>8</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>67 x 79 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9258</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2168.1947</dd></div><div class="fact"><dt>Brightness</dt><dd>66.7438</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.4386</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.1207</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 8" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-ce9987b0784c5d73a2">
+              <div class="evidence-pane">
+                <div class="item-index">Item 9 of 36</div>
+                <img src="evidence/CCC-ce9987b0784c5d73a2.png" alt="Review evidence for item 9" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>9</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0007</dd></div><div class="fact"><dt>Student Name</dt><dd>ARTHAM RAHITHYA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>72 x 81 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8779</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1256.3197</dd></div><div class="fact"><dt>Brightness</dt><dd>66.2524</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.0312</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.2078</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.438362</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 3 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 9" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-47fe46ee3d9a833940">
+              <div class="evidence-pane">
+                <div class="item-index">Item 10 of 36</div>
+                <img src="evidence/CCC-47fe46ee3d9a833940.png" alt="Review evidence for item 10" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>10</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Student Name</dt><dd>KASTHURI SHRUTHI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>69 x 87 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.883</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1547.2969</dd></div><div class="fact"><dt>Brightness</dt><dd>68.9552</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-3.0836</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.698</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.462677</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 4 reviewed top-1 miss(es); current enrollment has only 5 valid stored embeddings; current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 10" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-7e580f4c62fb129ae3">
+              <div class="evidence-pane">
+                <div class="item-index">Item 11 of 36</div>
+                <img src="evidence/CCC-7e580f4c62fb129ae3.png" alt="Review evidence for item 11" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>11</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP2</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>62 x 79 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8963</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2020.413</dd></div><div class="fact"><dt>Brightness</dt><dd>68.6766</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-2.3827</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.7992</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.571228</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 11" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-16b0462d0f283edb9f">
+              <div class="evidence-pane">
+                <div class="item-index">Item 12 of 36</div>
+                <img src="evidence/CCC-16b0462d0f283edb9f.png" alt="Review evidence for item 12" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>12</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0121</dd></div><div class="fact"><dt>Student Name</dt><dd>BENDI SAI KUSHWANTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>79 x 93 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9033</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2092.373</dd></div><div class="fact"><dt>Brightness</dt><dd>64.1733</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.8154</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.4098</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es); current enrollment has only 9 valid stored embeddings</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 12" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-a7471ab54df8f7fd0c">
+              <div class="evidence-pane">
+                <div class="item-index">Item 13 of 36</div>
+                <img src="evidence/CCC-a7471ab54df8f7fd0c.png" alt="Review evidence for item 13" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>13</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0016</dd></div><div class="fact"><dt>Student Name</dt><dd>EESHA THAKUR</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>136 x 149 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8818</dd></div><div class="fact"><dt>Blur Metric</dt><dd>831.0546</dd></div><div class="fact"><dt>Brightness</dt><dd>81.989</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.9066</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.504</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment has only 8 valid stored embeddings; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 13" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-9c7ad35b51b9f41227">
+              <div class="evidence-pane">
+                <div class="item-index">Item 14 of 36</div>
+                <img src="evidence/CCC-9c7ad35b51b9f41227.png" alt="Review evidence for item 14" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>14</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Student Name</dt><dd>CHAKRAVARTHULA RAGHAVA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>71 x 84 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.887</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2255.8119</dd></div><div class="fact"><dt>Brightness</dt><dd>115.0344</dd></div><div class="fact"><dt>Pose Roll</dt><dd>3.8545</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.1055</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 3 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 3 reviewed top-1 miss(es); embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 14" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-40a4e971227bc88cd6">
+              <div class="evidence-pane">
+                <div class="item-index">Item 15 of 36</div>
+                <img src="evidence/CCC-40a4e971227bc88cd6.png" alt="Review evidence for item 15" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>15</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Student Name</dt><dd>KASTHURI SHRUTHI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P2__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP2</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>74 x 85 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.871</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1272.2681</dd></div><div class="fact"><dt>Brightness</dt><dd>80.0975</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.3209</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3535</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.45323</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 4 reviewed top-1 miss(es); current enrollment has only 5 valid stored embeddings; current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 15" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-5d4d27172ec5323552">
+              <div class="evidence-pane">
+                <div class="item-index">Item 16 of 36</div>
+                <img src="evidence/CCC-5d4d27172ec5323552.png" alt="Review evidence for item 16" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>16</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0050</dd></div><div class="fact"><dt>Student Name</dt><dd>SHAIK SOHAIL AHMED</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>64 x 75 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9079</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2696.3146</dd></div><div class="fact"><dt>Brightness</dt><dd>78.4708</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.8984</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.1628</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.543833</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 16" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-d331e2ea6ddddcf9f3">
+              <div class="evidence-pane">
+                <div class="item-index">Item 17 of 36</div>
+                <img src="evidence/CCC-d331e2ea6ddddcf9f3.png" alt="Review evidence for item 17" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>17</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>71 x 92 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8506</dd></div><div class="fact"><dt>Blur Metric</dt><dd>790.5841</dd></div><div class="fact"><dt>Brightness</dt><dd>116.9003</dd></div><div class="fact"><dt>Pose Roll</dt><dd>15.4975</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-1.629</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.293931</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 17" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-20a1e6de4f117e316d">
+              <div class="evidence-pane">
+                <div class="item-index">Item 18 of 36</div>
+                <img src="evidence/CCC-20a1e6de4f117e316d.png" alt="Review evidence for item 18" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>18</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP2</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>69 x 85 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9093</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1585.5373</dd></div><div class="fact"><dt>Brightness</dt><dd>78.5173</dd></div><div class="fact"><dt>Pose Roll</dt><dd>2.09</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.0409</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.449728</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 18" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-f3fb78fb641f4d014f">
+              <div class="evidence-pane">
+                <div class="item-index">Item 19 of 36</div>
+                <img src="evidence/CCC-f3fb78fb641f4d014f.png" alt="Review evidence for item 19" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>19</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P2__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>60 x 89 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8675</dd></div><div class="fact"><dt>Blur Metric</dt><dd>4987.223</dd></div><div class="fact"><dt>Brightness</dt><dd>111.0579</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.8629</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.2107</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 19" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-6313f8fa58133521c9">
+              <div class="evidence-pane">
+                <div class="item-index">Item 20 of 36</div>
+                <img src="evidence/CCC-6313f8fa58133521c9.png" alt="Review evidence for item 20" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>20</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0016</dd></div><div class="fact"><dt>Student Name</dt><dd>EESHA THAKUR</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>58 x 79 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9091</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1257.4066</dd></div><div class="fact"><dt>Brightness</dt><dd>98.6656</dd></div><div class="fact"><dt>Pose Roll</dt><dd>1.3514</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.5526</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.107749</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment has only 8 valid stored embeddings; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 20" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-492ad8ac8e05bd2cac">
+              <div class="evidence-pane">
+                <div class="item-index">Item 21 of 36</div>
+                <img src="evidence/CCC-492ad8ac8e05bd2cac.png" alt="Review evidence for item 21" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>21</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0121</dd></div><div class="fact"><dt>Student Name</dt><dd>BENDI SAI KUSHWANTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>94 x 112 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8755</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1530.0715</dd></div><div class="fact"><dt>Brightness</dt><dd>52.2718</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-2.7219</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3696</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.187908</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es); current enrollment has only 9 valid stored embeddings</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 21" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-47e339bdb6446d0009">
+              <div class="evidence-pane">
+                <div class="item-index">Item 22 of 36</div>
+                <img src="evidence/CCC-47e339bdb6446d0009.png" alt="Review evidence for item 22" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>22</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0103</dd></div><div class="fact"><dt>Student Name</dt><dd>V SIDDHARTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP2</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>67 x 85 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.857</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1879.731</dd></div><div class="fact"><dt>Brightness</dt><dd>97.8471</dd></div><div class="fact"><dt>Pose Roll</dt><dd>1.6929</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.4524</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.540577</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 22" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-28d6472ae6e084795a">
+              <div class="evidence-pane">
+                <div class="item-index">Item 23 of 36</div>
+                <img src="evidence/CCC-28d6472ae6e084795a.png" alt="Review evidence for item 23" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>23</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>66 x 83 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9009</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1831.3806</dd></div><div class="fact"><dt>Brightness</dt><dd>81.7475</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.5605</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.0638</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.530957</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 23" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-e0fec2691f17f26e60">
+              <div class="evidence-pane">
+                <div class="item-index">Item 24 of 36</div>
+                <img src="evidence/CCC-e0fec2691f17f26e60.png" alt="Review evidence for item 24" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>24</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0109</dd></div><div class="fact"><dt>Student Name</dt><dd>Ch.Sri Saran</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>80 x 137 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.867</dd></div><div class="fact"><dt>Blur Metric</dt><dd>383.0157</dd></div><div class="fact"><dt>Brightness</dt><dd>99.206</dd></div><div class="fact"><dt>Pose Roll</dt><dd>5.2513</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-1.2038</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 1 reviewed top-1 miss(es); current enrollment has only 8 valid stored embeddings; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 24" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-cecf2ac6baadeae504">
+              <div class="evidence-pane">
+                <div class="item-index">Item 25 of 36</div>
+                <img src="evidence/CCC-cecf2ac6baadeae504.png" alt="Review evidence for item 25" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>25</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0067</dd></div><div class="fact"><dt>Student Name</dt><dd>CHAKRAVARTHULA RAGHAVA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P2__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>64 x 72 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8823</dd></div><div class="fact"><dt>Blur Metric</dt><dd>3371.1156</dd></div><div class="fact"><dt>Brightness</dt><dd>95.4293</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-2.2292</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3442</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.463646</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 3 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 3 reviewed top-1 miss(es); embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 25" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-9852dcae08d8e171db">
+              <div class="evidence-pane">
+                <div class="item-index">Item 26 of 36</div>
+                <img src="evidence/CCC-9852dcae08d8e171db.png" alt="Review evidence for item 26" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>26</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0121</dd></div><div class="fact"><dt>Student Name</dt><dd>BENDI SAI KUSHWANTH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>78 x 96 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.873</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1030.5751</dd></div><div class="fact"><dt>Brightness</dt><dd>61.4367</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-3.1291</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.4481</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.475279</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 1 reviewed top-1 miss(es); current enrollment has only 9 valid stored embeddings</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 26" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-f6e8bdd5036c789ef1">
+              <div class="evidence-pane">
+                <div class="item-index">Item 27 of 36</div>
+                <img src="evidence/CCC-f6e8bdd5036c789ef1.png" alt="Review evidence for item 27" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>27</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0140</dd></div><div class="fact"><dt>Student Name</dt><dd>KASTHURI SHRUTHI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>72 x 97 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8881</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1190.9292</dd></div><div class="fact"><dt>Brightness</dt><dd>85.8204</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-2.2606</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.0731</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.388724</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>No</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 4 reviewed top-1 miss(es); current enrollment has only 5 valid stored embeddings; current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 27" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-d02eb62e130c8ced8e">
+              <div class="evidence-pane">
+                <div class="item-index">Item 28 of 36</div>
+                <img src="evidence/CCC-d02eb62e130c8ced8e.png" alt="Review evidence for item 28" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>28</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0184</dd></div><div class="fact"><dt>Student Name</dt><dd>BIJJALA VENKATESH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP1</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>91 x 119 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8758</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2332.3152</dd></div><div class="fact"><dt>Brightness</dt><dd>87.6991</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.1861</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3709</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 28" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-ddcd6fbfe2af49a704">
+              <div class="evidence-pane">
+                <div class="item-index">Item 29 of 36</div>
+                <img src="evidence/CCC-ddcd6fbfe2af49a704.png" alt="Review evidence for item 29" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>29</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0019</dd></div><div class="fact"><dt>Student Name</dt><dd>GUVVALA HIMANI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>131 x 130 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9061</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1375.3459</dd></div><div class="fact"><dt>Brightness</dt><dd>72.2116</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-3.8907</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.02</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 29" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-d56241d4a870aac6ec">
+              <div class="evidence-pane">
+                <div class="item-index">Item 30 of 36</div>
+                <img src="evidence/CCC-d56241d4a870aac6ec.png" alt="Review evidence for item 30" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>30</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0124</dd></div><div class="fact"><dt>Student Name</dt><dd>BUDHINENI NANDA BHARGAV</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>61 x 81 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9089</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1962.4409</dd></div><div class="fact"><dt>Brightness</dt><dd>77.5637</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.4864</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3472</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.498845</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment contains robust embedding outliers; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 30" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-0e5e6491cacad63f81">
+              <div class="evidence-pane">
+                <div class="item-index">Item 31 of 36</div>
+                <img src="evidence/CCC-0e5e6491cacad63f81.png" alt="Review evidence for item 31" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>31</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0237</dd></div><div class="fact"><dt>Student Name</dt><dd>AMUDALA SIRI</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>86 x 125 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9045</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1517.6443</dd></div><div class="fact"><dt>Brightness</dt><dd>92.9356</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.9762</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3224</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 1 reviewed top-1 miss(es); current enrollment has only 8 valid stored embeddings</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 31" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-d5c770f0d23b240238">
+              <div class="evidence-pane">
+                <div class="item-index">Item 32 of 36</div>
+                <img src="evidence/CCC-d5c770f0d23b240238.png" alt="Review evidence for item 32" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>32</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0209</dd></div><div class="fact"><dt>Student Name</dt><dd>N N K V HANUMAN NARAYANA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam10</dd></div><div class="fact"><dt>Crop Size</dt><dd>82 x 105 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9152</dd></div><div class="fact"><dt>Blur Metric</dt><dd>1157.8304</dd></div><div class="fact"><dt>Brightness</dt><dd>82.0897</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.8982</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>-0.0343</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity has 1 reviewed top-1 miss(es)</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity has 1 reviewed top-1 miss(es); current enrollment contains robust embedding outliers</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 32" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-ca83a82fb654267ce6">
+              <div class="evidence-pane">
+                <div class="item-index">Item 33 of 36</div>
+                <img src="evidence/CCC-ca83a82fb654267ce6.png" alt="Review evidence for item 33" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>33</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0044</dd></div><div class="fact"><dt>Student Name</dt><dd>RANDENI SAI GANESH</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP2</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>49 x 63 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.907</dd></div><div class="fact"><dt>Blur Metric</dt><dd>2823.2608</dd></div><div class="fact"><dt>Brightness</dt><dd>111.5121</dd></div><div class="fact"><dt>Pose Roll</dt><dd>1.5493</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.6652</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.316068</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 33" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-6b53194439dd9b4108">
+              <div class="evidence-pane">
+                <div class="item-index">Item 34 of 36</div>
+                <img src="evidence/CCC-6b53194439dd9b4108.png" alt="Review evidence for item 34" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>34</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0016</dd></div><div class="fact"><dt>Student Name</dt><dd>EESHA THAKUR</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P2__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP4</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>57 x 79 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.8878</dd></div><div class="fact"><dt>Blur Metric</dt><dd>735.9164</dd></div><div class="fact"><dt>Brightness</dt><dd>55.9218</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-0.4178</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.2531</dd></div><div class="fact"><dt>Nearest Selected Crop Similarity</dt><dd>0.275552</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>No</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor; identity has 2 reviewed top-1 miss(es); current enrollment has only 8 valid stored embeddings; embedding health audit marks the identity frequently missed</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 34" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-5b17fae2ed15350a71">
+              <div class="evidence-pane">
+                <div class="item-index">Item 35 of 36</div>
+                <img src="evidence/CCC-5b17fae2ed15350a71.png" alt="Review evidence for item 35" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>35</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>2401100CSE0060</dd></div><div class="fact"><dt>Student Name</dt><dd>ANNAMBHATLA VENKATA SAI ANURADHA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP3</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>78 x 87 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9153</dd></div><div class="fact"><dt>Blur Metric</dt><dd>4465.6508</dd></div><div class="fact"><dt>Brightness</dt><dd>91.6922</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-3.923</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.0111</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 35" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            
+            <article class="review-card" data-item-id="CCC-317384de5b4d28d030">
+              <div class="evidence-pane">
+                <div class="item-index">Item 36 of 36</div>
+                <img src="evidence/CCC-317384de5b4d28d030.png" alt="Review evidence for item 36" loading="lazy">
+              </div>
+              <div class="decision-pane">
+                <dl class="facts"><div class="fact"><dt>Compact Rank</dt><dd>36</dd></div><div class="fact"><dt>Human Confirmed Actual Roll</dt><dd>24011CSEAI0051</dd></div><div class="fact"><dt>Student Name</dt><dd>VALASAPALLI KARTHEEKA</dd></div><div class="fact"><dt>Identity Basis</dt><dd>Completed human review (Actual_Roll)</dd></div><div class="fact"><dt>Source Session</dt><dd>2026-06-30__B51__P1__CVO</dd></div><div class="fact"><dt>Checkpoint</dt><dd>CP5</dd></div><div class="fact"><dt>Camera</dt><dd>cam5</dd></div><div class="fact"><dt>Crop Size</dt><dd>78 x 110 px</dd></div><div class="fact"><dt>Detector Confidence</dt><dd>0.9051</dd></div><div class="fact"><dt>Blur Metric</dt><dd>978.2917</dd></div><div class="fact"><dt>Brightness</dt><dd>74.9522</dd></div><div class="fact"><dt>Pose Roll</dt><dd>-1.287</dd></div><div class="fact"><dt>Pose Yaw Proxy</dt><dd>0.3606</dd></div><div class="fact"><dt>Diversity New Checkpoint</dt><dd>Yes</dd></div><div class="fact"><dt>Diversity New Camera</dt><dd>Yes</dd></div><div class="fact priority"><dt>Primary Selection Reason</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact priority"><dt>Confusion And Miss Priority</dt><dd>identity is a confirmed reviewed false-accept attractor</dd></div><div class="fact"><dt>Provenance</dt><dd>Human-identified CCTV evidence from the frozen reviewed benchmark</dd></div></dl>
+                <label class="field">
+                  <span>Review action</span>
+                  <select class="action" aria-label="Review action for item 36" required>
+                    <option value="">Choose an action</option>
+                    <option value="approve_for_candidate_embedding_version">Approve for a future candidate embedding version</option><option value="reject_wrong_or_unclear_identity">Reject: wrong or unclear identity</option><option value="reject_quality">Reject: insufficient quality</option><option value="reject_duplicate">Reject: duplicate</option><option value="reject_mixed_person">Reject: mixed person evidence</option><option value="uncertain">Uncertain</option>
+                  </select>
+                </label>
+                <label class="field duplicate-field" hidden>
+                  <span>Duplicate of item ID</span>
+                  <input class="duplicate" type="text" inputmode="text" placeholder="Example: ENR-..." autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Reviewer note <small>optional</small></span>
+                  <textarea class="notes" rows="3" placeholder="Add only evidence-based context"></textarea>
+                </label>
+              </div>
+            </article>
+            </section>
+  </main>
+  <div class="notice" id="notice" role="status"></div>
+  <script type="application/json" id="package-data">{"package_id": "compact-verified-cctv-8785d6b28789ae6f", "package_kind": "compact_verified_cctv", "item_ids": ["CCC-1f9790c0cf58b6c180", "CCC-3048caf6a556e99204", "CCC-5f856606b57d811184", "CCC-debcd075bb2e58209a", "CCC-7e46ad49251721372e", "CCC-b0d1409e587209b1bc", "CCC-030231adc264508c4c", "CCC-65097d7cbcda1d8d54", "CCC-ce9987b0784c5d73a2", "CCC-47fe46ee3d9a833940", "CCC-7e580f4c62fb129ae3", "CCC-16b0462d0f283edb9f", "CCC-a7471ab54df8f7fd0c", "CCC-9c7ad35b51b9f41227", "CCC-40a4e971227bc88cd6", "CCC-5d4d27172ec5323552", "CCC-d331e2ea6ddddcf9f3", "CCC-20a1e6de4f117e316d", "CCC-f3fb78fb641f4d014f", "CCC-6313f8fa58133521c9", "CCC-492ad8ac8e05bd2cac", "CCC-47e339bdb6446d0009", "CCC-28d6472ae6e084795a", "CCC-e0fec2691f17f26e60", "CCC-cecf2ac6baadeae504", "CCC-9852dcae08d8e171db", "CCC-f6e8bdd5036c789ef1", "CCC-d02eb62e130c8ced8e", "CCC-ddcd6fbfe2af49a704", "CCC-d56241d4a870aac6ec", "CCC-0e5e6491cacad63f81", "CCC-d5c770f0d23b240238", "CCC-ca83a82fb654267ce6", "CCC-6b53194439dd9b4108", "CCC-5b17fae2ed15350a71", "CCC-317384de5b4d28d030"], "duplicate_action": ""}</script>
+  <script>
+  (() => {
+    'use strict';
+    const config = JSON.parse(document.getElementById('package-data').textContent);
+    const storageKey = `forensic-review:${config.package_id}`;
+    const cards = Array.from(document.querySelectorAll('.review-card'));
+    const notice = document.getElementById('notice');
+    const search = document.getElementById('search');
+    const statusFilter = document.getElementById('status-filter');
+    const state = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    const csv = value => `"${String(value ?? '').replaceAll('"','""')}"`;
+    const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+    const flash = message => { notice.textContent = message; notice.classList.add('show'); setTimeout(() => notice.classList.remove('show'), 1600); };
+    const applyFilters = () => {
+      const query = search.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      cards.forEach(card => {
+        const reviewed = Boolean((state[card.dataset.itemId] || {}).action);
+        const statusMatches = status === 'all' || (status === 'pending' && !reviewed) || (status === 'reviewed' && reviewed);
+        const haystack = `${card.dataset.itemId} ${card.textContent}`.toLowerCase();
+        card.hidden = !statusMatches || (Boolean(query) && !haystack.includes(query));
+      });
+    };
+    const updateProgress = () => {
+      const complete = cards.filter(card => (state[card.dataset.itemId] || {}).action).length;
+      const percentage = cards.length
+        ? (complete === 0 ? 0 : Math.max(1, Math.round(complete/cards.length*100)))
+        : 100;
+      document.getElementById('progress').textContent = `${complete} of ${cards.length} reviewed (${percentage}%)`;
+      cards.forEach(card => card.classList.toggle('complete', Boolean((state[card.dataset.itemId] || {}).action)));
+      applyFilters();
+    };
+    cards.forEach(card => {
+      const id = card.dataset.itemId;
+      const action = card.querySelector('.action');
+      const duplicate = card.querySelector('.duplicate');
+      const duplicateField = card.querySelector('.duplicate-field');
+      const notes = card.querySelector('.notes');
+      const saved = state[id] || {};
+      action.value = saved.action || '';
+      duplicate.value = saved.duplicate || '';
+      notes.value = saved.notes || '';
+      const syncDuplicate = () => {
+        const enabled = Boolean(config.duplicate_action) && action.value === config.duplicate_action;
+        duplicateField.hidden = !enabled;
+        duplicate.disabled = !enabled;
+        if (!enabled) duplicate.value = '';
+      };
+      const persist = () => {
+        syncDuplicate();
+        state[id] = { action: action.value, duplicate: duplicate.value.trim(), notes: notes.value.trim() };
+        save(); updateProgress();
+      };
+      action.addEventListener('change', persist);
+      duplicate.addEventListener('input', persist);
+      notes.addEventListener('input', persist);
+      syncDuplicate();
+    });
+    search.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    document.getElementById('clear-filters').addEventListener('click', () => {
+      search.value = '';
+      statusFilter.value = 'all';
+      applyFilters();
+      search.focus();
+    });
+    document.getElementById('show-pending').addEventListener('click', () => {
+      statusFilter.value = 'pending';
+      applyFilters();
+      const first = cards.find(card => !card.hidden);
+      if (first) first.scrollIntoView({behavior:'smooth',block:'start'}); else flash('Every item has a review action.');
+    });
+    document.getElementById('export').addEventListener('click', () => {
+      const pending = cards.filter(card => !(state[card.dataset.itemId] || {}).action);
+      if (pending.length) { flash(`${pending.length} item(s) still need a review action.`); pending[0].scrollIntoView({behavior:'smooth',block:'center'}); return; }
+      const rows = [['Package_ID','Item_ID','Review_Action','Duplicate_Of_Item_ID','Reviewer_Notes']];
+      config.item_ids.forEach(id => { const value = state[id] || {}; rows.push([config.package_id,id,value.action || '',value.duplicate || '',value.notes || '']); });
+      const body = '﻿' + rows.map(row => row.map(csv).join(',')).join('\r\n');
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(new Blob([body],{type:'text/csv;charset=utf-8'}));
+      link.download = `forensic_review_approvals_${config.package_id}.csv`;
+      document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      flash('Approval CSV exported. No source files were changed.');
+    });
+    updateProgress();
+  })();
+  </script>
+</body>
+</html>

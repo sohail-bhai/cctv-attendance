@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "policy_version": "phase-1.2i-b-v1.1",
+  "configured_source_role": "production_recorded_dataset",
+  "configured_source_images": 388,
+  "source_groups": 347,
+  "active_sources": 347,
+  "active_originals": 347,
+  "active_augmentations": 0,
+  "excluded_exact_duplicates": 10,
+  "excluded_reviewer_confirmed_duplicates": 3,
+  "excluded_excess_augmentations": 0,
+  "reviewer_multiple_people_excluded": 2,
+  "deferred_images_active": 336,
+  "dataset_files_modified": false,
+  "maximum_active_images_per_source_group": 2,
+  "maximum_additional_augmentation_per_group": 1,
+  "deterministic": true
+}

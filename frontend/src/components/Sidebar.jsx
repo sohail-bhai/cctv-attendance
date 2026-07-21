@@ -1,33 +1,35 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext.jsx';
 
-const adminLinks = [
-  { to: '/', label: 'Home', icon: '🏠' },
-  { to: '/live-demo', label: 'Live Demo', icon: '🎥' },
+const hodLinks = [
+  { to: '/', label: 'HOD Dashboard', icon: '🏠' },
   { to: '/take-attendance', label: 'Take Attendance', icon: '✅' },
   { to: '/reports', label: 'Attendance Reports', icon: '📊' },
   { to: '/manual-review', label: 'Review & Corrections', icon: '✍️' },
   { to: '/faculty-activity', label: 'Faculty Activity', icon: '📌' },
   { to: '/students', label: 'Students', icon: '👥' },
-  { to: '/settings', label: 'Settings', icon: '⚙️' },
-  { to: '/jobs', label: 'Jobs', icon: '↻' },
+  { to: '/jobs', label: 'Processing Jobs', icon: '↻' },
+  { to: '/hod-control', label: 'HOD Control', icon: '⚙️' },
   { to: '/help', label: 'Help', icon: '❓' },
+  { to: '/live-demo', label: 'Live Demo', icon: '🎥' },
 ];
 
 const facultyLinks = [
   { to: '/', label: 'My Dashboard', icon: '🏠' },
-  { to: '/live-demo', label: 'Live Demo', icon: '🎥' },
   { to: '/take-attendance', label: 'My Classes', icon: '✅' },
   { to: '/reports', label: 'My Reports', icon: '📊' },
   { to: '/manual-review', label: 'Review Students', icon: '✍️' },
   { to: '/students', label: 'My Students', icon: '👥' },
   { to: '/help', label: 'Help', icon: '❓' },
+  { to: '/live-demo', label: 'Live Demo', icon: '🎥' },
 ];
 
 export default function Sidebar() {
   const { currentUser, isAdmin } = useAuth();
-  const links = isAdmin ? adminLinks : facultyLinks;
-  const initials = currentUser?.role === 'admin' ? 'A' : currentUser?.name?.split(' ').filter(Boolean).slice(-2).map((x) => x[0]).join('') || 'F';
+  const links = isAdmin ? hodLinks : facultyLinks;
+  const initials = currentUser?.role === 'admin'
+    ? 'H'
+    : currentUser?.name?.split(' ').filter(Boolean).slice(-2).map((x) => x[0]).join('') || 'F';
 
   return (
     <aside className="sidebar">
@@ -43,7 +45,7 @@ export default function Sidebar() {
         <div className="admin-avatar">{initials}</div>
         <div>
           <strong>{currentUser?.name}</strong>
-          <span>{currentUser?.roleLabel}</span>
+          <span>{isAdmin ? 'Head of Department' : currentUser?.roleLabel}</span>
           {!isAdmin && <small>{(currentUser?.subjects || []).join(', ')}</small>}
         </div>
       </div>
@@ -58,7 +60,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <span className="pulse-dot" /> Role: {isAdmin ? 'Main Admin' : 'Faculty'}
+        <span className="pulse-dot" /> Role: {isAdmin ? 'HOD' : 'Faculty'}
       </div>
     </aside>
   );

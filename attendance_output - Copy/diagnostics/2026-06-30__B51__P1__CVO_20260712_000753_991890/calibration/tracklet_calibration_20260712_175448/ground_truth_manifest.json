@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-07-12T17:55:39",
+  "mode": "offline_shadow_calibration",
+  "session_id": "2026-06-30__B51__P1__CVO",
+  "subject_abbr": "CVO",
+  "source_hashes": {
+    "tracklet_diagnostics": "0ec9539a7a7ac9be7f4eb0a51e8309dfb694529fbd34fc91a396887c56d01a77",
+    "accepted_labels": "185c9d4e09ff97e5cc1cd99f04e08f090b08dd58efe6dd391ab4e5aa1a1eee4e",
+    "unresolved_labels": "ce850c74550e9f8cc82a9468ce553b35c2a5f401e940b6073e03f412779fbb03",
+    "student_map": "0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91"
+  },
+  "accepted_package": {
+    "package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d",
+    "package_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712074431-763c4d",
+    "hidden_predictions_sha256": "b924fc01d8bcf7742070001e83ae54b4d2dfa42d5b6ab150d38bd5e13c1b0809",
+    "export_metadata_sha256": "00b68cbb8cb53538d137f9b7c7d334a70b075904ae16c0845481f130b25d6b8a",
+    "review_manifest_sha256": "9983dc0ffbdb632729080da2dbdf9b08c84f0a875409f024f72689e72b7a0455",
+    "evidence_expected": 37,
+    "evidence_present": 37,
+    "evidence_verified": 37,
+    "evidence_missing_from_archive": 0,
+    "evidence_integrity": "verified_all_present"
+  },
+  "unresolved_package": {
+    "package_id": "2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271",
+    "package_dir": "F:\\sohail\\Class_Attendance_YuNet_SFace\\attendance_output\\diagnostics\\2026-06-30__B51__P1__CVO_20260712_000753_991890\\recall_analysis_20260712_124500_128763\\unresolved_tracklet_review_2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712124500-1f3271",
+    "hidden_predictions_sha256": "eee1aff1c65eb671719f7e0de9fefc5bfa0f84cf6c0fea4f50f818dc912b05b1",
+    "export_metadata_sha256": "8fe33b9c0d2eeddf69dfa3c1a2dda8602d09c0331962348c052cdbcd426fd565",
+    "review_manifest_sha256": "5d696053ce5ae6234914cd27590a9c98a98a24d7d2b3f02cfdf8fad6ae4e7f5c",
+    "evidence_expected": 63,
+    "evidence_present": 63,
+    "evidence_verified": 63,
+    "evidence_missing_from_archive": 0,
+    "evidence_integrity": "verified_all_present"
+  },
+  "rows": {
+    "total": 100,
+    "accepted_reviewed": 37,
+    "unresolved_reviewed": 63,
+    "identified": 87,
+    "top1_correct": 70,
+    "safety_negatives": 30
+  },
+  "authoritative_subject_roster_count": 27,
+  "production_changes": false,
+  "recognition_rerun": false,
+  "thresholds_changed": false,
+  "attendance_rule_changed": false
+}

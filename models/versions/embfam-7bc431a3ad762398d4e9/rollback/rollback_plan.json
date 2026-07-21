@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "family_id": "embfam-7bc431a3ad762398d4e9",
+  "prepared_before_any_future_promotion": true,
+  "phase_1_2i_b_promotion_allowed": false,
+  "production_embeddings": {
+    "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\student_embeddings.pkl",
+    "sha256": "c32ed31df10b7b9b43b8f19977a2adf0a82fb8e7a71f3e8bceb42c0565fedd49"
+  },
+  "production_summary": {
+    "path": "F:\\sohail\\Class_Attendance_YuNet_SFace\\models\\embedding_summary.csv",
+    "sha256": "0df35c3bb9207e191aa49dad5536b8378e812d56463491bd7203885dca5ae9ee"
+  },
+  "candidate_promoted": false,
+  "backup_created": false,
+  "reason_no_backup_yet": "Production was not modified. A byte-for-byte backup is required immediately before any separately approved future promotion.",
+  "future_rollback_requirements": [
+    "Verify production hashes still match this family parent hashes.",
+    "Create and hash a production pair backup before promotion.",
+    "Atomically replace both production files or restore both on failure.",
+    "Require passed MON_P3 untouched shadow validation and explicit user approval."
+  ]
+}

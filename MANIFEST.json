@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "APPLY_PATCH.md",
+      "size_bytes": 2295,
+      "sha256": "80128c6392943c5f1834e1eac18018c5fb0f975822bc3c0ab7b1a47a6e137a0a"
+    },
+    {
+      "path": "VALIDATION_RESULTS.md",
+      "size_bytes": 1458,
+      "sha256": "4a33a95d4b8870083c1d8cacf49cbfc34a3d31a6d0175ebf6e20354fe3b37cef"
+    },
+    {
+      "path": "scripts/validate_tracklet_ground_truth.py",
+      "size_bytes": 15531,
+      "sha256": "c3adef400c94b22258f7c2e719314030721582b02051d118d14e9dbe88ea1498"
+    },
+    {
+      "path": "src/face_attendance/recall_analysis.py",
+      "size_bytes": 59864,
+      "sha256": "e6e6700e77093896e77a271fcec7655bb89b0c131e2d43ca101d3b628d8ef911"
+    },
+    {
+      "path": "tests/test_recall_analysis.py",
+      "size_bytes": 19456,
+      "sha256": "26a73a6e9957b4746e441c8eeee64d6a9f389b842a62f6d518713a0469a544c3"
+    }
+  ]
+}

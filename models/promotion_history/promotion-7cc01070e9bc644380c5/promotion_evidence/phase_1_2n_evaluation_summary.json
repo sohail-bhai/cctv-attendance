@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "policy_version": "phase-1.2n-mon-p4-shadow-v1",
+  "evaluation_id": "mon-p4-evaluation-302c6707c95029a017df",
+  "created_at": "2026-07-17T15:57:02",
+  "run_id": "mon-p4-shadow-695277fbd0dcd9d431e1",
+  "fingerprint_sha256": "695277fbd0dcd9d431e12fb282044b6a94b5628504e29f6e97cc2da45c460c06",
+  "family_id": "embfam-274b5207b8b71294ff75",
+  "candidate_variant_id": "embfam-274b5207b8b71294ff75-d",
+  "reviewed_exception_tracks": 5,
+  "result_counts": {
+    "both_correct_same_identity": 1,
+    "candidate_correct_recovery": 3,
+    "reviewed_other": 1
+  },
+  "candidate_false_identities_or_unsafe_accepts": 0,
+  "candidate_lost_correct_production_accepts": 0,
+  "unverifiable_exceptions": 0,
+  "candidate_correct_recoveries": 3,
+  "candidate_corrected_production_identities": 0,
+  "decision": "mon_p4_shadow_passed_pending_explicit_promotion",
+  "zero_false_identity_gate_passed": true,
+  "retention_gate_passed": true,
+  "evidence_complete_gate_passed": true,
+  "production_embeddings_changed": false,
+  "official_attendance_changed": false,
+  "candidate_promoted": false,
+  "production_approved": false,
+  "exact_next_step": "Prepare a separate explicit promotion/rollback package only after final human approval."
+}

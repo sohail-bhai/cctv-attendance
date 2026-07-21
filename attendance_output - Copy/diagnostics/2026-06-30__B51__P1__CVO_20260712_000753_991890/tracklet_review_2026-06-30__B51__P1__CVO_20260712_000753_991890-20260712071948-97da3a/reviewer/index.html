@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blind tracklet review</title>
+  <style>
+    :root { color-scheme: light; --ink:#18222d; --muted:#617080; --line:#d8dee5; --paper:#f4f6f8; --white:#fff; --teal:#087f78; --teal-dark:#05655f; --amber:#a85d00; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; letter-spacing:0; }
+    header { position:sticky; top:0; z-index:5; border-bottom:1px solid var(--line); background:rgba(255,255,255,.97); }
+    .header-inner { max-width:1440px; margin:auto; padding:18px 24px; display:grid; grid-template-columns:1fr auto; gap:18px; align-items:center; }
+    h1 { margin:0 0 5px; font-size:24px; line-height:1.2; }
+    .session { color:var(--muted); font-size:14px; }
+    .actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    button { min-height:40px; border:1px solid var(--line); border-radius:6px; background:var(--white); color:var(--ink); padding:0 14px; font:600 14px inherit; cursor:pointer; }
+    button:hover { border-color:#9ca8b4; }
+    button.primary { border-color:var(--teal); background:var(--teal); color:white; }
+    button.primary:hover { background:var(--teal-dark); }
+    .summary-bar { max-width:1440px; margin:auto; padding:0 24px 14px; display:grid; grid-template-columns:minmax(180px,1fr) auto; gap:18px; align-items:center; }
+    .progress-track { height:8px; border-radius:4px; background:#e2e7eb; overflow:hidden; }
+    .progress-fill { width:0; height:100%; background:var(--teal); transition:width .2s ease; }
+    .progress-text { font-size:13px; color:var(--muted); white-space:nowrap; }
+    main { max-width:1440px; margin:auto; padding:22px 24px 56px; }
+    .filters { display:flex; gap:6px; margin-bottom:16px; }
+    .filters button[aria-pressed="true"] { border-color:var(--ink); background:var(--ink); color:white; }
+    .review-list { display:grid; gap:12px; }
+    .review-card { display:grid; grid-template-columns:minmax(0, 1.7fr) minmax(300px, .8fr); border:1px solid var(--line); border-radius:8px; background:var(--white); overflow:hidden; box-shadow:0 3px 14px rgba(28,39,49,.06); }
+    .review-card.complete { border-left:4px solid var(--teal); }
+    .evidence-panel { min-width:0; border-right:1px solid var(--line); }
+    .item-heading { height:46px; padding:0 14px; display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); }
+    .item-heading span { color:var(--muted); font-size:13px; text-align:right; }
+    .evidence-panel img { display:block; width:100%; min-height:180px; aspect-ratio:4.2/1; object-fit:contain; background:#161616; }
+    .label-panel { padding:16px; display:grid; gap:13px; align-content:start; }
+    label { display:grid; gap:6px; color:#465462; font-size:12px; font-weight:700; text-transform:uppercase; }
+    select, textarea { width:100%; border:1px solid #b9c3cc; border-radius:6px; background:white; color:var(--ink); padding:10px 11px; font:14px/1.35 Segoe UI,Arial,sans-serif; letter-spacing:0; text-transform:none; }
+    select { min-height:42px; }
+    select:focus, textarea:focus, button:focus-visible { outline:3px solid rgba(8,127,120,.22); outline-offset:1px; border-color:var(--teal); }
+    select:disabled { background:#edf0f2; color:#89939d; }
+    textarea { resize:vertical; min-height:64px; }
+    .empty { padding:40px; text-align:center; color:var(--muted); }
+    @media (max-width:900px) { .header-inner { grid-template-columns:1fr; } .actions { justify-content:flex-start; } .review-card { grid-template-columns:1fr; } .evidence-panel { border-right:0; border-bottom:1px solid var(--line); } }
+    @media (max-width:560px) { .header-inner, .summary-bar, main { padding-left:14px; padding-right:14px; } h1 { font-size:21px; } .summary-bar { grid-template-columns:1fr; gap:7px; } .actions { display:grid; grid-template-columns:1fr 1fr; } .filters { display:grid; grid-template-columns:repeat(3,1fr); } button { padding:0 9px; } .item-heading { align-items:flex-start; height:auto; padding:11px 12px; flex-direction:column; gap:3px; } .item-heading span { text-align:left; } }
+    @media (prefers-reduced-motion:reduce) { * { transition:none !important; } }
+  </style>
+</head>
+<body data-package-id="2026-06-30__B51__P1__CVO_20260712_000753_991890-20260712071948-97da3a">
+  <header>
+    <div class="header-inner">
+      <div><h1>Blind tracklet review</h1><div class="session">2026-06-30__B51__P1__CVO / CVO</div></div>
+      <div class="actions"><button id="reset" type="button">Clear labels</button><button id="download" class="primary" type="button">Export labels CSV</button></div>
+    </div>
+    <div class="summary-bar"><div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div><div class="progress-text" id="progress-text" aria-live="polite"></div></div>
+  </header>
+  <main>
+    <div class="filters" aria-label="Review filters"><button type="button" data-filter="all" aria-pressed="true">All</button><button type="button" data-filter="pending" aria-pressed="false">Pending</button><button type="button" data-filter="complete" aria-pressed="false">Completed</button></div>
+    <div class="review-list" id="review-list">
+        <article class="review-card" data-review-id="R0001">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0001</strong><span>CP2 / cam10 / 3 views</span></div>
+            <img src="evidence/R0001.jpg" alt="Evidence views for R0001" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0002">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0002</strong><span>CP2 / cam10 / 5 views</span></div>
+            <img src="evidence/R0002.jpg" alt="Evidence views for R0002" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0003">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0003</strong><span>CP3 / cam5 / 5 views</span></div>
+            <img src="evidence/R0003.jpg" alt="Evidence views for R0003" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0004">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0004</strong><span>CP3 / cam10 / 4 views</span></div>
+            <img src="evidence/R0004.jpg" alt="Evidence views for R0004" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0005">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0005</strong><span>CP4 / cam5 / 5 views</span></div>
+            <img src="evidence/R0005.jpg" alt="Evidence views for R0005" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0006">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0006</strong><span>CP5 / cam5 / 5 views</span></div>
+            <img src="evidence/R0006.jpg" alt="Evidence views for R0006" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0007">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0007</strong><span>CP2 / cam5 / 5 views</span></div>
+            <img src="evidence/R0007.jpg" alt="Evidence views for R0007" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0008">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0008</strong><span>CP5 / cam5 / 5 views</span></div>
+            <img src="evidence/R0008.jpg" alt="Evidence views for R0008" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0009">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0009</strong><span>CP2 / cam10 / 5 views</span></div>
+            <img src="evidence/R0009.jpg" alt="Evidence views for R0009" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0010">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0010</strong><span>CP5 / cam5 / 5 views</span></div>
+            <img src="evidence/R0010.jpg" alt="Evidence views for R0010" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0011">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0011</strong><span>CP2 / cam5 / 5 views</span></div>
+            <img src="evidence/R0011.jpg" alt="Evidence views for R0011" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0012">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0012</strong><span>CP3 / cam10 / 5 views</span></div>
+            <img src="evidence/R0012.jpg" alt="Evidence views for R0012" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0013">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0013</strong><span>CP3 / cam5 / 5 views</span></div>
+            <img src="evidence/R0013.jpg" alt="Evidence views for R0013" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0014">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0014</strong><span>CP2 / cam5 / 5 views</span></div>
+            <img src="evidence/R0014.jpg" alt="Evidence views for R0014" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0015">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0015</strong><span>CP4 / cam5 / 5 views</span></div>
+            <img src="evidence/R0015.jpg" alt="Evidence views for R0015" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0016">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0016</strong><span>CP1 / cam10 / 5 views</span></div>
+            <img src="evidence/R0016.jpg" alt="Evidence views for R0016" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0017">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0017</strong><span>CP3 / cam5 / 4 views</span></div>
+            <img src="evidence/R0017.jpg" alt="Evidence views for R0017" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0018">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0018</strong><span>CP2 / cam5 / 5 views</span></div>
+            <img src="evidence/R0018.jpg" alt="Evidence views for R0018" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0019">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0019</strong><span>CP1 / cam5 / 5 views</span></div>
+            <img src="evidence/R0019.jpg" alt="Evidence views for R0019" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0020">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0020</strong><span>CP5 / cam5 / 5 views</span></div>
+            <img src="evidence/R0020.jpg" alt="Evidence views for R0020" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0021">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0021</strong><span>CP1 / cam5 / 5 views</span></div>
+            <img src="evidence/R0021.jpg" alt="Evidence views for R0021" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0022">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0022</strong><span>CP1 / cam5 / 5 views</span></div>
+            <img src="evidence/R0022.jpg" alt="Evidence views for R0022" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0023">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0023</strong><span>CP2 / cam10 / 3 views</span></div>
+            <img src="evidence/R0023.jpg" alt="Evidence views for R0023" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0024">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0024</strong><span>CP2 / cam5 / 5 views</span></div>
+            <img src="evidence/R0024.jpg" alt="Evidence views for R0024" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0025">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0025</strong><span>CP1 / cam5 / 5 views</span></div>
+            <img src="evidence/R0025.jpg" alt="Evidence views for R0025" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0026">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0026</strong><span>CP2 / cam10 / 5 views</span></div>
+            <img src="evidence/R0026.jpg" alt="Evidence views for R0026" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0027">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0027</strong><span>CP4 / cam10 / 5 views</span></div>
+            <img src="evidence/R0027.jpg" alt="Evidence views for R0027" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0028">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0028</strong><span>CP3 / cam10 / 3 views</span></div>
+            <img src="evidence/R0028.jpg" alt="Evidence views for R0028" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0029">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0029</strong><span>CP1 / cam5 / 3 views</span></div>
+            <img src="evidence/R0029.jpg" alt="Evidence views for R0029" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0030">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0030</strong><span>CP3 / cam10 / 5 views</span></div>
+            <img src="evidence/R0030.jpg" alt="Evidence views for R0030" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0031">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0031</strong><span>CP3 / cam5 / 5 views</span></div>
+            <img src="evidence/R0031.jpg" alt="Evidence views for R0031" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0032">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0032</strong><span>CP4 / cam5 / 4 views</span></div>
+            <img src="evidence/R0032.jpg" alt="Evidence views for R0032" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0033">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0033</strong><span>CP4 / cam5 / 2 views</span></div>
+            <img src="evidence/R0033.jpg" alt="Evidence views for R0033" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0034">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0034</strong><span>CP5 / cam5 / 5 views</span></div>
+            <img src="evidence/R0034.jpg" alt="Evidence views for R0034" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0035">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0035</strong><span>CP1 / cam5 / 4 views</span></div>
+            <img src="evidence/R0035.jpg" alt="Evidence views for R0035" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0036">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0036</strong><span>CP4 / cam5 / 5 views</span></div>
+            <img src="evidence/R0036.jpg" alt="Evidence views for R0036" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article>
+        <article class="review-card" data-review-id="R0037">
+          <div class="evidence-panel">
+            <div class="item-heading"><strong>R0037</strong><span>CP3 / cam5 / 5 views</span></div>
+            <img src="evidence/R0037.jpg" alt="Evidence views for R0037" loading="lazy">
+          </div>
+          <div class="label-panel">
+            <label>Status
+              <select class="status-input">
+                <option value="">Not reviewed</option>
+                <option value="identified">Identified</option>
+                <option value="unidentifiable">Unidentifiable</option>
+                <option value="mixed_track">Mixed people</option>
+                <option value="not_in_mapping">Not in student mapping</option>
+                <option value="uncertain">Unsure</option>
+              </select>
+            </label>
+            <label>Actual student
+              <select class="roll-input" disabled><option value="">Select a student</option><optgroup label="Course roster"><option value="24011CSEAI0110">24011CSEAI0110 | ALUWALA SURYA</option><option value="2401100CSE0060">2401100CSE0060 | ANNAMBHATLA VENKATA SAI ANURADHA</option><option value="24011CSEAI0007">24011CSEAI0007 | ARTHAM RAHITHYA</option><option value="2401100CSE0121">2401100CSE0121 | BENDI SAI KUSHWANTH</option><option value="2401100CSE0124">2401100CSE0124 | BUDHINENI NANDA BHARGAV</option><option value="2401100CSE0109">2401100CSE0109 | Ch.Sri Saran</option><option value="2401100CSE0067">2401100CSE0067 | CHAKRAVARTHULA RAGHAVA</option><option value="24011CSEAI0061">24011CSEAI0061 | DESHETTI VIVEK</option><option value="2401100CSE0073">2401100CSE0073 | DHARMIK MARU</option><option value="2401100CSE0254">2401100CSE0254 | DINESH RATHOD</option><option value="2401100CSE0074">2401100CSE0074 | DODDAPANENI JASHWANTH</option><option value="2401100CSE0016">2401100CSE0016 | EESHA THAKUR</option><option value="2401100CSE0019">2401100CSE0019 | GUVVALA HIMANI</option><option value="2401100CSE0140">2401100CSE0140 | KASTHURI SHRUTHI</option><option value="2401100CSE0028">2401100CSE0028 | MALLELA SRI VISHNU VARDHAN</option><option value="2401100CSE0093">2401100CSE0093 | MARELLA LOKESH REDDY</option><option value="2401100CSE0202">2401100CSE0202 | MARU NANDINI REDDY</option><option value="2401100CSE0209">2401100CSE0209 | N N K V HANUMAN NARAYANA</option><option value="2401100CSE0097">2401100CSE0097 | NARUKULLA PAVAN</option><option value="2401100CSE0268">2401100CSE0268 | PAKALAPATI NITHIN</option><option value="2401100CSE0044">2401100CSE0044 | RANDENI SAI GANESH</option><option value="2401100CSE0050">2401100CSE0050 | SHAIK SOHAIL AHMED</option><option value="2401100CSE0052">2401100CSE0052 | SUPRIYA</option><option value="2401100CSE0111">2401100CSE0111 | THALLA KARTHIK</option><option value="24011CSEAI0103">24011CSEAI0103 | V SIDDHARTH</option><option value="24011CSEAI0051">24011CSEAI0051 | VALASAPALLI KARTHEEKA</option></optgroup><optgroup label="Other mapped students"><option value="2401100CSE0175">2401100CSE0175 | ABIRAM REDDY DEPA</option><option value="2401100CSE0006">2401100CSE0006 | BALA YAAMINI RAVINDRAN</option><option value="2401100CSE0120">2401100CSE0120 | BATTHINI VIGNESH</option><option value="2401100CSE0184">2401100CSE0184 | BIJJALA VENKATESH</option><option value="2401100CSE0243">2401100CSE0243 | BOJJA SAHASRA</option><option value="2401100CSE0068">2401100CSE0068 | CHINTHAKUNTLA VIKRAM ATCHYUTH REDDY</option><option value="2401100CSE0077">2401100CSE0077 | ENJAPURI KOUSHIK PATEL</option><option value="2401100CSE0079">2401100CSE0079 | G Koushik Reddy</option><option value="2401100CSE0026">2401100CSE0026 | KARTHIK MAROJI</option><option value="2401100CSE0257">2401100CSE0257 | KODIPYAKA SHANTHAN</option><option value="2401100CSE0029">2401100CSE0029 | MANNE SREEJA REDDY</option><option value="2401100CSE0203">2401100CSE0203 | MOHAMMED IRFAN</option><option value="2401100CSE0264">2401100CSE0264 | MUDIGONDA LALITHA SREYA</option><option value="2401100CSE0212">2401100CSE0212 | NALLAPA REDDY DURGESH REDDY</option><option value="2401100CSE0096">2401100CSE0096 | NALUVALA DEEKSHITH</option><option value="2401100CSE0099">2401100CSE0099 | P ABHIRAM</option><option value="2401100CSE0100">2401100CSE0100 | PITTA KRUTHIK</option><option value="2401100CSE0275">2401100CSE0275 | ROHAN JOSHUA FRANCIS</option><option value="2401100CSE0224">2401100CSE0224 | SAREDDY BHARATH REDDY</option><option value="2401100CSE0277">2401100CSE0277 | SHAIK MOHAMMED RIYAN</option><option value="2401100CSE0053">2401100CSE0053 | T SRISAI</option><option value="2401100CSE0230">2401100CSE0230 | TUMMA SRISHANTH REDDY</option></optgroup></select>
+            </label>
+            <label>Reviewer notes
+              <textarea class="notes-input" rows="2" maxlength="500" placeholder="Optional"></textarea>
+            </label>
+          </div>
+        </article></div>
+    <div class="empty" id="empty" hidden>No items in this view.</div>
+  </main>
+  <script>
+    (() => {
+      const packageId = document.body.dataset.packageId;
+      const storageKey = `tracklet-review:${packageId}`;
+      const cards = [...document.querySelectorAll('.review-card')];
+      let filter = 'all';
+      let state = {};
+      try { state = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch (_) { state = {}; }
+      const clean = value => String(value || '').trim();
+      const complete = value => value && value.status && (value.status !== 'identified' || value.roll);
+      const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+      const csvCell = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
+      const update = () => {
+        let completed = 0;
+        let visible = 0;
+        cards.forEach(card => {
+          const id = card.dataset.reviewId;
+          const value = state[id] || {};
+          const isComplete = complete(value);
+          if (isComplete) completed += 1;
+          card.classList.toggle('complete', Boolean(isComplete));
+          const show = filter === 'all' || (filter === 'complete' && isComplete) || (filter === 'pending' && !isComplete);
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        const percent = cards.length ? Math.round(completed / cards.length * 100) : 0;
+        document.getElementById('progress-fill').style.width = `${percent}%`;
+        document.getElementById('progress-text').textContent = `${completed} of ${cards.length} reviewed (${percent}%)`;
+        document.getElementById('empty').hidden = visible !== 0;
+      };
+      cards.forEach(card => {
+        const id = card.dataset.reviewId;
+        const status = card.querySelector('.status-input');
+        const roll = card.querySelector('.roll-input');
+        const notes = card.querySelector('.notes-input');
+        const saved = state[id] || {};
+        status.value = saved.status || '';
+        roll.value = saved.roll || '';
+        notes.value = saved.notes || '';
+        roll.disabled = status.value !== 'identified';
+        const persist = () => {
+          roll.disabled = status.value !== 'identified';
+          if (status.value !== 'identified') roll.value = '';
+          state[id] = {status: clean(status.value), roll: clean(roll.value), notes: clean(notes.value)};
+          save(); update();
+        };
+        status.addEventListener('change', persist);
+        roll.addEventListener('change', persist);
+        notes.addEventListener('input', persist);
+      });
+      document.querySelectorAll('[data-filter]').forEach(button => button.addEventListener('click', () => {
+        filter = button.dataset.filter;
+        document.querySelectorAll('[data-filter]').forEach(candidate => candidate.setAttribute('aria-pressed', String(candidate === button)));
+        update();
+      }));
+      document.getElementById('download').addEventListener('click', () => {
+        const rows = [['Package_ID','Review_ID','Review_Status','Actual_Roll','Reviewer_Notes']];
+        cards.forEach(card => {
+          const value = state[card.dataset.reviewId] || {};
+          rows.push([packageId, card.dataset.reviewId, value.status || '', value.roll || '', value.notes || '']);
+        });
+        const csv = rows.map(row => row.map(csvCell).join(',')).join('
+');
+        const url = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+        const link = Object.assign(document.createElement('a'), {href:url, download:`tracklet_review_labels_${packageId}.csv`});
+        link.click(); URL.revokeObjectURL(url);
+      });
+      document.getElementById('reset').addEventListener('click', () => {
+        if (!confirm('Clear all saved labels for this package?')) return;
+        localStorage.removeItem(storageKey); location.reload();
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>
