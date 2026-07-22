@@ -67,6 +67,6 @@ export const PIPELINE_STAGES = [
   { title: 'Camera Angles', text: 'All videos inside the selected slot folder are treated as camera angles for the same class.' },
   { title: 'YuNet Detection', text: 'Faces are detected and rejected if too weak, tiny, blurred, or low-score.' },
   { title: 'SFace Recognition', text: 'Face embeddings are matched against student_embeddings.pkl using cosine similarity.' },
-  { title: 'Decision Logic', text: 'Present, Needs Review, or Absent is decided from evidence count, confidence, and future checkpoints.' },
+  { title: 'Decision Logic', text: 'Present, Needs Review, Unconfirmed, Missing Enrollment, Absent, or fail-closed Unknown follows the current five-checkpoint authority contract.' },
   { title: 'Explainable Report', text: 'CSV/Excel reports show why each student got that status.' },
 ];

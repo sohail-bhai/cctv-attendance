@@ -1,297 +1,222 @@
-# Current Changes
+# Product Phase 2L-C: explicit authentication enforcement and controlled rehearsal
 
 ## 1. Run title and timestamp
 
-- Title: Product Phase 2K-B — exact review carry-forward verification and untouched-session preparation
-- Completed: `2026-07-22 00:27:59 +05:30`
-- Repository: `F:\sohail\Class_Attendance_YuNet_SFace`
-- Result: complete; implementation, immutable evidence, candidate-session audit, capture contract, full regression, and preservation checks passed.
+- Run: Product Phase 2L-C explicit authentication enforcement for protected reads and final controlled demo rehearsal.
+- Date: 2026-07-22, Asia/Calcutta.
+- Authentication policy: `product-phase-2l-c-explicit-authentication-v1`.
+- Blocker closed: `phase2l-b-unauthenticated-default-hod-read-access`.
 
 ## 2. Goal and scope
 
-This phase implemented a versioned, deterministic, independently testable exact-review carry-forward contract and prepared—but did not execute—the next independent untouched-session experiment. The implementation is diagnostic-only and has no production integration path into recognition, attendance, guarded recovery, or report authority.
+The sole implementation target was to remove implicit/default user resolution and require a valid bearer session on every protected Flask route while retaining HOD and Faculty authorization scope. The phase also completed isolated negative/security tests, frontend session compatibility, the controlled synthetic authenticated browser rehearsal, immutable evidence, and stopped-state preservation checks. It did not authorize recognition, video decoding, processing, reprocessing, attendance edits, finalization, configuration changes, credential changes, rollback, commit, push, deployment, or promotion.
 
-No classroom video was decoded. YuNet/SFace did not run. MON P4 was not reprocessed. No new classroom session was processed. No official or candidate attendance, finalization, authority, model, threshold, roster, timetable, review registry, job, credential, role, HOD, manual-override, or frontend state was changed.
+## 3. Git baseline
 
-## 3. Git baseline and dirty-state notes
+- Branch: `main`.
+- HEAD: `03b06a451bd411f5efc3523e800ef0a6f3901386`.
+- The worktree was already dirty with prior Product Phase 2K/2L and user changes. The tracked and untracked baseline was captured before editing; no reset, clean, checkout, discard, or normalization was used.
+- Existing dirty entries were preserved, including the prior context/change documents, backend/frontend work, Phase 2K/2L scripts/modules/tests/docs, and frontend contract work.
+- No commit, push, branch change, deployment, or repository cleanup was performed.
 
-- Branch baseline: `main`
-- HEAD baseline: `cc585a3aaceaa9b1987579c68e862da9dbf95ede`
-- Branch and HEAD after completion: unchanged.
-- The worktree was already substantially dirty before this phase. Existing tracked changes included backend, operational JSON, frontend, and recognition-script paths; `debug_faces/.gitkeep` was already deleted; many source, test, model, backup, artifact, and documentation paths were already untracked.
-- All pre-existing user changes were preserved. No reset, clean, checkout, discard, normalization, commit, push, deploy, or branch change was performed.
+## 4. Exact Phase 2L-C files changed
 
-## 4. Exact files created or changed
+Implementation and frontend compatibility:
 
-Functional implementation:
+- `app.py`
+- `frontend/src/api/client.js`
+- `frontend/src/auth/AuthContext.jsx`
+- `frontend/src/pages/Dashboard.jsx`
+- `frontend/src/pages/LiveDemo.jsx`
+- `frontend/src/pages/ManualReview.jsx`
+- `frontend/src/pages/Reports.jsx`
+- `frontend/src/pages/Timetable.jsx`
 
-- `src/face_attendance/product_phase_2k_carry_forward.py`
-- `scripts/run_product_phase_2k_carry_forward.py`
-- `scripts/run_product_phase_2k_carry_forward.ps1`
+Tests and controlled tooling:
 
-Tests:
+- `frontend/tests/authContract.test.mjs`
+- `tests/test_product_phase_2d_reports_review.py`
+- `tests/test_product_phase_2e_hod_control.py`
+- `tests/test_product_phase_2l_authentication.py`
+- `src/face_attendance/product_phase_2l_authentication.py`
+- `scripts/run_product_phase_2l_auth_preflight.py`
+- `scripts/run_product_phase_2l_auth_preflight.ps1`
+- `scripts/run_product_phase_2l_auth_fixture.py`
 
-- `tests/test_product_phase_2k_carry_forward.py`
+Documentation and handoff:
 
-Durable documentation:
-
+- `docs/PHASE_2L_OPERATOR_GUIDE.md`
+- `docs/PHASE_2L_PROFESSOR_DEMO_RUNBOOK.md`
+- `docs/PHASE_2L_FINAL_RELEASE_CHECKLIST.md`
+- `docs/PHASE_2L_RECOVERY_AND_ROLLBACK.md`
 - `PROJECT_CONTEXT.md`
 - `CURRENT_CHANGES.md`
 
-Immutable output directory:
+Immutable outputs were added under `attendance_output/product_workflow/phase_2l_authentication_hardening/`. The final directory and one earlier immutable attempt each contain exactly these 18 names: `authentication_policy.json`, `public_route_allowlist.json`, `protected_route_inventory.csv`, `no_token_api_matrix.csv`, `authenticated_role_matrix.csv`, `private_field_exposure_scan.json`, `frontend_auth_contract.json`, `browser_rehearsal_summary.csv`, `report_totals_verification.json`, `identity_integrity_verification.json`, `demo_readiness.json`, `documentation_inventory.json`, `validation_summary.json`, `no_recognition_declaration.json`, `no_operational_mutation_declaration.json`, `source_manifest.json`, `evaluation_summary.json`, and `immutable_manifest.json`.
+
+## 5. Root cause
+
+`get_current_user()` accepted identity hints without requiring a bearer and fell back to the first role-registry user when no request identity was supplied. Because the first record was HOD, protected reads could return private HOD-scoped data to an unauthenticated request. Several internal timetable/job helpers also selected `load_role_users()[0]`, and the backend retained fallback account literals that could recreate accounts if the role registry was missing. These paths violated fail-closed authentication even though `/api/hod/config` had a stronger explicit HOD guard.
+
+## 6. Authentication design
+
+- `get_current_user()` now resolves identity only from a valid, unexpired, non-revoked in-memory bearer session.
+- `X-User-Id` is only an optional post-bearer consistency hint. It cannot authenticate or switch identity; mismatch returns `401`.
+- Missing, empty, malformed, unknown, expired, revoked, or inconsistent sessions are unauthenticated.
+- A central `before_request` guard makes protected the default for every registered route.
+- `require_authenticated_user`, `require_role`, and `require_hod` provide one consistent `401`/`403` contract.
+- Only recognized HOD/admin and Faculty roles are accepted. Other roles fail closed with `403`.
+- Missing/invalid role-registry state returns no users. The backend no longer creates fallback accounts or selects a first/default user.
+- HOD-only inventory/configuration/system routes remain centrally classified and existing explicit HOD write guards remain intact.
+- Faculty attendance, timetable, student, job, review, and report reads remain subject/session scoped.
+- Faculty report downloads are limited to exact assigned-session report references and the two generated reviewed/final CSV families; HOD retains authorized global download scope.
+- Unauthorized report/download existence is not disclosed through a different response.
+- Automatic empty `OPTIONS` responses remain a protocol-only CORS exception and execute no route body.
+
+## 7. Public routes
+
+The explicit public application allowlist is exactly:
+
+- `GET /`
+- `GET /api/health`
+- `POST /api/auth/login`
+- `GET /static/<path:filename>` for Flask-served static assets
+
+`HEAD` is normalized to `GET`; automatic empty `OPTIONS` is documented separately as a protocol exception. Health returns only minimal readiness fields and the authentication-policy version. It does not return users, roles, rosters, attendance, private report details, workflow state, operational paths, credentials, or tokens.
+
+## 8. Protected-route inventory
+
+- Registered protected method/route pairs: 37.
+- Inventory columns include method, Flask rule, endpoint, classification, sensitivity, authentication, allowed roles, Faculty/HOD scope, expected no-token result, and expected wrong-role result.
+- Coverage includes profile/current user, logout, timetable/classes, processing/reprocessing/reset, jobs/status/cancel, attendance sessions/reports/review/edit/export/finalize, students, report/download endpoints, videos/upload, HOD overview/configuration, diagnostics, and Live Demo.
+- Inventory SHA-256: `a1f9691c5e2cc48133d5c73d6cf86263fa97c1dbd0fb36f61248795426edbc7a`.
+
+## 9. No-token matrix
+
+- All 37 protected method/route pairs returned HTTP `401`.
+- Every response was generic JSON exactly equivalent to `{"error":"Authentication required.","success":false}`.
+- No response exposed password/session, role-registry, embedding, attendance-row, workflow-state, or operational-path fields.
+- `X-User-Id` alone, query identity, malformed authorization, empty bearer, invalid bearer, unknown session, and bearer/hint mismatch all fail closed.
+- Repeated controlled preflights were deterministic.
+- Matrix SHA-256: `82249181e337c527a493293c5958d888290db623937a6db31eb14eb12d23556d`.
+
+## 10. Faculty/HOD role matrix
+
+- 17 isolated synthetic role checks passed.
+- Authorized HOD identity, reports, attendance, downloads, and overview reads returned `200`.
+- Assigned CVO Faculty profile, timetable, session list, attendance report, and report download returned `200` with CVO-only scope.
+- SWE Faculty access to the CVO report and download returned `403`.
+- Faculty access to cross-faculty reports, HOD overview, and reset processing returned `403` before route bodies could expose or mutate state.
+- An unrecognized authenticated role returned `403`.
+- Bearer plus mismatched identity hint returned `401`.
+- Role-matrix SHA-256: `be06008921b9389133e7aebecce58827b809c4c26d1042ebeeba4c24d61fd74d`.
+
+## 11. Frontend behavior
+
+- Protected JSON, upload, and blob/download requests include `Authorization: Bearer ...` only when the existing session token is present.
+- `X-User-Id` is sent only alongside bearer authentication.
+- No identity query fallback remains, including the Live Demo frame request.
+- A protected `401` removes stale local session state and dispatches the authentication-invalid event so routing returns cleanly to Login.
+- A `403` preserves the valid session and remains an authorization error.
+- Login `401` stays a generic invalid-login response and does not trigger the protected-session invalidation path.
+- Direct protected `window.open`/plain-link downloads were replaced by authenticated fetch/blob downloads.
+- No credential fields are displayed or prefilled, no quick-fill/demo account exists, and no token is rendered or logged.
+- Manual Review now constrains its page/card width; the horizontal-overflow issue found during visual rehearsal was rechecked as resolved.
 
-- `attendance_output/product_workflow/phase_2k_carry_forward/carry-forward-e20a746d3d34c8141ab5/`
+## 12. Browser rehearsal
 
-No existing production source, operational state, frontend file, Phase 2K-A artifact, review registry, model, report, or historical artifact was edited.
+- Real operator credentials were not available and were not read. The rehearsal therefore used an isolated temporary fixture with randomized synthetic authentication and is not evidence of production credential usability.
+- Thirteen recorded browser checks passed: Login; HOD Dashboard; My Classes/Timetable; Official Reviewed MON_P4; Archived Automatic Candidate; Manual Review; Students/Coverage; HOD Control; Help; and Faculty Dashboard, Reports, Manual Review, and Students/Coverage.
+- Official reporting visibly showed 6 Present, 4 Needs Review, 16 Unconfirmed, 1 Missing Enrollment, 0 Absent, unresolved 21, and not finalized.
+- The archived automatic candidate visibly remained separate at 2 Present, 8 Needs Review, 16 Unconfirmed, 1 Missing Enrollment, 0 Absent, unresolved 25.
+- Faculty navigation and data remained CVO-only; Dashboard showed 4 CVO slots and 27 students. Faculty Students showed 27 CVO rows, 26 covered, and one coverage issue.
+- Missing Enrollment `2401100CSE0268`, long roll values, status labels, official/candidate distinction, and read-only HOD controls were visible.
+- The active 1280-wide laptop viewport had no document-level horizontal overflow. Browser warning/error count was zero.
+- No Process, Reprocess, Retry, Cancel, Reset, upload, correction, export, finalization, configuration, or rollback control was used. Live Demo was not visited.
+- Browser matrix SHA-256: `83e24b0b4c664409f7c376069b7a12ada6a52c6838f65f6efb00210a54e64a91`.
 
-## 5. Carry-forward policy
+## 13. Credential and private-data exposure
 
-- Policy version: `product-phase-2k-b-exact-carry-forward-v1`
-- Policy file SHA-256: `09b88a62f69fabd1b85594889d1dab0b959d9bff515ebb3919b5904592a097c0`
-- Diagnostic-only: true
-- Production activation permitted: false
-- All-or-nothing: true
-- Partial review reuse: forbidden
-- Parent-review inheritance by children: forbidden
-- Mixed quarantine overrides exact hashes/signatures: true
-- Ambiguous, incomplete, missing, duplicated, unverified, or tampered evidence: rejected
+- No operational password file was read and no real credential, bearer value, cookie, or browser session store was inspected or printed.
+- Synthetic credentials existed only in exact temporary fixture files under `C:\tmp` while the controlled servers ran. Both fixture files were removed after their services stopped; the deletions were direct temporary-file cleanup and are not recoverable through the application.
+- Temporary full-test logs and frontend build directories created by this phase were also removed after evidence materialization.
+- Immutable evidence contains no credentials, bearer values, cookies, private joins, hidden predictions, or raw embeddings.
 
-The pure evaluator returns exactly one deterministic result plus one reason code. `exact_match_eligible` is the only eligible result. Every failure returns an empty carried-review set, `partial_carry_forward=false`, and `inherited_by_children=false`.
+## 14. Tests, build, and full regression
 
-## 6. Eligibility dimensions
+- Python compilation: pass.
+- New targeted authentication/evidence suite: 14/14 pass.
+- Existing report/HOD/configuration/workflow plus Phase 2L-A regression group: 61/61 pass.
+- Frontend Node suite: 42/42 pass, including the prior 38 Phase 2L tests and 4 authentication-contract tests.
+- Vite production build: pass; 50 modules, 13 output files, 527531 bytes.
+- Frontend build aggregate SHA-256: `7e2c1ec68381ae1f7c9079d3413756edc0f9efe7f47cbc1d7d64167728ec70e3`.
+- Complete Python discovery suite against final source: 640 tests, zero failures/errors, one documented real Phase 1.2E/H artifact test skipped. The skip was not hidden or converted.
+- Final authentication and Phase 2L-A stabilization preflights passed after service shutdown.
 
-Every attempt binds exactly to:
+## 15. Immutable output and hashes
 
-1. Session date, section, period, subject, and canonical session ID.
-2. Every source path, SHA-256, checkpoint, camera, canonical order, source-layout version, and path-normalization version.
-3. Production family, active variant, embedding SHA-256, summary SHA-256, dimension, and aggregation policy.
-4. Match threshold, margin threshold, checkpoint rules, tracklet policy, purity policy, zone policy, authority policy, and processing contract.
-5. Parent track ID, checkpoint, camera, ordered observation membership/order/time indices/span, evidence fingerprint, purity outcome/fingerprint, and quarantine state.
-6. Child parent/child IDs, boundary, observation span/membership, child evidence fingerprint, lineage fingerprint, purity outcome, and policy version when children exist.
-7. Registry ID, original evidence signature, review disposition, reviewer-export fingerprint, joined-review fingerprint, and immutable-evaluation fingerprint.
-8. Source-manifest hash, Phase 2K-A purity-manifest hash, carry-forward-policy hash, artifact verification status, and canonical path-normalization rules.
+Final authoritative output:
 
-Physical list reorder is equivalent only when unique contiguous canonical-order bindings remain exact. Separators and Windows drive-letter case normalize; path-component case is preserved so distinct case-sensitive paths are not collapsed.
+- Directory: `attendance_output/product_workflow/phase_2l_authentication_hardening/authentication-hardening-dc1e4eb0bdbef36515af`
+- Run fingerprint: `dc1e4eb0bdbef36515af63ec00ab8e57db0ea5993a39ac78ac8c1bc9c9ac26db`
+- Immutable manifest SHA-256: `c8d5a38d1e89cf0928e1cc18ff91e87b41ce0b1b237c32dddcdf9ac8e50dfac7`
+- Source-manifest SHA-256: `75069a37b67737d54d1ec2b2da16b215098d383ed840d79e0f43ea8f11a7563e`
+- Exact file count: 18; all 17 payload hashes/sizes independently verified.
+- Phase 2L-A manifest input: `6e86e63c5da4945cb133b6c8be3250340be1d0ede3c512531e9c44f6ced99153`.
+- Phase 2L-B manifest input: `e58a942a4bd091bdf8fc5f75d0351cbe68bfaef47d90f7bfd1c7678356f41c3d`.
+- Official report SHA-256: `0211ac1433831aceb4176ee199f64bf962dbc784765a99a00bed74c7b38d51e3`.
+- Candidate report SHA-256: `e28dc0278abfad034bd78bb576620a50f90100461f23b5e0b920e1e65e39c57f`.
+- First materialization created the final directory; repeated materialization reused it byte-for-byte. The independent verifier and independent PowerShell file-set/hash verifier passed. Isolated deterministic collision and byte-tamper tests failed closed as intended.
 
-## 7. Fail-closed reasons
+An earlier immutable attempt, `authentication-hardening-f9028874ba95ab1f39bc` with manifest SHA-256 `85deeb5dbe4d34c3eb4a3e66b37300c14dcd35b205436249c7f167430ea72f79`, remains preserved and superseded. It preceded binding the complete Timetable/Students/Help browser matrix and source-manifest fingerprint into the deterministic run payload. It was not rewritten or deleted.
 
-The immutable failure-reason registry contains explicit codes for invalid hashes, unverified/tampered manifests, deterministic-ID collisions, duplicate sources/orders/parents/children/reviews/signatures, missing required fields, missing child evidence, every session/source/model/threshold/policy/manifest/review mismatch, observation membership/order/time drift, parent purity/quarantine drift, ambiguous purity, mixed quarantine, changed child set/boundary/span/evidence/lineage/outcome, and partial review-set mismatch.
+## 16. Protected operational hashes
 
-The mandatory fixture matrix covers 34 provenance/semantic scenarios. The immutable verification matrix contains 68 rows total: 34 isolated contract scenarios, two immutable-writer scenarios, 31 verified real review-pair scenarios, and the complete 31-row registry attempt. All rows passed their expected result/reason contract.
+- `data/attendance_status.json`: `46fd2df55cc3f61c5fa03c893937eb2828b9cc2af064ea9e427276b79a9d0b46`
+- `data/job_runtime.json`: `5a23f09654d91fac09804cd97c2fa114bf4956a914f2e02ce2b7090f730141ed`
+- `data/role_users.json`: `77125140004294f2834fc869fd590e167d8ab78cff5dbeda1c074ab76c177517`
+- `data/student_faculty_map.json`: `0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91`
+- `data/manual_overrides.json`: `e9c6bd35c23c353795edb5d3c02e808793d7cbd90c7b0a87fdfc686f8fd5cdcf`
+- `data/review_evidence_registry.json`: `3b04e9aecfdfb1f64346c4a0e709fd9c36d7c56545bf816d6641b4c2a2e80841`
+- `models/student_embeddings.pkl`: `f088d827adc548ee95f46566d758fd71fc304d042c43f1ecffc6526b60bcd832`
+- `models/embedding_summary.csv`: `63885588c374c37f4da9bf85294f240bdf0f28cb585e77b894ab516139ca46ae`
+- `models/current_embedding_version.json`: `7999b8ccf787dca9b8fb862f4e53ce7c1102eb729a3732c82fee76f3ba3ee05e`
+- `timetable_b51_2026_2027.csv`: `10bbd578a859fbd4fa228c4eb4f1f92e7de5b92a1c4236d71a00337eecac9c57`
 
-## 8. Mandatory mixed-track result
+All match the pre-edit Phase 2L freeze.
 
-- Track: `CP1-cam5-back-TRK00005`
-- Predicted identity: `24011CSEAI0051`
-- Existing evidence signature: `3e66e6ecfa57ea607bedc59578af159fc7c85774f21ae15ffd98a029b79ea983`
-- Ordered observations: 39
-- Time span: 0.48 to 19.20 seconds
-- Phase 2K-A outcome: `mixed_quarantined`
-- Child count: 0
-- Carry-forward result: `mixed_quarantined`
-- Reason code: `mixed_track_quarantine`
-- Partial carry-forward: false
-- Child review inheritance: false
-- Official contribution: 0
+## 17. Recognition, video, and state-change declaration
 
-All other bound hashes and signatures match. This proves exact signature/provenance cannot override the human mixed-track quarantine.
+Recognition, YuNet, SFace, classroom-video decoding, processing, reprocessing, Live Demo, attendance edits, report export/finalization, candidate/authority revision, guarded promotion, threshold/checkpoint/tracklet/zone changes, embedding rebuild/promotion, roster/timetable/manual-override/review-registry/job/HOD-configuration/role changes, and rollback all remained false. The official and candidate files, job runtime, finalization state, authority, review registry, production family/pointer, thresholds 0.48/0.08, and mandatory mixed-track quarantine remain unchanged. The two controlled services were stopped; ports 5000 and 5174 were released. The unrelated pre-existing Vite listener on port 5173 was left untouched.
 
-## 9. Exact Phase 2K-A inputs and hashes
+## 18. Demo readiness decision
 
-- Phase 2K-A policy: `product-phase-2k-a-diagnostic-tracklet-purity-v1`
-- Phase 2K-A run ID: `tracklet-purity-43cec17498dc05615502`
-- Phase 2K-A immutable manifest SHA-256: `7e0da7fd9b3edb7411a31be94f5f42063365bd0a6831735948700d263148c552`
-- Phase 2K-A source manifest SHA-256: `a1c13eabffaa05396669b41cec6af0bfe655533a4312083073e07a6d5cba225b`
-- Phase 2K-A complete manifest verification: passed before any rows were consumed.
-- Phase 2K-A read-only preflight reverified Phase 2G diagnostics, Phase 2H output/evaluation manifests, Phase 2I diagnostics/authority manifest, Phase 2J revision manifest, source-video hashes, official/candidate CSVs, review registry, attendance state, production files, and the known mixed review image.
-- Review registry internal fingerprint: `b2afa12c10104025f31c76f02ea91b9c33720cccb09773ca5639da39c1577a69`
-- Review registry source file SHA-256: `3b04e9aecfdfb1f64346c4a0e709fd9c36d7c56545bf816d6641b4c2a2e80841`
-- Verified review pairs: 31; exact pure pairs diagnostically eligible in isolation: 18; rejected pairs: 13.
-- Complete registry attempt: rejected `mixed_quarantined`; the 18-row subset was not reused.
+`demo_ready_operator_login_required`
 
-## 10. Candidate-session inventory
+The unauthenticated exposure blocker is closed, all synthetic route/browser checks pass, and state is unchanged. `demo_ready` is intentionally not claimed because no real authorized operator completed the production login flow during this run.
 
-The audit hashed all 40 videos in four complete prepared sessions. Candidate source fingerprint set: `96fd16e6d0189c43dc8aa9dc997b37274c129d8512c4f1d2d340d2802eaaa941`.
+## 19. Exact real-demo operator steps
 
-| Session | Layout | Prior uses | Result |
-| --- | --- | --- | --- |
-| `2026-06-22__B51__P3__CVO` / MON P3 | 5 checkpoints, back/front, 10 videos | recognition, blind review, retention, source ablation, model selection/promotion evidence | rejected contaminated |
-| `2026-06-22__B51__P4__CVO` / MON P4 | 5 checkpoints, back/front, 10 videos | Phase 1.2N, promotion evidence, Phase 2G/2I, human review, retention | rejected contaminated |
-| `2026-06-30__B51__P1__CVO` / TUE P1 | 5 checkpoints, back/front, 10 videos | recognition, human review, calibration/regression/adaptation, ablation, promotion benchmark | rejected contaminated |
-| `2026-06-30__B51__P2__CVO` / TUE P2 | 5 checkpoints, back/front, 10 videos | recognition, human review, shadow recovery, calibration/regression/adaptation, promotion benchmark | rejected contaminated |
+1. Run `scripts/run_product_phase_2l_auth_preflight.ps1` and `scripts/run_product_phase_2l_stabilization_preflight.ps1`; require `PREFLIGHT_STATUS=PASS` from both.
+2. Start the documented Flask and Vite services once and confirm the minimal health response plus zero active jobs.
+3. Have the authorized operator enter the intended Faculty or HOD credential privately through Login.
+4. Confirm the role-scoped landing page before showing protected data.
+5. Follow the documented order: Dashboard, My Classes/Timetable, Reports with official and archived revisions, Manual Review, Students/Coverage, HOD Control for HOD, and Help.
+6. Use no mutating control and do not visit Live Demo.
+7. Log out normally, stop only the controlled services, rerun both preflights, rehash protected state, and recount both reports.
 
-The audit verified relevant historical source-freeze, shadow-validation, evaluation, multi-session ground-truth, and source-ablation manifests. A session was not treated as untouched merely because it lacked a Phase 2K artifact.
+## 20. Remaining limitations
 
-## 11. Untouched-session recommendation
+- Production credential usability still requires a real authorized operator login rehearsal.
+- The isolated synthetic fixture proves authentication, authorization, frontend session behavior, and visual layout only.
+- All existing recognition sessions remain retrospective/prior-use contaminated; no independent generalization claim is permitted.
+- A genuinely new frozen CVO/B51 session remains required before any future guarded-recovery/generalization claim.
+- The earlier superseded immutable authentication attempt remains preserved for audit and is not the authoritative Phase 2L-C package.
 
-- Recommendation status: `no_existing_untouched_session`
-- Existing session selected: false
-- Contaminated substitute allowed: false
+## 21. Recommended next task
 
-Required acquisition: a new CVO/B51 class session, exact CP1-CP5 back/front clips, ten unique source hashes, complete size/duration/FPS/frame-count/capture-timestamp metadata, immutable source freeze before processing, no prior recognition/review/tuning/calibration/selection/ablation/promotion/retention/benchmark use, frozen production configuration, and a blind-review plan fixed before results are visible.
+No further coding is recommended. Perform only the authorized operator-login production rehearsal using the existing Phase 2L-C build and documented read-only page order. If that succeeds with stopped-state verification, record `demo_ready`; otherwise fix only the newly evidenced blocker. Independent-session acquisition remains a separate later phase and still requires explicit authorization.
 
-## 12. Capture contract
+## 22. Planner handoff
 
-- Version: `product-phase-2k-c-independent-session-capture-v1`
-- Execution authorized by this phase: false
-- Runner validation interface: `scripts/run_product_phase_2k_carry_forward.py validate-capture --package-dir <path>`
-- Validation hashes files and checks provenance/configuration only; it does not decode video or run recognition.
-
-The contract fixes current production family/variant and hashes, 128 dimensions, top-3 aggregation, `0.48`/`0.08`, exact Phase 2I checkpoint/tracklet/zone settings, current strict automatic authority, Phase 2K-A purity policy, and no parameter tuning after results.
-
-Diagnostic rows require stable parent/observation IDs, time indices/timestamps, boxes, geometry continuity, quality metrics, private local vote/score/margin evidence, selected/discarded flags, and exact source/checkpoint/camera provenance.
-
-Appearance evidence uses restricted derived full-parent pairwise, adjacent, local-window, and cross-boundary similarity matrices. Raw per-observation vectors are not persisted. Matrices are prohibited from public/frontend/blind-review exposure, enrollment, and model rebuilding. The contract assumes authenticated encrypted transport and access-controlled encrypted diagnostic storage outside web/public roots, explicitly does not claim the repository can enforce host disk encryption, and requires deletion evidence after the approved diagnostic lifecycle unless retention is explicitly extended.
-
-Blind review uses randomized IDs, hides identity/scores/automatic decisions, shows before/after observations, supports single-person/mixed/unclear/outsider/wrong-person labels, stores its private join separately, and fails closed on missing, duplicate, or unknown review items.
-
-## 13. Tests and results
-
-Validation order and results:
-
-1. Python compilation for the new module, runner, and tests: passed.
-2. New Phase 2K-B targeted suite: 14 passed.
-3. Existing Phase 2K-A purity suite: 15 passed.
-4. Existing Phase 2J carry-forward/revision suites: 12 passed.
-5. Existing Phase 2I authority suite: 8 passed.
-6. Phase 2H was not separately targeted because no shared Phase 2H/evidence implementation changed; its tests ran in full discovery.
-7. Full `venv\Scripts\python.exe -m unittest discover -s tests -v`: completed successfully. Exact programmatic capture: 506 run, 505 passed, zero failures, zero errors, one skipped.
-8. The single skip remains the documented real Phase 1.2E/H benchmark fixture whose external artifacts are unavailable. It was not hidden or converted.
-9. Phase 2K-B immutable verification after tests: passed.
-10. Repeated materialization: byte-identical idempotent reuse passed.
-11. Tamper detection and deterministic-ID collision tests: passed.
-
-No frontend or shared API schema changed. Frontend tests/build were not run, and the unrelated documented frontend expectation drift remains untouched.
-
-## 14. Immutable output path and hashes
-
-Output: `attendance_output/product_workflow/phase_2k_carry_forward/carry-forward-e20a746d3d34c8141ab5/`
-
-| Artifact | SHA-256 |
-| --- | --- |
-| `acceptance_criteria.json` | `01eb1036a44a8f9a92350134c12f118ffea16a0d87d01b527cf23b8434e84493` |
-| `blind_review_schema.json` | `0bcad27985b76cf17804990c2edfaf8d61378a9ecba21daf72c0e4927f5ae0e7` |
-| `candidate_session_inventory.csv` | `d0efb4fefba059d513aec150fa4ee4785b573e2ef5e2e2088f800b42f3ac3d1b` |
-| `carry_forward_failure_reasons.csv` | `6717a442be5d85a5202d38780223b740cae035b4d7a0169e18f6dff734373c3f` |
-| `carry_forward_policy.json` | `09b88a62f69fabd1b85594889d1dab0b959d9bff515ebb3919b5904592a097c0` |
-| `carry_forward_verification_matrix.csv` | `04cc8c66a53f5c0e45a759d853ac0af26a2dcfd546552038d837eb0fae3ffab1` |
-| `diagnostic_observation_schema.json` | `d66c5dc8586c81da1bb0a0c6a016a579b3684afdb76f2e9a7c374a31a08f41ee` |
-| `evaluation_summary.json` | `e4165d3333dd64b2ce7a06d84327efa9e0b033991e23e3585e29edacc049777d` |
-| `exact_match_contract.json` | `62ebe0640324e5235dc85fa94db45f6de6934451f0b773bd62dd113ab704c883` |
-| `immutable_manifest.json` | `79a38737c6057768dc4128c3507fced268ea25c0beb84121a27cf2bb23195ac3` |
-| `independent_session_capture_contract.json` | `30f361b5f63549c853f8fd9187a157230d58184a8ccd9511d7594870b0e3f092` |
-| `independent_session_recommendation.json` | `ad6e85f80e2dcd52e2fcb9ad068db216bb59dcb975840e0f1a7d067efb688292` |
-| `mixed_track_regression.json` | `a35ffe258fa2ef8b03492bda46d7728ba6107d85f4b6909d3dfba2b48e675f89` |
-| `no_activation_declaration.json` | `2b95c5f67529f59f03b434eb2fc712dcd54f5cbcfaa36161b87e1cba95dda695` |
-| `retention_criteria.json` | `91cb4e88b6cac9fafb2f3bbf7fda81d839fa39e5cfd185fc42fdd1fec57db94a` |
-| `source_manifest.json` | `79f5ec385c222b59572680ef6cbcff8d04309617ee87a836b786c4c689ac83b9` |
-
-The run ID is derived from the verified Phase 2K-A manifest, carry-forward policy version, review-registry fingerprint, production embedding fingerprint, complete prepared-source fingerprint set, and capture-contract version.
-
-## 15. Protected operational before/after hashes
-
-Every protected file had the same SHA-256 before implementation and after all tests/materialization:
-
-| File | Before and after SHA-256 |
-| --- | --- |
-| `data/attendance_status.json` | `46fd2df55cc3f61c5fa03c893937eb2828b9cc2af064ea9e427276b79a9d0b46` |
-| `data/job_runtime.json` | `5a23f09654d91fac09804cd97c2fa114bf4956a914f2e02ce2b7090f730141ed` |
-| `data/role_users.json` | `77125140004294f2834fc869fd590e167d8ab78cff5dbeda1c074ab76c177517` |
-| `data/student_faculty_map.json` | `0eca63ea58d12a73d3bd11e620b74be733a3219c9244e8a4a267d5b02acd3f91` |
-| `data/manual_overrides.json` | `e9c6bd35c23c353795edb5d3c02e808793d7cbd90c7b0a87fdfc686f8fd5cdcf` |
-| `data/review_evidence_registry.json` | `3b04e9aecfdfb1f64346c4a0e709fd9c36d7c56545bf816d6641b4c2a2e80841` |
-| `models/student_embeddings.pkl` | `f088d827adc548ee95f46566d758fd71fc304d042c43f1ecffc6526b60bcd832` |
-| `models/embedding_summary.csv` | `63885588c374c37f4da9bf85294f240bdf0f28cb585e77b894ab516139ca46ae` |
-| `models/current_embedding_version.json` | `7999b8ccf787dca9b8fb862f4e53ce7c1102eb729a3732c82fee76f3ba3ee05e` |
-| `timetable_b51_2026_2027.csv` | `10bbd578a859fbd4fa228c4eb4f1f92e7de5b92a1c4236d71a00337eecac9c57` |
-
-Direct report verification after all tests:
-
-- Official MON P4: 6 Present, 4 Needs Review, 16 Unconfirmed, 1 Missing Enrollment, 0 Absent, total 27.
-- Archived candidate: 2 Present, 8 Needs Review, 16 Unconfirmed, 1 Missing Enrollment, 0 Absent, total 27.
-- CVO roster: 27 unique members; `2401100CSE0268` is the only missing enrollment; mandatory distinct/membership constraints passed.
-- Production: `embfam-274b5207b8b71294ff75` / `embfam-274b5207b8b71294ff75-d`, exact embedding and summary hashes above.
-
-## 16. Whether recognition ran
-
-- Recognition ran: false
-- YuNet inference ran: false
-- SFace inference ran: false
-- Test fixtures and file hashing are not recognition.
-
-## 17. Whether video was processed
-
-- Classroom video decoded: false
-- Video processing/reprocessing ran: false
-- MON P4 reprocessed: false
-- New session processed: false
-
-## 18. Attendance, finalization, and reports
-
-- Official attendance changed: false
-- Archived candidate attendance changed: false
-- Report finalized: false and unchanged
-- Reports finalized, edited, or superseded: false
-- Manual overrides changed: false
-
-## 19. Authority
-
-- Official reviewed authority changed: false
-- Future automatic authority changed: false
-- Guarded authority changed: false
-- Final authority changed: false
-- Guarded recovery promoted: false
-- Phase 2K purity activated in production: false
-- Production activation path added: false
-
-## 20. Other protected state
-
-- Embeddings/family/variant/summary/pointer changed: false
-- Embeddings rebuilt: false
-- Roster membership changed: false
-- Thresholds `0.48`/`0.08` changed: false
-- Checkpoint/tracklet/zone production policy changed: false
-- Review registry changed: false
-- Timetable changed: false
-- Jobs created/retried/cancelled/reset/changed: false
-- HOD configuration changed: false
-- Roles, credentials, or permissions changed: false
-- Frontend/UI changed: false
-
-## 21. Blockers and uncertainties
-
-- Phase 2K-B blocker: none.
-- No genuinely untouched complete session exists among current prepared sources; this is an acquisition prerequisite for Phase 2K-C, not a Phase 2K-B implementation failure.
-- Historical TUE P1/P2 sources have no dedicated source-freeze manifest comparable to MON P3/P4, but current video hashes are recorded and their human-reviewed/calibration contamination is independently established, so they remain definitively ineligible as untouched sessions.
-- The repository cannot itself guarantee host-disk encryption; the capture contract records encryption/access assumptions and requires the Phase 2K-C operator to satisfy them.
-- The pre-existing real Phase 1.2E/H test skip and unrelated frontend expectation drift remain unchanged.
-- No useful missing Codex capability blocked the phase; no dependency or skill installation was needed.
-
-## 22. Recommended next task
-
-Product Phase 2K-C independent untouched-session execution.
-
-Do not execute Phase 2K-C until a genuinely new session and every prerequisite below are available and explicit recognition authorization is given.
-
-## 23. Exact prerequisites for Phase 2K-C
-
-1. Newly acquired CVO/B51 session never used for recognition, review, tuning, calibration, selection, ablation, retention, promotion, or benchmarking.
-2. Exact CP1-CP5 checkpoint folders with one back and one front clip each; exactly ten source videos.
-3. Immutable source freeze before any recognition, including canonical paths/order, SHA-256, sizes, duration, FPS, frame counts, and capture timestamps.
-4. Successful `validate-capture` runner verification with no video decoding.
-5. Frozen production family `embfam-274b5207b8b71294ff75`, variant D, exact production hashes, 128 dimensions, top-3 aggregation, thresholds `0.48`/`0.08`, and current Phase 2I checkpoint/zone/tracklet authority.
-6. No parameter tuning after results become visible.
-7. Restricted encrypted diagnostic storage and authenticated encrypted transport; no web/frontend access.
-8. Derived pairwise/local-window appearance matrix serialization plus complete observation/geometry/quality/local-vote provenance.
-9. Blind-review export contract frozen in advance, randomized IDs, no predicted identity/scores, private join separated, immutable input manifest, and completeness validator.
-10. Acceptance/retention criteria frozen in advance: zero wrong-person, outsider, mixed-parent, lost-strict-identity, unsafe-carry-forward, or leakage events.
-11. Protected operational hashes captured again before execution.
-12. Separate explicit authorization to decode video and run recognition. Phase 2K-B does not grant it.
-
-## 24. Planner handoff
-
-Start the next prompt by reading `PROJECT_CONTEXT.md`, this file, and the immutable Phase 2K-B output. Verify the Phase 2K-B immutable manifest SHA-256 `79a38737c6057768dc4128c3507fced268ea25c0beb84121a27cf2bb23195ac3` and every listed file before consuming the capture contract. Do not reuse MON P3, MON P4, TUE P1, or TUE P2 as the independent session.
-
-Require the new capture package to pass the hash-only `validate-capture` interface before recognition. Freeze the blind-review material and acceptance plan before results. If any prior-use flag, source hash, model hash, policy value, path/order binding, or manifest verification differs, stop safely. During Phase 2K-C, recognition may run only under explicit authorization; official attendance and authority must still remain unchanged until a separate guarded promotion decision is explicitly approved.
-
-After the independent run, compare the strict baseline, purity/split candidates, and guarded recovery candidates; report recovered checkpoints, lost correct evidence, unsafe identities, outsider absorption, mixed parents, unverifiable items, leakage, and carry-forward safety. A passing evaluation still must not auto-promote. The next decision after Phase 2K-C is a separately authorized guarded promotion gate, followed by stabilization and the professor demo.
+Use `authentication-hardening-dc1e4eb0bdbef36515af` as the sole authoritative Phase 2L-C output. Begin by verifying its immutable manifest and running both preflights. Do not use the superseded `authentication-hardening-f9028874ba95ab1f39bc` as release evidence. Do not modify authentication, recognition, attendance, authority, configuration, or operational data unless a new narrowly scoped task explicitly authorizes it. The only open demo action is a real operator login plus the documented read-only rehearsal and final stopped-state verification.

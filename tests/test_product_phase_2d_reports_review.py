@@ -34,14 +34,30 @@ class ProductPhase2DReportsReviewTests(unittest.TestCase):
             },
         )
         self.roster_patch.start()
+        self.test_hod = {
+            "id": "phase2l-test-hod",
+            "username": "phase2l-test-hod",
+            "name": "Synthetic HOD",
+            "role": "admin",
+            "roleLabel": "Head of Department",
+            "subjects": ["SWE", "CCM", "CVO"],
+            "canSeeAll": True,
+        }
+        self.users_patch = patch.object(backend, "load_role_users", return_value=[self.test_hod])
+        self.users_patch.start()
         self.client = backend.app.test_client()
+        token, _ = backend.issue_auth_session(self.test_hod)
+        self.client.environ_base["HTTP_AUTHORIZATION"] = f"Bearer {token}"
+        self.client.environ_base["HTTP_X_USER_ID"] = self.test_hod["id"]
 
     def tearDown(self):
         backend.STATUS_PATH = self.old["STATUS_PATH"]
         backend.OVERRIDES_PATH = self.old["OVERRIDES_PATH"]
         backend.OUTPUT_DIR = self.old["OUTPUT_DIR"]
         backend.WORKFLOW_STATE_INITIALIZED = self.old["WORKFLOW_STATE_INITIALIZED"]
+        self.users_patch.stop()
         self.roster_patch.stop()
+        backend.AUTH_SESSIONS.clear()
         self.temp.cleanup()
 
     @staticmethod
@@ -86,6 +102,37 @@ class ProductPhase2DReportsReviewTests(unittest.TestCase):
         payload = response.get_json()
         self.assertNotIn("attendance_data", payload["entry"])
         self.assertEqual(payload["attendance_data"][0]["Roll_Number"], "1")
+
+    def test_unknown_status_fails_closed_and_is_counted_explicitly(self):
+        row = {"Roll_Number": "1", "Status": "Future Status"}
+        summary = backend.summarize_attendance([row])
+        self.assertEqual(summary["unknown_count"], 1)
+        self.assertEqual(summary["present_count"], 0)
+        self.assertEqual(summary["absent_count"], 0)
+        self.assertTrue(backend.review_row_requires_attention(row))
+
+    def test_compact_session_exposes_unknown_and_authority_fields(self):
+        entry = self._entry(
+            self._complete_rows({"Roll_Number": "1", "Status": "Future Status"}),
+            status="Needs Review",
+            official_recognition_authority="reviewed_multiframe_tracklet_evidence",
+            automatic_recognition_authority="strict_tracklet_aggregate_with_guarded_review_candidates",
+            guarded_recovery_automatic=False,
+            guarded_recovery_authority="review_only",
+            source_report_quality_failed=True,
+        )
+        compact = backend.compact_attendance_session(
+            entry["session_id"],
+            entry,
+            {"id": "admin", "role": "admin", "canSeeAll": True, "subjects": ["CVO"]},
+        )
+        self.assertEqual(compact["unknown_count"], 1)
+        self.assertEqual(compact["unresolved_count"], 1)
+        self.assertEqual(compact["official_recognition_authority"], "reviewed_multiframe_tracklet_evidence")
+        self.assertEqual(compact["automatic_recognition_authority"], "strict_tracklet_aggregate_with_guarded_review_candidates")
+        self.assertFalse(compact["guarded_recovery_automatic"])
+        self.assertEqual(compact["guarded_recovery_authority"], "review_only")
+        self.assertTrue(compact["source_report_quality_failed"])
 
     def test_annotated_roll_is_canonicalized_without_aliasing_distinct_students(self):
         rows = backend.apply_override_map([{"Roll_Number": "2401100CSE0016 (A) EESHA", "Status": "Present"}], {})

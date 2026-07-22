@@ -6,8 +6,15 @@ import { useAuth } from '../auth/AuthContext.jsx';
 import { isAdmin } from '../data/users.js';
 import { filterStudentRowsForUser } from '../data/students.js';
 import { classifyReviewRows, rowMatchesReviewMode, validateReportScope } from '../utils/consistency.js';
-import { apiGetResult } from '../api/client.js';
-import { entryToSlotSummaryRow, sessionStateLabel, sessionStateTone, sortAttendanceSessions } from '../utils/reportWorkflow.js';
+import { apiDownload, apiGetResult } from '../api/client.js';
+import {
+  entryToSlotSummaryRow,
+  evidencePresentation,
+  reportRevisionPresentation,
+  sessionStateLabel,
+  sessionStateTone,
+  sortAttendanceSessions,
+} from '../utils/reportWorkflow.js';
 import {
   fileToRows,
   parseCsv,
@@ -739,13 +746,15 @@ export default function Reports() {
   const hasReport = visibleAttendanceRows.length > 0 || slotSummaryRows.length > 0;
   const reportLoadedButHidden = attendanceRows.length > 0 && visibleAttendanceRows.length === 0;
   const savedSessionPreview = savedSessions.slice(0, 6);
+  const revisionPresentation = reportRevisionPresentation(loadedSession || {});
+  const selectedEvidence = selectedStudent ? evidencePresentation(selectedStudent, loadedSession || {}) : null;
   const openReviewSession = (session) => {
     const params = new URLSearchParams({ session_id: session.session_id });
     if (session.day) params.set('day', session.day);
     navigate(`/manual-review?${params.toString()}`);
   };
   const downloadSavedSession = (session) => {
-    if (session?.download_url) window.open(session.download_url, '_blank', 'noopener,noreferrer');
+    if (session?.download_url) apiDownload(session.download_url).catch(() => {});
   };
 
   const filteredRows = useMemo(() => {
@@ -937,7 +946,7 @@ export default function Reports() {
 
           {loadedSource === 'saved' && loadedSession?.pending_candidate_revision && (
             <div style={merge(S.qualityWarning, { borderColor: '#fde68a', background: '#fffbeb', color: '#92400e' })}>
-              <strong>New automatic rerun preserved as a candidate</strong>
+              <strong>Automatic Candidate Revision — Latest automatic rerun archived</strong>
               <p style={{ margin: '6px 0 0' }}>The rerun produced {loadedSession.pending_candidate_revision.present_count || 0} present, {loadedSession.pending_candidate_revision.needs_review_count || 0} review, and {loadedSession.pending_candidate_revision.unconfirmed_count || 0} unconfirmed. It was archived for audit and did not overwrite this reviewed official revision.</p>
             </div>
           )}
@@ -969,6 +978,16 @@ export default function Reports() {
             </div>
           )}
 
+          {loadedSource === 'saved' && loadedSession && (
+            <div style={S.techGrid} aria-label="Report revision and authority summary">
+              <span style={S.techItem}>{revisionPresentation.officialLabel}<br /><b>{revisionPresentation.officialRevision}</b><br /><small>{revisionPresentation.officialAuthority}</small></span>
+              <span style={S.techItem}>{revisionPresentation.automaticLabel}<br /><b>{revisionPresentation.automaticRevision}</b><br /><small>{revisionPresentation.automaticTotals}<br />{revisionPresentation.automaticAuthority}</small></span>
+              {revisionPresentation.historicalVisible && <span style={S.techItem}>{revisionPresentation.historicalLabel}<br /><b>Preserved; not authoritative</b></span>}
+              <span style={S.techItem}>Review carry-forward state<br /><b>{revisionPresentation.carryForward}</b></span>
+              <span style={S.techItem}>Finalization state<br /><b>{revisionPresentation.finalization}</b></span>
+            </div>
+          )}
+
           {reportQuality.requiresManualReview && loadedSource !== 'saved' && (
             <div style={S.qualityWarning}>
               <strong>{reportQuality.status}</strong>
@@ -984,6 +1003,8 @@ export default function Reports() {
             <MetricCard label="Unconfirmed" value={attendanceSummary.unconfirmed} hint="Insufficient camera evidence; not proven absent" tone="info" />
             <MetricCard label="Missing enrollment" value={attendanceSummary.missingEnrollment} hint="No production embedding" tone="warning" />
             <MetricCard label="Absent" value={attendanceSummary.absent} hint="Only after a quality-valid session" tone="danger" />
+            <MetricCard label="Unknown" value={attendanceSummary.unknown} hint="Unrecognized values fail closed" tone="warning" />
+            <MetricCard label="Unresolved total" value={attendanceSummary.unresolved} hint="Review + unconfirmed + missing enrollment + unknown" tone="warning" />
           </div>
 
           {showTech && (
@@ -1025,6 +1046,7 @@ export default function Reports() {
               <ActiveButton active={viewMode === 'unconfirmed'} onClick={() => setViewMode('unconfirmed')}>Unconfirmed</ActiveButton>
               <ActiveButton active={viewMode === 'missing'} onClick={() => setViewMode('missing')}>Missing enrollment</ActiveButton>
               <ActiveButton active={viewMode === 'absent'} onClick={() => setViewMode('absent')}>Absent</ActiveButton>
+              <ActiveButton active={viewMode === 'unknown'} onClick={() => setViewMode('unknown')}>Unknown</ActiveButton>
             </div>
             <div style={S.pillRow}>
               <ActiveButton active={sortMode === 'roll_asc'} onClick={() => setSortMode('roll_asc')}>Roll ↑</ActiveButton>
@@ -1058,17 +1080,20 @@ export default function Reports() {
                     <td style={S.td}>
                       <strong>{row.Reviewed_Tracklet_Checkpoint_Count ?? row.Recognized_Checkpoints ?? 0}/{row.Total_Checkpoints || cleanSlot?.checkpoints || 5}</strong>
                       {row.Strict_Recognized_Checkpoints !== undefined && row.Strict_Recognized_Checkpoints !== '' && (
-                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>Strict: {row.Strict_Recognized_Checkpoints}/{row.Total_Checkpoints || cleanSlot?.checkpoints || 5}</div>
+                            <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>Strict: accepted checkpoints {row.Strict_Recognized_Checkpoints}/{row.Total_Checkpoints || cleanSlot?.checkpoints || 5}</div>
                       )}
                     </td>
                     <td style={S.td}>
-                      {row.Reviewed_Tracklet_Checkpoints ? <strong style={{ color: '#0f766e' }}>Reviewed: {row.Reviewed_Tracklet_Checkpoints}</strong> : `${getDetectionCount(row)} observations`}
+                      <strong style={{ color: '#334155' }}>{getDetectionCount(row)} observations</strong>
+                      {row.Reviewed_Tracklet_Checkpoints && <div style={{ color: '#0f766e', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Human-reviewed checkpoints: {row.Reviewed_Tracklet_Checkpoints}</div>}
                       {row.Guarded_Recovery_Candidate_Checkpoints && !row.Reviewed_Tracklet_Checkpoints && (
-                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Recovery candidate: {row.Guarded_Recovery_Candidate_Checkpoints}</div>
+                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Guarded recovery candidate: {row.Guarded_Recovery_Candidate_Checkpoints} (review-only)</div>
                       )}
                       {row.Mixed_Track_Checkpoints_Rejected && (
-                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Mixed track rejected: {row.Mixed_Track_Checkpoints_Rejected}</div>
+                            <div style={{ color: '#b45309', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Mixed track rejected checkpoints: {row.Mixed_Track_Checkpoints_Rejected}</div>
                       )}
+                      <div style={{ color: '#475569', fontSize: 12, marginTop: 3, fontWeight: 850 }}>Evidence authority: {evidencePresentation(row, loadedSession || {}).authority}</div>
+                      <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>Carry-forward: {evidencePresentation(row, loadedSession || {}).carryForward}</div>
                       <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>{row.Evidence_Interpretation || `avg ${getAvgScore(row) || '—'} · best ${getBestScore(row) || '—'}`}</div>
                     </td>
                     <td style={S.td}>{row.Cameras_Seen || row.Videos_Seen || '—'}</td>
@@ -1099,9 +1124,11 @@ export default function Reports() {
               <MetricCard label="Average score" value={getAvgScore(selectedStudent) || '—'} />
               <MetricCard label="Best score" value={getBestScore(selectedStudent) || '—'} />
             </div>
-            {selectedStudent.Strict_Recognized_Checkpoints !== undefined && selectedStudent.Strict_Recognized_Checkpoints !== '' && <p style={S.muted}>Strict accepted checkpoints: {selectedStudent.Strict_Recognized_Checkpoints}/{selectedStudent.Total_Checkpoints || 5}</p>}
-            {selectedStudent.Reviewed_Tracklet_Checkpoints && <p style={{ ...S.muted, color: '#0f766e', fontWeight: 850 }}>Reviewed multi-frame checkpoints: {selectedStudent.Reviewed_Tracklet_Checkpoints}</p>}
-            {selectedStudent.Mixed_Track_Checkpoints_Rejected && <p style={{ ...S.muted, color: '#b45309', fontWeight: 850 }}>Mixed track rejected: {selectedStudent.Mixed_Track_Checkpoints_Rejected}</p>}
+                <p style={S.muted}>Strict: accepted checkpoints: {selectedEvidence.strict}</p>
+            <p style={{ ...S.muted, color: '#b45309', fontWeight: 850 }}>Guarded recovery candidate checkpoints: {selectedEvidence.guarded} (review-only)</p>
+            <p style={{ ...S.muted, color: '#0f766e', fontWeight: 850 }}>Human-reviewed checkpoints: {selectedEvidence.reviewed}</p>
+                <p style={{ ...S.muted, color: '#b45309', fontWeight: 850 }}>Mixed track rejected checkpoints: {selectedEvidence.mixed}</p>
+            <p style={S.muted}>Evidence authority: {selectedEvidence.authority} Â· Carry-forward: {selectedEvidence.carryForward}</p>
             <p style={S.muted}>{selectedStudent.Evidence_Interpretation || 'No additional interpretation was recorded.'}</p>
             <p style={S.muted}>Cameras: {selectedStudent.Cameras_Seen || '—'} · Flags: {selectedStudent.Flags || '—'}</p>
           </div>

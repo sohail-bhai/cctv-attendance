@@ -2,23 +2,26 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/PageHeader.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
-import { apiGetResult, apiPost } from '../api/client.js';
+import { apiDownload, apiGetResult, apiPost } from '../api/client.js';
 import { DAYS } from '../data/fallback.js';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { canAccessRow, displaySubjectForUser, isAdmin, subjectInfo } from '../data/users.js';
 import { filterStudentRowsForUser } from '../data/students.js';
 import { classifyReviewRows, rowMatchesReviewMode } from '../utils/consistency.js';
-import { correctionReasonErrors, reviewActionState } from '../utils/reportWorkflow.js';
+import { correctionReasonErrors, evidencePresentation, reportRevisionPresentation, reviewActionState } from '../utils/reportWorkflow.js';
 
 const S = {
   page: {
     display: 'grid',
     gap: 18,
+    width: '100%',
+    minWidth: 0,
     maxWidth: 1280,
     margin: '0 auto',
     paddingBottom: 40,
   },
   card: {
+    minWidth: 0,
     background: '#ffffff',
     border: '1px solid #dbe6f1',
     borderRadius: 24,
@@ -341,7 +344,7 @@ function normalizePeriod(period) {
 }
 
 function statusOf(row, changes) {
-  return changes[row.Roll_Number]?.status || row.Status || row.Final_Status || 'Absent';
+  return changes[row.Roll_Number]?.status || row.Status || row.Final_Status || 'Unknown';
 }
 
 function isPresentStatus(status) {
@@ -377,6 +380,16 @@ function StatTile({ label, value, tone = 'default', hint }) {
       <small style={S.metricLabel}>{label}</small>
       <strong style={S.metricValue}>{value}</strong>
       {hint ? <span style={{ color: '#64748b', fontSize: 12, fontWeight: 800 }}>{hint}</span> : null}
+    </div>
+  );
+}
+
+function AuthorityItem({ label, value, detail }) {
+  return (
+    <div style={S.metric}>
+      <small style={S.metricLabel}>{label}</small>
+      <strong style={{ display: 'block', marginTop: 7, color: '#0f172a', fontSize: 14, lineHeight: 1.4 }}>{value}</strong>
+      {detail ? <span style={{ display: 'block', marginTop: 5, color: '#64748b', fontSize: 12, lineHeight: 1.45 }}>{detail}</span> : null}
     </div>
   );
 }
@@ -551,6 +564,7 @@ export default function ManualReview() {
   const hasOptions = periodOptions.length > 0;
   const selectedPeriod = periodOptions.find((option) => option.value === period);
   const finalized = Boolean(reviewState?.attendance_finalized || entry?.attendance_finalized);
+  const revisionPresentation = reportRevisionPresentation({ ...(entry || {}), unresolved_count: summary.reviewCases, attendance_finalized: finalized });
   const actionState = reviewActionState({
     pendingChanges: selectedChangeCount,
     unresolvedCount: summary.reviewCases,
@@ -623,7 +637,7 @@ export default function ManualReview() {
     setExporting(true);
     const result = await apiGetResult(`/api/attendance/${encodeURIComponent(selected.sessionId)}/export-edited`);
     if (result.ok && result.data?.success && result.data.download_url) {
-      window.open(result.data.download_url, '_blank', 'noopener,noreferrer');
+      await apiDownload(result.data.download_url);
       setLastDownloadUrl(result.data.download_url);
       setMessage({ type: 'success', text: result.data.finalized ? 'Final attendance CSV downloaded.' : `Reviewed export created: ${result.data.file}` });
     } else {
@@ -785,7 +799,7 @@ export default function ManualReview() {
 
           {entry.pending_candidate_revision && (
             <div style={merge(S.notice, S.noticeWarning, { marginTop: 16 })}>
-              <strong>Automatic rerun archived without replacing this report</strong>
+              <strong>Automatic Candidate Revision — Automatic rerun archived without replacing this report</strong>
               <div style={{ marginTop: 5, fontWeight: 700 }}>Candidate result: {entry.pending_candidate_revision.present_count || 0} present, {entry.pending_candidate_revision.needs_review_count || 0} review, {entry.pending_candidate_revision.unconfirmed_count || 0} unconfirmed. Review decisions are not discarded when the same footage is processed again.</div>
             </div>
           )}
@@ -796,6 +810,14 @@ export default function ManualReview() {
               <div style={{ marginTop: 5, fontWeight: 700 }}>Exact video, embedding, and tracklet-evidence signatures matched. Existing decisions were reused safely and no repeated review was created.</div>
             </div>
           )}
+
+          <div style={S.metricGrid} aria-label="Report revision and authority summary">
+            <AuthorityItem label={revisionPresentation.officialLabel} value={revisionPresentation.officialRevision} detail={revisionPresentation.officialAuthority} />
+            <AuthorityItem label={revisionPresentation.automaticLabel} value={revisionPresentation.automaticRevision} detail={`${revisionPresentation.automaticTotals}. ${revisionPresentation.automaticAuthority}`} />
+            {revisionPresentation.historicalVisible && <AuthorityItem label={revisionPresentation.historicalLabel} value="Preserved; not authoritative" />}
+            <AuthorityItem label="Review carry-forward state" value={revisionPresentation.carryForward} />
+            <AuthorityItem label="Finalization state" value={revisionPresentation.finalization} />
+          </div>
 
           <div style={merge(
             S.notice,
@@ -831,6 +853,8 @@ export default function ManualReview() {
             <StatTile label="Unconfirmed" value={summary.unconfirmed} tone="info" />
             <StatTile label="Missing enrollment" value={summary.missingEnrollment} tone="warning" />
             <StatTile label="Absent" value={summary.absent} tone="danger" />
+            <StatTile label="Unknown" value={summary.unknown} tone="warning" />
+            <StatTile label="Unresolved total" value={summary.unresolved} tone="warning" hint="Review + unconfirmed + missing enrollment + unknown" />
             <StatTile label="Present rate" value={`${summary.pct}%`} tone="info" />
           </div>
         </section>
@@ -858,6 +882,7 @@ export default function ManualReview() {
               <ActiveButton active={viewMode === 'unconfirmed'} onClick={() => setViewMode('unconfirmed')}>Unconfirmed</ActiveButton>
               <ActiveButton active={viewMode === 'missing'} onClick={() => setViewMode('missing')}>Missing enrollment</ActiveButton>
               <ActiveButton active={viewMode === 'absent'} onClick={() => setViewMode('absent')}>Absent</ActiveButton>
+              <ActiveButton active={viewMode === 'unknown'} onClick={() => setViewMode('unknown')}>Unknown</ActiveButton>
             </div>
             <div style={S.pillSelectRow}>
               <ActiveButton active={sortMode === 'roll_asc'} onClick={() => setSortMode('roll_asc')}>Roll ↑</ActiveButton>
@@ -882,9 +907,7 @@ export default function ManualReview() {
                 {filteredRows.map((row) => {
                   const change = changes[row.Roll_Number];
                   const evidence = `${row.Recognized_Checkpoints || 0}/${row.Total_Checkpoints || 5} official checkpoints · ${row.Total_Accepted_Detections || row.Detection_Count || 0} observations`;
-                  const reviewedTracklets = row.Reviewed_Tracklet_Checkpoints || '';
-                  const recoveryCandidates = row.Guarded_Recovery_Candidate_Checkpoints || '';
-                  const mixedRejected = row.Mixed_Track_Checkpoints_Rejected || '';
+                  const evidenceDetails = evidencePresentation(row, entry || {});
                   const needsReview = rowMatchesReviewMode(row, 'review', changes, {
                     statusOf,
                     isPresent: isPresentStatus,
@@ -903,10 +926,12 @@ export default function ManualReview() {
                       <td style={S.td}>
                         <strong style={{ color: '#334155' }}>{evidence}</strong>
                         <div style={{ color: '#64748b', fontSize: 12, marginTop: 3 }}>avg {scoreText(row.Average_Score)} {row.Best_Score ? `· best ${scoreText(row.Best_Score)}` : ''}</div>
-                        {row.Strict_Recognized_Checkpoints !== undefined && row.Strict_Recognized_Checkpoints !== '' ? <div style={{ color: '#64748b', fontSize: 12, marginTop: 4 }}>Strict checkpoints: {row.Strict_Recognized_Checkpoints}/{row.Total_Checkpoints || 5}</div> : null}
-                        {reviewedTracklets ? <div style={{ color: '#0f766e', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Multi-frame checkpoints (reviewed): {reviewedTracklets}</div> : null}
-                        {recoveryCandidates && !reviewedTracklets ? <div style={{ color: '#b45309', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Recovery candidate: {recoveryCandidates}</div> : null}
-                        {mixedRejected ? <div style={{ color: '#b45309', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Mixed track rejected: {mixedRejected}</div> : null}
+                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 4 }}>Strict: accepted checkpoints: {evidenceDetails.strict}</div>
+                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Guarded recovery candidates: {evidenceDetails.guarded} (review-only)</div>
+                        <div style={{ color: '#0f766e', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Multi-frame checkpoints (reviewed): {evidenceDetails.reviewed}</div>
+                        <div style={{ color: '#b45309', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Mixed track rejected checkpoints: {evidenceDetails.mixed}</div>
+                        <div style={{ color: '#475569', fontSize: 12, marginTop: 4, fontWeight: 850 }}>Evidence authority: {evidenceDetails.authority}</div>
+                        <div style={{ color: '#64748b', fontSize: 12, marginTop: 4 }}>Carry-forward: {evidenceDetails.carryForward}</div>
                         {row.Evidence_Interpretation ? <div style={{ color: '#64748b', fontSize: 12, marginTop: 4 }}>{row.Evidence_Interpretation}</div> : null}
                       </td>
                       <td style={S.td}>

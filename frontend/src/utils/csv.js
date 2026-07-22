@@ -1,3 +1,5 @@
+import { classifyReviewRows } from './consistency.js';
+
 export function parseCsv(text) {
   const rows = [];
   let row = [];
@@ -86,20 +88,14 @@ export function groupBy(rows, keyGetter) {
 }
 
 export function summarizeAttendance(rows = []) {
-  const total = rows.length;
-  const present = rows.filter((row) => /yes|present/i.test(getStatus(row))).length;
-  const review = rows.filter((row) => /review/i.test(getStatus(row))).length;
-  const absent = Math.max(total - present - review, 0);
+  const summary = classifyReviewRows(rows, {}, { statusOf: getStatus });
   const avgScoreValues = rows.map(getAvgScore).filter((score) => score > 0);
   const avgScore = avgScoreValues.length
     ? avgScoreValues.reduce((a, b) => a + b, 0) / avgScoreValues.length
     : 0;
   return {
-    total,
-    present,
-    review,
-    absent,
-    percentage: total ? Math.round((present / total) * 1000) / 10 : 0,
+    ...summary,
+    percentage: summary.pct,
     avgScore: Math.round(avgScore * 1000) / 1000,
   };
 }

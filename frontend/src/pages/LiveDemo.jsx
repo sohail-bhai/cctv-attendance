@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PageHeader from '../components/PageHeader.jsx';
-import { apiGet, apiPost } from '../api/client.js';
+import { apiGet, apiGetBlobResult, apiPost } from '../api/client.js';
 import { useAuth } from '../auth/AuthContext.jsx';
 
 const profileOptions = {
@@ -288,6 +288,7 @@ export default function LiveDemo() {
   const [profile, setProfile] = useState('presentation');
   const [mirror, setMirror] = useState(true);
   const [streamKey, setStreamKey] = useState(Date.now());
+  const [feedFrameUrl, setFeedFrameUrl] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -308,10 +309,27 @@ export default function LiveDemo() {
     return () => clearInterval(timer);
   }, [refreshState]);
 
-  const feedUrl = useMemo(() => {
-    const userId = encodeURIComponent(currentUser?.id || 'admin');
-    return `/api/live-demo/feed?user_id=${userId}&t=${streamKey}`;
-  }, [currentUser?.id, streamKey]);
+  useEffect(() => {
+    let cancelled = false;
+    let activeUrl = '';
+    let timer;
+    const refreshFrame = async () => {
+      const result = await apiGetBlobResult('/api/live-demo/frame');
+      if (!cancelled && result.ok && result.blob) {
+        const nextUrl = URL.createObjectURL(result.blob);
+        if (activeUrl) URL.revokeObjectURL(activeUrl);
+        activeUrl = nextUrl;
+        setFeedFrameUrl(nextUrl);
+      }
+      if (!cancelled) timer = setTimeout(refreshFrame, running ? 180 : 900);
+    };
+    refreshFrame();
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      if (activeUrl) URL.revokeObjectURL(activeUrl);
+    };
+  }, [currentUser?.sessionToken, running, streamKey]);
 
   async function startDemo() {
     setBusy(true);
@@ -409,7 +427,9 @@ export default function LiveDemo() {
             <strong>Live annotated camera feed</strong>
             <span style={{ color: '#a9d8e8', fontWeight: 850 }}>Actual camera: {valueOrDash(stats.actual_camera_index)}</span>
           </div>
-          <img style={styles.stream} src={feedUrl} alt="Live face recognition stream" />
+          {feedFrameUrl
+            ? <img style={styles.stream} src={feedFrameUrl} alt="Live face recognition stream" />
+            : <div style={{ ...styles.stream, display: 'grid', placeItems: 'center', color: '#bdd7e8' }}>Authenticated preview loadingâ€¦</div>}
         </article>
 
         <aside style={styles.telemetry}>

@@ -3,6 +3,8 @@ import test from 'node:test';
 import {
   correctionReasonErrors,
   entryToSlotSummaryRow,
+  evidencePresentation,
+  reportRevisionPresentation,
   reviewActionState,
   sessionStateLabel,
   sortAttendanceSessions,
@@ -52,4 +54,46 @@ test('review action state blocks unsafe export and finalization', () => {
   assert.equal(reviewActionState({ pendingChanges: 0, unresolvedCount: 0, finalized: false }).canFinalize, true);
   assert.equal(reviewActionState({ pendingChanges: 0, unresolvedCount: 0, rosterComplete: false, finalized: false }).canFinalize, false);
   assert.equal(reviewActionState({ pendingChanges: 0, unresolvedCount: 0, finalized: true }).canFinalize, false);
+});
+
+test('evidence display distinguishes strict, guarded, reviewed, mixed, observations, and carry-forward', () => {
+  const evidence = evidencePresentation({
+    Strict_Recognized_Checkpoints: 'CP1; CP2',
+    Guarded_Recovery_Candidate_Checkpoints: 'CP3',
+    Reviewed_Tracklet_Checkpoints: 'CP4',
+    Mixed_Track_Checkpoints_Rejected: 'CP5',
+    Total_Accepted_Detections: 9,
+    Automatic_Guarded_Recovery_Enabled: 'No',
+  }, {
+    review_carry_forward_applied: true,
+    review_carry_forward_source: 'review-registry-demo',
+  });
+  assert.equal(evidence.strict, 'CP1; CP2');
+  assert.equal(evidence.guarded, 'CP3');
+  assert.equal(evidence.reviewed, 'CP4');
+  assert.equal(evidence.mixed, 'CP5');
+  assert.equal(evidence.observations, 9);
+  assert.equal(evidence.authority, 'Human-reviewed tracklet evidence');
+  assert.equal(evidence.guardedRecoveryAutomatic, false);
+  assert.match(evidence.carryForward, /Applied.*review-registry-demo/);
+});
+
+test('revision display keeps official, automatic, historical, carry-forward, and finalization states separate', () => {
+  const revision = reportRevisionPresentation({
+    authority_revision_id: 'official-1',
+    official_recognition_authority: 'reviewed_multiframe_tracklet_evidence',
+    automatic_recognition_authority: 'strict_tracklet_aggregate_with_guarded_review_candidates',
+    pending_candidate_revision: { revision_id: 'candidate-1' },
+    source_report_superseded: true,
+    review_carry_forward_applied: true,
+    unresolved_count: 21,
+    attendance_finalized: false,
+  });
+  assert.equal(revision.officialLabel, 'Official Reviewed Revision');
+  assert.equal(revision.automaticLabel, 'Automatic Candidate Revision');
+  assert.equal(revision.automaticRevision, 'candidate-1');
+  assert.equal(revision.historicalVisible, true);
+  assert.match(revision.historicalLabel, /Superseded/);
+  assert.match(revision.carryForward, /Applied/);
+  assert.equal(revision.finalization, 'Not finalized; 21 unresolved');
 });

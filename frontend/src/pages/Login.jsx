@@ -1,7 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../auth/AuthContext.jsx';
-import { USERS } from '../data/users.js';
 
 const roleCards = [
   { title: 'HOD', body: 'Monitor every class, roster, faculty assignment, report, and system-readiness warning.' },
@@ -10,8 +9,8 @@ const roleCards = [
 
 export default function Login() {
   const { currentUser, login } = useAuth();
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -24,12 +23,6 @@ export default function Login() {
     const result = await login(username, password);
     if (!result.ok) setError(result.error);
     setSubmitting(false);
-  };
-
-  const quickFill = (user) => {
-    setUsername(user.username);
-    setPassword(user.password);
-    setError('');
   };
 
   return (
@@ -83,16 +76,7 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="demo-login-list final-demo-login-list">
-          <p className="muted">Demo accounts</p>
-          {USERS.map((user) => (
-            <button key={user.id} className="demo-login-button final-demo-login-button" type="button" onClick={() => quickFill(user)} disabled={submitting}>
-              <strong>{user.name}</strong>
-              <span>{user.role === 'admin' ? 'Head of Department' : user.roleLabel}</span>
-              <small>{user.username} / {user.password}</small>
-            </button>
-          ))}
-        </div>
+        <p className="muted">Use an existing authorized faculty or HOD account. Login identifiers and passwords are not displayed or prefilled.</p>
       </section>
     </main>
   );

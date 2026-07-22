@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { apiGetResult, apiPost } from '../api/client.js';
+import { apiGetResult, apiPost, AUTH_INVALID_EVENT } from '../api/client.js';
 
 const STORAGE_KEY = 'sreenidhi_attendance_user';
 const AuthContext = createContext(null);
@@ -20,6 +20,16 @@ function persistUser(user) {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(readStoredUser);
   const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    const clearInvalidSession = () => {
+      persistUser(null);
+      setCurrentUser(null);
+      setAuthReady(true);
+    };
+    window.addEventListener(AUTH_INVALID_EVENT, clearInvalidSession);
+    return () => window.removeEventListener(AUTH_INVALID_EVENT, clearInvalidSession);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;

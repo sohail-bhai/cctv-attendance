@@ -1,5 +1,16 @@
 import { canAccessSubject, isAdmin } from '../data/users.js';
 
+export const ATTENDANCE_STATUS_CONTRACT_VERSION = 'product-phase-2l-frontend-status-contract-v1';
+
+export const ATTENDANCE_STATUS_LABELS = Object.freeze({
+  present: 'Present',
+  review: 'Needs Review',
+  unconfirmed: 'Unconfirmed',
+  missingEnrollment: 'Missing Enrollment',
+  absent: 'Absent',
+  unknown: 'Unknown',
+});
+
 function clean(value) {
   return String(value ?? '').trim();
 }
@@ -69,8 +80,19 @@ function resolvedCategory(row, changes, statusOf) {
   return { explicit, status, category, manuallyResolved, savedResolved };
 }
 
+function reviewCategory(row, changes, statusOf, isEvidenceReview) {
+  const state = resolvedCategory(row, changes, statusOf);
+  const unsafeEvidence = isEvidenceReview(row);
+  const otherwiseResolved = ['present', 'absent', 'unknown'].includes(state.category);
+  const forcedReview = !state.manuallyResolved
+    && !state.savedResolved
+    && otherwiseResolved
+    && unsafeEvidence;
+  return forcedReview ? 'review' : state.category;
+}
+
 export function classifyReviewRows(rows = [], changes = {}, helpers = {}) {
-  const statusOf = helpers.statusOf || ((row) => row?.Status || row?.Final_Status || 'Unconfirmed');
+  const statusOf = helpers.statusOf || ((row) => row?.Status || row?.Final_Status || 'Unknown');
   const isEvidenceReview = helpers.isEvidenceReview || (() => false);
 
   const counts = {
@@ -83,12 +105,7 @@ export function classifyReviewRows(rows = [], changes = {}, helpers = {}) {
   };
 
   rows.forEach((row) => {
-    const state = resolvedCategory(row, changes, statusOf);
-    const forcedReview = !state.manuallyResolved
-      && !state.savedResolved
-      && state.category === 'unknown'
-      && isEvidenceReview(row);
-    const category = forcedReview ? 'review' : state.category;
+    const category = reviewCategory(row, changes, statusOf, isEvidenceReview);
     if (Object.hasOwn(counts, category)) counts[category] += 1;
     else counts.unknown += 1;
   });
@@ -103,14 +120,9 @@ export function classifyReviewRows(rows = [], changes = {}, helpers = {}) {
 }
 
 export function rowMatchesReviewMode(row, mode, changes = {}, helpers = {}) {
-  const statusOf = helpers.statusOf || ((item) => item?.Status || item?.Final_Status || 'Unconfirmed');
+  const statusOf = helpers.statusOf || ((item) => item?.Status || item?.Final_Status || 'Unknown');
   const isEvidenceReview = helpers.isEvidenceReview || (() => false);
-  const state = resolvedCategory(row, changes, statusOf);
-  const forcedReview = !state.manuallyResolved
-    && !state.savedResolved
-    && state.category === 'unknown'
-    && isEvidenceReview(row);
-  const category = forcedReview ? 'review' : state.category;
+  const category = reviewCategory(row, changes, statusOf, isEvidenceReview);
   const unresolved = ['review', 'unconfirmed', 'missingEnrollment', 'unknown'].includes(category);
 
   if (mode === 'review') return unresolved;
@@ -119,5 +131,6 @@ export function rowMatchesReviewMode(row, mode, changes = {}, helpers = {}) {
   if (mode === 'unconfirmed') return category === 'unconfirmed';
   if (mode === 'missing') return category === 'missingEnrollment';
   if (mode === 'absent') return category === 'absent';
+  if (mode === 'unknown') return category === 'unknown';
   return true;
 }

@@ -25,8 +25,6 @@ export const SUBJECT_INFO = {
 export const USERS = [
   {
     "id": "admin",
-    "username": "admin",
-    "password": "admin123",
     "name": "HOD",
     "role": "admin",
     "roleLabel": "Head of Department",
@@ -41,8 +39,6 @@ export const USERS = [
   },
   {
     "id": "keerthi",
-    "username": "keerthi",
-    "password": "swe123",
     "name": "Dr. Keerthi G",
     "role": "faculty",
     "roleLabel": "Faculty - Software Engineering",
@@ -55,8 +51,6 @@ export const USERS = [
   },
   {
     "id": "vikas",
-    "username": "vikas",
-    "password": "cvo123",
     "name": "Mr. Vikas B",
     "role": "faculty",
     "roleLabel": "Faculty - Computer Vision through OpenCV",
@@ -69,8 +63,6 @@ export const USERS = [
   },
   {
     "id": "pranay",
-    "username": "pranay",
-    "password": "ccm123",
     "name": "Dr. Pranayaanath Reddy A",
     "role": "faculty",
     "roleLabel": "Faculty - Cloud Computing",
@@ -85,13 +77,10 @@ export const USERS = [
 
 export function publicUser(user) {
   if (!user) return null;
-  const { password, ...safe } = user;
+  const { password, password_hash: passwordHash, ...safe } = user;
+  void password;
+  void passwordHash;
   return safe;
-}
-
-export function findLogin(username, password) {
-  const u = USERS.find((user) => user.username.toLowerCase() === String(username || '').trim().toLowerCase() && user.password === password);
-  return publicUser(u);
 }
 
 export function isAdmin(user) {

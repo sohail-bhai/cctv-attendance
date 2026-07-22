@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
 import NiceSelect from '../components/NiceSelect.jsx';
 import JobProgress from '../components/JobProgress.jsx';
-import { apiCancelJob, apiGetResult, apiPost } from '../api/client.js';
+import { apiCancelJob, apiDownload, apiGetResult, apiPost } from '../api/client.js';
 import { DAYS, FALLBACK_TIMETABLE } from '../data/fallback.js';
 import { fileToRows } from '../utils/csv.js';
 import { useAuth } from '../auth/AuthContext.jsx';
@@ -322,7 +322,7 @@ export default function Timetable() {
                     <td>
                       {isLunch || rowsSource !== 'live' ? '—' : (
                         <div className="row-actions">
-                          {report && <a className="button tiny secondary" href={`/attendance_website/${report}`} target="_blank" rel="noreferrer">Report</a>}
+                          {report && <button type="button" className="button tiny secondary" onClick={() => apiDownload(`/attendance_website/${report}`).catch(() => {})}>Report</button>}
                           {action.primary === 'review' && <Link className="button tiny warning" to={reviewHref}>Review</Link>}
                           {action.primary === 'cancel' && <button className="button tiny danger" type="button" disabled={action.disabled || pendingAction === `cancel:${job?.job_id}`} onClick={() => cancelJob(job?.job_id)}>Cancel</button>}
                           {action.primary === 'process' && <button className="button tiny" type="button" disabled={action.disabled || pendingAction === actionKey} onClick={() => start(row, 'process')}>Process</button>}

@@ -291,6 +291,10 @@ export default function HodControl() {
                 <div><dt>Match / margin</dt><dd>{data.policy?.match_threshold} / {data.policy?.margin_threshold}</dd></div>
                 <div><dt>Attendance rule</dt><dd>{data.policy?.present_checkpoints} of {data.policy?.checkpoint_count} checkpoints</dd></div>
                 <div><dt>Checkpoint evidence</dt><dd>Minimum {data.policy?.checkpoint_min_detections} detections</dd></div>
+                <div><dt>Checkpoint cameras</dt><dd>{(data.policy?.checkpoint_cameras || []).join(' + ') || 'back + front'}</dd></div>
+                <div><dt>Automatic authority</dt><dd>{data.policy?.automatic_authority || 'strict tracklet aggregate'}</dd></div>
+                <div><dt>Guarded recovery</dt><dd>{data.policy?.guarded_recovery_automatic ? 'Automatic' : 'Review-only'}</dd></div>
+                <div><dt>Status safety</dt><dd>Unconfirmed is insufficient evidence; Absent is explicit</dd></div>
               </dl>
             </article>
 

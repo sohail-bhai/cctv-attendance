@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
-from flask import Flask, Response, jsonify, request, send_from_directory
+from flask import Flask, Response, g, jsonify, request, send_from_directory
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
@@ -113,6 +113,7 @@ DEFAULT_AGGREGATE = "top3"
 SAVE_UNKNOWN_BY_DEFAULT = False  # keep storage safe from thousands of rejected crops
 DEFAULT_JOB_TIMEOUT_SECONDS = 20 * 60
 AUTH_SESSION_TTL_SECONDS = 12 * 60 * 60
+AUTHENTICATION_POLICY_VERSION = "product-phase-2l-c-explicit-authentication-v1"
 
 # Reliable demo/session metadata. Slot folder names do not contain dates; these
 # mappings are explicit project knowledge, not filesystem timestamp inference.
@@ -149,15 +150,36 @@ SUBJECT_INFO = {
     "CVO": {"abbr": "CVO", "course_code": "24AMLJ502", "course_name": "Computer Vision through OpenCV", "faculty_id": "vikas", "faculty_name": "Mr. Vikas B"},
 }
 
-DEFAULT_ROLE_USERS = [
-    {"id": "admin", "username": "admin", "password": "admin123", "name": "Main Admin", "role": "admin", "roleLabel": "Attendance Controller", "subjects": ["SWE", "CCM", "CVO"], "facultyName": "Main Admin", "canManageSystem": True, "canSeeAll": True},
-    {"id": "keerthi", "username": "keerthi", "password": "swe123", "name": "Dr. Keerthi G", "role": "faculty", "roleLabel": "Faculty - Software Engineering", "subjects": ["SWE"], "facultyName": "Dr. Keerthi G", "canManageSystem": False, "canSeeAll": False},
-    {"id": "vikas", "username": "vikas", "password": "cvo123", "name": "Mr. Vikas B", "role": "faculty", "roleLabel": "Faculty - Computer Vision through OpenCV", "subjects": ["CVO"], "facultyName": "Mr. Vikas B", "canManageSystem": False, "canSeeAll": False},
-    {"id": "pranay", "username": "pranay", "password": "ccm123", "name": "Dr. Pranayaanath Reddy A", "role": "faculty", "roleLabel": "Faculty - Cloud Computing", "subjects": ["CCM"], "facultyName": "Dr. Pranayaanath Reddy A", "canManageSystem": False, "canSeeAll": False},
-]
-
 app = Flask(__name__)
 CORS(app)
+
+# Only these HTTP resources are intentionally public. HEAD is normalized to
+# GET and OPTIONS is a protocol-only CORS exception handled by Flask without
+# invoking a route body.
+PUBLIC_ROUTE_ALLOWLIST = frozenset({
+    ("GET", "/"),
+    ("GET", "/api/health"),
+    ("POST", "/api/auth/login"),
+    ("GET", "/static/<path:filename>"),
+})
+
+# These resources disclose cross-faculty inventory/configuration or perform
+# system-wide operations. Authenticated Faculty requests fail with 403 before
+# the route body can read or mutate anything.
+HOD_ONLY_ROUTES = frozenset({
+    ("POST", "/api/reset-processing"),
+    ("GET", "/api/reports"),
+    ("GET", "/api/videos"),
+    ("POST", "/api/videos/upload"),
+    ("GET", "/api/hod/overview"),
+    ("GET", "/api/hod/config"),
+    ("POST", "/api/hod/config/faculty"),
+    ("POST", "/api/hod/config/subject-assignment"),
+    ("POST", "/api/hod/config/timetable/preview"),
+    ("POST", "/api/hod/config/timetable/apply"),
+    ("POST", "/api/hod/config/rollback"),
+    ("GET", "/api/video-layout"),
+})
 
 JOBS: dict[str, dict] = {}
 RUNNING_PROCESSES: dict[str, subprocess.Popen] = {}
@@ -769,7 +791,7 @@ def resolve_processing_context(day: str, period: str | int, payload: dict | None
         wanted = period_display(period)
         matches = [
             row
-            for row in timetable_for_day(day, user or load_role_users()[0])
+            for row in timetable_for_day(day, user)
             if row.get("period", "").upper() == wanted.upper()
         ]
         subjects = {str(row.get("subject_track") or row.get("subject") or "").upper() for row in matches if row.get("subject_track") or row.get("subject")}
@@ -804,15 +826,21 @@ def write_json(path: Path, data) -> None:
 
 def ensure_role_files() -> None:
     DATA_DIR.mkdir(exist_ok=True)
-    if not USERS_PATH.exists():
-        write_json(USERS_PATH, DEFAULT_ROLE_USERS)
     if not STUDENT_MAP_PATH.exists():
         write_json(STUDENT_MAP_PATH, {"subjects": SUBJECT_INFO, "subject_students": {}, "all_students": []})
 
 
 def load_role_users() -> list[dict]:
     ensure_role_files()
-    return read_json(USERS_PATH, DEFAULT_ROLE_USERS)
+    if not USERS_PATH.exists():
+        return []
+    try:
+        payload = json.loads(USERS_PATH.read_text(encoding="utf-8-sig"))
+    except Exception:
+        return []
+    if not isinstance(payload, list):
+        return []
+    return [dict(user) for user in payload if isinstance(user, dict)]
 
 
 def public_user(user: dict | None) -> dict | None:
@@ -885,24 +913,77 @@ def revoke_auth_session(token: str) -> None:
 
 
 def get_current_user() -> dict | None:
-    users = load_role_users()
+    if getattr(g, "authentication_resolved", False):
+        return getattr(g, "authenticated_user", None)
+
     token = _bearer_token()
-    if token:
-        # A supplied but invalid/expired token must never fall back to a spoofable user id.
-        return _user_from_auth_session(token, users)
-    requested = request.headers.get("X-User-Id") or request.args.get("user_id")
-    if requested:
-        user_id = str(requested).strip().lower()
-        for user in users:
-            if str(user.get("id", "")).lower() == user_id or str(user.get("username", "")).lower() == user_id:
-                return user
-        # An explicit but stale/unknown identity must never fall back to HOD.
-        return None
-    return users[0] if users else None
+    user = _user_from_auth_session(token) if token else None
+    requested = str(request.headers.get("X-User-Id") or "").strip().lower()
+    if user and requested and requested != str(user.get("id") or "").strip().lower():
+        # X-User-Id is only an optional consistency hint after bearer
+        # authentication. It can never establish or switch identity.
+        user = None
+    g.authentication_resolved = True
+    g.authenticated_user = user
+    return user
 
 
 def is_admin_user(user: dict | None) -> bool:
     return bool(user and (user.get("role") == "admin" or user.get("canSeeAll")))
+
+
+def is_recognized_role(user: dict | None) -> bool:
+    return bool(user and (is_admin_user(user) or str(user.get("role") or "").strip().lower() == "faculty"))
+
+
+def require_authenticated_user() -> tuple[dict | None, tuple | None]:
+    user = get_current_user()
+    if not user:
+        return None, (jsonify({"success": False, "error": "Authentication required."}), 401)
+    if not is_recognized_role(user):
+        return None, (jsonify({"success": False, "error": "Access denied."}), 403)
+    return user, None
+
+
+def require_role(*roles: str) -> tuple[dict | None, tuple | None]:
+    user, error = require_authenticated_user()
+    if error:
+        return None, error
+    normalized = {str(role).strip().lower() for role in roles}
+    actual = "hod" if is_admin_user(user) else str(user.get("role") or "").strip().lower()
+    if actual not in normalized:
+        return None, (jsonify({"success": False, "error": "Access denied."}), 403)
+    return user, None
+
+
+def require_hod() -> tuple[dict | None, tuple | None]:
+    return require_role("hod")
+
+
+def _request_route_key() -> tuple[str, str] | None:
+    if request.url_rule is None:
+        return None
+    method = "GET" if request.method == "HEAD" else request.method
+    return method, request.url_rule.rule
+
+
+@app.before_request
+def enforce_explicit_authentication():
+    if request.method == "OPTIONS":
+        # Flask's automatic empty OPTIONS response is a protocol exception,
+        # not an application-data endpoint.
+        return None
+    route_key = _request_route_key()
+    if route_key in PUBLIC_ROUTE_ALLOWLIST:
+        return None
+    if route_key is None:
+        return None
+    user, error = require_authenticated_user()
+    if error:
+        return error
+    if route_key in HOD_ONLY_ROUTES and not is_admin_user(user):
+        return jsonify({"success": False, "error": "Access denied."}), 403
+    return None
 
 
 def user_subjects(user: dict | None) -> set[str]:
@@ -1128,6 +1209,7 @@ def hod_overview_payload() -> dict:
             "missing_embeddings": [roll for roll in roster_rolls if coverage_by_roll.get(roll, {}).get("embedding_available") is False],
             "timetable_slots": sum(abbr in row_subjects(row) and not re.search(r"lunch", str(row.get("subject") or ""), re.I) for row in timetable_rows),
         })
+    processing_policy = fixed_processing_policy()
     return {
         "success": True,
         "users": users,
@@ -1146,6 +1228,10 @@ def hod_overview_payload() -> dict:
             "strong_checkpoints": DEFAULT_STRONG_CHECKPOINTS,
             "review_checkpoints": DEFAULT_REVIEW_CHECKPOINTS,
             "sample_fps": DEFAULT_SAMPLE_FPS,
+            "checkpoint_cameras": ["back", "front"],
+            "automatic_authority": processing_policy["official_recognition_authority"],
+            "guarded_recovery_automatic": False,
+            "status_contract": "present_needs_review_unconfirmed_missing_enrollment_absent_unknown",
             "live_demo_priority": "last",
         },
     }
@@ -1153,15 +1239,7 @@ def hod_overview_payload() -> dict:
 
 
 def _require_explicit_hod() -> tuple[dict | None, tuple | None]:
-    token = _bearer_token()
-    if not token:
-        return None, (jsonify({"success": False, "error": "A verified HOD login session is required for configuration writes."}), 401)
-    user = _user_from_auth_session(token)
-    if not user:
-        return None, (jsonify({"success": False, "error": "The HOD login session is invalid or expired. Sign in again."}), 401)
-    if not is_admin_user(user):
-        return None, (jsonify({"success": False, "error": "HOD access is required."}), 403)
-    return user, None
+    return require_hod()
 
 
 def _configuration_write_blocker() -> str | None:
@@ -1377,7 +1455,8 @@ def load_timetable_rows() -> list[dict]:
 
 def timetable_for_day(day: str, user: dict | None = None) -> list[dict]:
     day = normalize_day(day)
-    user = user or load_role_users()[0]
+    if not user:
+        return []
     statuses = repair_stale_processing_statuses(load_statuses())
     base_rows = []
     for row in load_timetable_rows():
@@ -1397,7 +1476,7 @@ def timetable_for_day(day: str, user: dict | None = None) -> list[dict]:
 
 def get_period_row(day: str, period: str | int, user: dict | None = None, subject_track: str | None = None) -> dict | None:
     wanted = period_display(period)
-    rows = timetable_for_day(day, user or load_role_users()[0])
+    rows = timetable_for_day(day, user)
     if subject_track:
         for row in rows:
             if row["period"].upper() == wanted.upper() and str(row.get("subject_track") or row.get("subject")).upper() == str(subject_track).upper():
@@ -1542,6 +1621,59 @@ def safe_output_path(filename: str) -> Path | None:
     return max(matches, key=lambda p: p.stat().st_mtime) if matches else None
 
 
+FACULTY_REPORT_REFERENCE_FIELDS = frozenset({
+    "attendance_csv",
+    "class_report_file",
+    "admin_reviewed_csv",
+    "final_attendance_csv",
+    "previous_final_attendance_csv",
+})
+
+
+def user_can_access_output_file(user: dict, path: Path) -> bool:
+    """Limit Faculty downloads to report files for their assigned sessions."""
+    if is_admin_user(user):
+        return True
+    try:
+        resolved = path.resolve()
+        resolved.relative_to(OUTPUT_DIR.resolve())
+        payload = read_json_object(STATUS_PATH, missing_default={})
+        statuses, _ = sanitize_status_store(payload)
+    except (OSError, WorkflowStateError, ValueError):
+        return False
+
+    for key, entry in statuses.items():
+        if not isinstance(entry, dict) or not user_can_access_session(user, entry):
+            continue
+        for field in FACULTY_REPORT_REFERENCE_FIELDS:
+            value = str(entry.get(field) or "").replace("\\", "/").strip().lstrip("/")
+            if not value or ".." in Path(value).parts:
+                continue
+            referenced = (OUTPUT_DIR / value).resolve()
+            try:
+                referenced.relative_to(OUTPUT_DIR.resolve())
+            except ValueError:
+                continue
+            if referenced == resolved:
+                return True
+
+        # Export endpoints create a reviewed/final CSV before every such file
+        # is persisted into the status record. Permit only those two report
+        # filename families inside the exact assigned-session directory.
+        session_id = str(entry.get("session_id") or key or "").strip()
+        if not session_id:
+            continue
+        safe_session = clean_session_filename(session_id)
+        if safe_session in resolved.parts and resolved.suffix.lower() == ".csv":
+            allowed_prefixes = (
+                f"admin_reviewed_{safe_session}_",
+                f"finalized_attendance_{safe_session}_",
+            )
+            if resolved.name.startswith(allowed_prefixes):
+                return True
+    return False
+
+
 def read_attendance_csv(path: Path | None) -> list[dict]:
     if not path or not path.exists():
         return []
@@ -1576,6 +1708,7 @@ def summarize_attendance(rows: list[dict]) -> dict:
     unconfirmed = 0
     missing_enrollment = 0
     absent = 0
+    unknown = 0
     for row in rows:
         status = str(row.get("Status") or row.get("Final_Status") or "").strip().lower()
         if status.startswith("present"):
@@ -1588,6 +1721,8 @@ def summarize_attendance(rows: list[dict]) -> dict:
             review += 1
         elif status == "absent":
             absent += 1
+        else:
+            unknown += 1
     pct = round((present / total) * 100, 1) if total else 0
     return {
         "total_students": total,
@@ -1596,6 +1731,7 @@ def summarize_attendance(rows: list[dict]) -> dict:
         "unconfirmed_count": unconfirmed,
         "missing_enrollment_count": missing_enrollment,
         "absent_count": absent,
+        "unknown_count": unknown,
         "attendance_percentage": pct,
     }
 
@@ -1625,7 +1761,7 @@ def _row_detection_count(row: dict) -> int:
 
 
 def review_row_requires_attention(row: dict) -> bool:
-    status = str(row.get("Status") or row.get("Final_Status") or "Absent").strip()
+    status = str(row.get("Status") or row.get("Final_Status") or "Unknown").strip()
     lowered = status.lower()
     saved_resolution = _truthy(row.get("Manual_Override")) and (
         lowered.startswith("present") or lowered == "absent"
@@ -1638,8 +1774,12 @@ def review_row_requires_attention(row: dict) -> bool:
         token in lowered
         for token in ("needs review", "unconfirmed", "missing enrollment")
     )
+    known_resolved_status = lowered.startswith("present") or lowered == "absent"
+    known_unresolved_status = unresolved_status
+    unknown_status = not known_resolved_status and not known_unresolved_status
     return (
         unresolved_status
+        or unknown_status
         or bool(re.search(r"review|weak|low confidence|late|early|insufficient|missing enrollment", f"{status} {flags}", re.IGNORECASE))
         or flagged
         or ("absent" in lowered and _row_detection_count(row) > 0)
@@ -1838,10 +1978,15 @@ def compact_attendance_session(key: str, entry: dict, user: dict) -> dict | None
         "unconfirmed_count": summary["unconfirmed_count"],
         "missing_enrollment_count": summary["missing_enrollment_count"],
         "absent_count": summary["absent_count"],
+        "unknown_count": summary["unknown_count"],
         "attendance_percentage": summary["attendance_percentage"],
         "official_recognition_authority": entry.get("official_recognition_authority"),
+        "automatic_recognition_authority": entry.get("automatic_recognition_authority"),
+        "guarded_recovery_automatic": bool(entry.get("guarded_recovery_automatic")),
+        "guarded_recovery_authority": entry.get("guarded_recovery_authority"),
         "tracklets_used_for_official_attendance": entry.get("tracklets_used_for_official_attendance"),
         "source_report_superseded": bool(entry.get("source_report_superseded")),
+        "source_report_quality_failed": bool(entry.get("source_report_quality_failed")),
         "authority_revision_id": entry.get("authority_revision_id"),
         "revision_authority": entry.get("revision_authority"),
         "official_report_preserved_after_reprocess": bool(entry.get("official_report_preserved_after_reprocess")),
@@ -2100,7 +2245,10 @@ def run_slot_job(
 ) -> None:
     payload = payload or {}
     day = normalize_day(day)
-    actor = public_user(actor) or public_user(load_role_users()[0])
+    actor = public_user(actor)
+    if not actor:
+        set_job(job_id, status="Failed", error="Authentication required.", completed_at=now_text(), progress_stage="failed", progress_percent=0)
+        return
     try:
         row, video_dir, session = resolve_processing_context(day, period, payload, actor)
         processing_options = build_effective_processing_options(video_dir, payload)
@@ -2487,7 +2635,9 @@ def start_job(
     user: dict | None = None,
 ) -> tuple[str, bool]:
     ensure_jobs_hydrated()
-    actor = public_user(user) or public_user(load_role_users()[0])
+    actor = public_user(user)
+    if not actor:
+        raise ValueError("Authentication required.")
     row, video_dir, session = resolve_processing_context(day, period, payload or {}, actor)
     # Validate the exact five-checkpoint source and immutable policy before a job
     # is persisted, so invalid browser requests fail synchronously and cleanly.
@@ -2543,35 +2693,26 @@ def home():
     return jsonify({
         "message": "Sreenidhi Smart Attendance backend is running",
         "frontend": "http://localhost:5173",
-        "api": ["/api/health", "/api/profile", "/api/timetable", "/api/process", "/api/status", "/api/job/<id>", "/api/cancel/<id>", "/api/reset-processing", "/api/reports", "/api/videos", "/api/hod/overview", "/api/hod/config", "/api/students"],
+        "api": ["/api/health", "/api/auth/login"],
+        "authentication_policy_version": AUTHENTICATION_POLICY_VERSION,
     })
 
 
 @app.get("/api/health")
 def api_health():
-    ensure_workflow_state_initialized()
-    missing = []
-    for path in [ROOT_DIR / "models" / "student_embeddings.pkl", ROOT_DIR / "models" / "face_detection_yunet_2023mar.onnx", ROOT_DIR / "models" / "face_recognition_sface_2021dec.onnx"]:
-        if not path.exists():
-            missing.append(path.relative_to(ROOT_DIR).as_posix())
+    required_files_ready = all(path.exists() for path in [
+        ROOT_DIR / "models" / "student_embeddings.pkl",
+        ROOT_DIR / "models" / "face_detection_yunet_2023mar.onnx",
+        ROOT_DIR / "models" / "face_recognition_sface_2021dec.onnx",
+    ])
     return jsonify({
         "ok": True,
         "backend": "connected",
         "time": now_text(),
-        "missing_required_files": missing,
-        "ready_for_processing": len(missing) == 0,
-        "processing_policy": {
-            "policy_version": PROCESSING_CONTRACT_POLICY_VERSION,
-            "mode": QUALITY_AWARE_PROCESSING_MODE,
-            "official_recognition_authority": "strict_tracklet_aggregate_with_guarded_review_candidates",
-            "zone_mode": "zones",
-            "tracklet_mode": "tracklets",
-            "tracklets_used_for_official_attendance": True,
-            "authoritative_roster_required": True,
-            "exact_checkpoint_layout_required": True,
-        },
+        "ready_for_processing": required_files_ready,
+        "required_files_ready": required_files_ready,
         "active_jobs": len([j for j in JOBS.values() if j.get("status") in ("Pending", "Processing")]),
-        "workflow_state": WORKFLOW_STATE_REPORT or {"status": "not_initialized_by_main"},
+        "authentication_policy_version": AUTHENTICATION_POLICY_VERSION,
     })
 
 
@@ -2822,6 +2963,9 @@ def api_videos_upload():
 
 
 def get_completed_session_entry(session_id: str, user: dict):
+    requested_subject = str(session_id or "").rsplit("__", 1)[-1].upper().strip()
+    if not is_admin_user(user) and (not requested_subject or not subject_allowed_for_user(user, requested_subject)):
+        return None, (jsonify({"success": False, "error": "Access denied."}), 403)
     entry = load_statuses().get(session_id)
     if not entry or not isinstance(entry, dict):
         return None, (jsonify({"success": False, "error": "Attendance is not completed for this session yet."}), 404)
@@ -3206,18 +3350,28 @@ def api_export_edited(day, period):
 
 @app.get("/attendance_website/<path:filename>")
 def serve_report_compat(filename):
+    user = get_current_user()
     path = safe_output_path(filename)
     if not path:
+        if not is_admin_user(user):
+            return jsonify({"success": False, "error": "Access denied."}), 403
         return jsonify({"success": False, "error": "Report not found"}), 404
+    if not user_can_access_output_file(user, path):
+        return jsonify({"success": False, "error": "Access denied."}), 403
     rel = path.relative_to(OUTPUT_DIR).as_posix()
     return send_from_directory(OUTPUT_DIR, rel, as_attachment=False)
 
 
 @app.get("/api/download/<path:filename>")
 def download_output(filename):
+    user = get_current_user()
     path = safe_output_path(filename)
     if not path:
+        if not is_admin_user(user):
+            return jsonify({"success": False, "error": "Access denied."}), 403
         return jsonify({"success": False, "error": "File not found"}), 404
+    if not user_can_access_output_file(user, path):
+        return jsonify({"success": False, "error": "Access denied."}), 403
     rel = path.relative_to(OUTPUT_DIR).as_posix()
     return send_from_directory(OUTPUT_DIR, rel, as_attachment=True)
 
@@ -3532,12 +3686,22 @@ def api_live_demo_feed():
 
     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
+
+@app.get("/api/live-demo/frame")
+def api_live_demo_frame():
+    return Response(
+        LIVE_DEMO.get_jpeg(),
+        mimetype="image/jpeg",
+        headers={"Cache-Control": "no-store"},
+    )
+
 @app.route("/api/video-layout", methods=["GET"])
 def api_video_layout():
     slot_id = request.args.get("slot_id") or "MON_P1"
     video_dir = resolve_video_dir(slot_id, request.args.to_dict())
     layout = inspect_video_layout(video_dir)
     layout["video_dir"] = str(video_dir.relative_to(ROOT_DIR) if video_dir.is_relative_to(ROOT_DIR) else video_dir)
+    layout.update({"tracklets_used_for_official_attendance": True})
     return jsonify(layout)
 
 

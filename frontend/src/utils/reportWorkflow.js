@@ -76,3 +76,61 @@ export function reviewActionState({ pendingChanges = 0, unresolvedCount = 0, ros
     finalized,
   };
 }
+
+function checkpointText(value) {
+  const text = clean(value);
+  return text || 'None recorded';
+}
+
+export function evidencePresentation(row = {}, session = {}) {
+  const strict = checkpointText(row.Strict_Recognized_Checkpoints ?? row.Strict_Accepted_Checkpoints);
+  const guarded = checkpointText(row.Guarded_Recovery_Candidate_Checkpoints);
+  const reviewed = checkpointText(row.Reviewed_Tracklet_Checkpoints);
+  const mixed = checkpointText(row.Mixed_Track_Checkpoints_Rejected);
+  const observations = Number(row.Total_Accepted_Detections ?? row.Detection_Count ?? 0) || 0;
+  const guardedAutomatic = String(row.Automatic_Guarded_Recovery_Enabled ?? session.guarded_recovery_automatic ?? '').toLowerCase();
+  let authority = 'No accepted identity evidence';
+  if (mixed !== 'None recorded') authority = 'Rejected mixed tracklet evidence';
+  if (guarded !== 'None recorded') authority = 'Guarded recovery candidate (review only)';
+  if (strict !== 'None recorded') authority = 'Strict automatic tracklet evidence';
+  if (reviewed !== 'None recorded') authority = 'Human-reviewed tracklet evidence';
+  const carryForwardApplied = Boolean(session.review_carry_forward_applied || row.Review_Carry_Forward_Applied === true || String(row.Review_Carry_Forward_Applied || '').toLowerCase() === 'yes');
+  return {
+    strict,
+    guarded,
+    reviewed,
+    mixed,
+    observations,
+    authority,
+    guardedRecoveryAutomatic: guardedAutomatic === 'true' || guardedAutomatic === 'yes',
+    carryForward: carryForwardApplied
+      ? `Applied${session.review_carry_forward_source ? ` from ${session.review_carry_forward_source}` : ''}`
+      : 'Not applied',
+  };
+}
+
+export function reportRevisionPresentation(session = {}) {
+  const candidate = session.pending_candidate_revision || session.latest_automatic_candidate || null;
+  const unresolved = Number(session.unresolved_count || 0);
+  return {
+    officialLabel: 'Official Reviewed Revision',
+    officialRevision: clean(session.authority_revision_id) || 'Current official revision',
+    officialAuthority: clean(session.official_recognition_authority) || 'Not declared',
+    automaticLabel: 'Automatic Candidate Revision',
+    automaticRevision: clean(candidate?.revision_id) || (candidate ? 'Archived automatic candidate' : 'No archived candidate'),
+    automaticAuthority: clean(session.automatic_recognition_authority || candidate?.official_recognition_authority) || 'Not declared',
+    automaticTotals: candidate
+      ? `${Number(candidate.present_count || 0)} Present; ${Number(candidate.needs_review_count || 0)} Needs Review; ${Number(candidate.unconfirmed_count || 0)} Unconfirmed; ${Number(candidate.missing_enrollment_count || 0)} Missing Enrollment; ${Number(candidate.absent_count || 0)} Absent`
+      : 'No archived candidate totals',
+    historicalLabel: 'Superseded / quality-failed historical result',
+    historicalVisible: Boolean(session.source_report_superseded || session.source_report_quality_failed),
+    carryForward: session.latest_candidate_matches_official
+      ? 'Exact-source evidence matched; reviewed decisions were reused.'
+      : session.review_carry_forward_applied
+        ? `Applied${session.review_carry_forward_source ? ` from ${session.review_carry_forward_source}` : ''}.`
+        : 'Not applied.',
+    finalization: session.attendance_finalized
+      ? 'Finalized'
+      : `Not finalized${unresolved ? `; ${unresolved} unresolved` : '; ready only after explicit review'}`,
+  };
+}

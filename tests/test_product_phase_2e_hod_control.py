@@ -61,10 +61,15 @@ class ProductPhase2EHodControlTests(unittest.TestCase):
         (backend.DATASET_ROOT / "24011CSEAI0110").mkdir()
         (backend.DATASET_ROOT / "2401100CSE0110").mkdir()
         self.client = backend.app.test_client()
+        admin_token, _ = backend.issue_auth_session(self.users[0])
+        faculty_token, _ = backend.issue_auth_session(self.users[1])
+        self.admin_headers = {"Authorization": f"Bearer {admin_token}", "X-User-Id": "admin"}
+        self.faculty_headers = {"Authorization": f"Bearer {faculty_token}", "X-User-Id": "vikas"}
 
     def tearDown(self):
         for key, value in self.old.items():
             setattr(backend, key, value)
+        backend.AUTH_SESSIONS.clear()
         self.temp.cleanup()
 
     def test_unknown_explicit_identity_never_falls_back_to_hod(self):
@@ -84,12 +89,12 @@ class ProductPhase2EHodControlTests(unittest.TestCase):
         self.assertEqual(bad.status_code, 401)
 
     def test_hod_overview_is_forbidden_to_faculty(self):
-        response = self.client.get("/api/hod/overview", headers={"X-User-Id": "vikas"})
+        response = self.client.get("/api/hod/overview", headers=self.faculty_headers)
         self.assertEqual(response.status_code, 403)
 
     def test_coverage_keeps_ai0110_and_cse0110_distinct(self):
         with patch.object(backend, "load_timetable_rows", return_value=[{"subject": "CVO", "period": "P1"}]):
-            payload = self.client.get("/api/hod/overview", headers={"X-User-Id": "admin"}).get_json()
+            payload = self.client.get("/api/hod/overview", headers=self.admin_headers).get_json()
         rows = {row["roll"]: row for row in payload["students"]}
         self.assertEqual(set(rows), {"24011CSEAI0110", "2401100CSE0110", "2401100CSE0268"})
         self.assertTrue(rows["24011CSEAI0110"]["embedding_available"])
@@ -109,7 +114,7 @@ class ProductPhase2EHodControlTests(unittest.TestCase):
         self.assertEqual(policy["margin_threshold"], 0.08)
 
     def test_students_endpoint_is_faculty_scoped_and_includes_coverage(self):
-        response = self.client.get("/api/students", headers={"X-User-Id": "vikas"})
+        response = self.client.get("/api/students", headers=self.faculty_headers)
         self.assertEqual(response.status_code, 200)
         payload = response.get_json()
         self.assertEqual(len(payload["students"]), 3)

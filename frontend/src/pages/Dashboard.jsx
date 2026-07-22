@@ -3,7 +3,7 @@ import PageHeader from '../components/PageHeader.jsx';
 import StatCard from '../components/StatCard.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
 import NiceSelect from '../components/NiceSelect.jsx';
-import { apiGetResult } from '../api/client.js';
+import { apiDownload, apiGetResult } from '../api/client.js';
 import { DAYS, FALLBACK_TIMETABLE } from '../data/fallback.js';
 import { useAuth } from '../auth/AuthContext.jsx';
 import { canAccessRow, displaySubjectForUser, isAdmin, subjectInfo } from '../data/users.js';
@@ -230,7 +230,7 @@ export default function Dashboard() {
           <div className="panel-title-row"><h3>Generated reports</h3><span className="muted">Latest files</span></div>
           <div className="report-link-grid">
             {reportsAvailable && (reports.attendance_reports || []).slice(0, 6).map((file) => (
-              <a key={file} className="report-link" href={`/attendance_website/${file}`} target="_blank" rel="noreferrer">{file}</a>
+              <button key={file} type="button" className="report-link" onClick={() => apiDownload(`/attendance_website/${file}`).catch(() => {})}>{file}</button>
             ))}
             {reportsAvailable && (!reports.attendance_reports || reports.attendance_reports.length === 0) && <p className="empty-text">No reports are available yet.</p>}
             {!reportsAvailable && <p className="empty-text">Reports are unavailable while the backend is offline.</p>}
